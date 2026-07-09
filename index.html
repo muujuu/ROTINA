@@ -1,1 +1,1957 @@
-<!DOCTYPE html> <html lang="pt-BR"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Cuidar Juntos</title> <style> :root { --primary: #ff6b9a; --accent: #7c3aed; --bg: #100f24; --card: rgba(255, 255, 255, 0.1); --text: #fff7fb; --muted: rgba(255, 247, 251, 0.72); --border: rgba(255, 255, 255, 0.18); --danger: #fb7185; --success: #34d399; --warning: #fbbf24; --shadow: 0 24px 70px rgba(0, 0, 0, 0.28); } * { box-sizing: border-box; } [hidden] { display: none !important; } body { margin: 0; min-height: 100vh; color: var(--text); font-family: Arial, Helvetica, sans-serif; background: radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--primary) 35%, transparent), transparent 28%), radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 34%), linear-gradient(135deg, var(--bg), #070711 78%); overflow-x: hidden; } button, input, select, textarea { font: inherit; } button { border: 0; cursor: pointer; } .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; } .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0 18px; } .brand { display: flex; align-items: center; gap: 12px; } .logo { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--accent)); box-shadow: 0 14px 40px color-mix(in srgb, var(--primary) 34%, transparent); font-size: 24px; } .brand h1 { margin: 0; font-size: clamp(1.3rem, 2.8vw, 2rem); letter-spacing: -0.04em; } .brand p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; } .pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid var(--border); border-radius: 999px; background: rgba(255, 255, 255, 0.08); color: var(--text); white-space: nowrap; backdrop-filter: blur(18px); } .card { border: 1px solid var(--border); border-radius: 28px; background: var(--card); box-shadow: var(--shadow); backdrop-filter: blur(22px); } .hero { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 22px; align-items: stretch; padding: 28px 0 38px; } .hero-copy { padding: clamp(24px, 5vw, 44px); display: flex; flex-direction: column; justify-content: center; } .hero-copy h2 { max-width: 720px; margin: 0; font-size: clamp(2rem, 5vw, 4.6rem); line-height: 0.95; letter-spacing: -0.075em; } .hero-copy p { margin: 20px 0 0; max-width: 620px; color: var(--muted); font-size: clamp(1rem, 1.7vw, 1.18rem); line-height: 1.65; } .gradient-text { background: linear-gradient(135deg, var(--primary), var(--accent), #fff); background-clip: text; -webkit-background-clip: text; color: transparent; } .setup-card { padding: 22px; } .setup-card h3, .panel-card h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.03em; } .setup-card p, .hint { color: var(--muted); line-height: 1.55; } .form-grid { display: grid; gap: 12px; } .field { display: grid; gap: 7px; } .field label { color: var(--muted); font-weight: 700; font-size: 0.88rem; } .field input, .field select, .field textarea { width: 100%; border: 1px solid var(--border); border-radius: 15px; background: rgba(255, 255, 255, 0.1); color: var(--text); padding: 13px 14px; outline: none; } .field input[type="color"] { height: 48px; padding: 5px; } .field textarea { min-height: 94px; resize: vertical; } .two-cols { display: grid; grid-template-columns: 1fr 110px; gap: 12px; } .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; } .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 12px 16px; border-radius: 15px; color: var(--text); background: rgba(255, 255, 255, 0.12); border: 1px solid var(--border); transition: transform 0.2s, filter 0.2s, background 0.2s; } .btn:hover { transform: translateY(-2px); filter: brightness(1.08); } .btn.primary { background: linear-gradient(135deg, var(--primary), var(--accent)); border-color: transparent; font-weight: 800; } .btn.danger { color: #fff; background: color-mix(in srgb, var(--danger) 65%, transparent); } .btn.success { color: #052e24; background: var(--success); font-weight: 900; } .btn.small { min-height: 36px; padding: 8px 11px; border-radius: 12px; font-size: 0.88rem; } .divider { height: 1px; margin: 18px 0; background: var(--border); } .notice { padding: 14px; border-radius: 16px; background: color-mix(in srgb, var(--warning) 18%, transparent); border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent); color: var(--text); line-height: 1.55; margin-bottom: 14px; } .app-layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; padding: 12px 0 42px; } .sidebar { position: sticky; top: 14px; align-self: start; padding: 16px; } .room-code { display: grid; gap: 8px; padding: 16px; border-radius: 20px; background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 25%, transparent), color-mix(in srgb, var(--accent) 18%, transparent)); border: 1px solid var(--border); } .room-code strong { font-size: 1.9rem; letter-spacing: 0.12em; } .nav { display: grid; gap: 8px; margin-top: 16px; } .nav button { width: 100%; justify-content: flex-start; text-align: left; } .nav button.active { background: linear-gradient(135deg, var(--primary), var(--accent)); font-weight: 900; border-color: transparent; } .member-list { display: grid; gap: 10px; margin-top: 16px; } .member-card { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 18px; background: rgba(255, 255, 255, 0.08); } .avatar { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 15px; background: var(--member-color, var(--primary)); font-size: 22px; flex: 0 0 auto; } .member-card strong { display: block; line-height: 1.15; } .member-card span { color: var(--muted); font-size: 0.88rem; } .main { display: grid; gap: 18px; } .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; } .stat { padding: 16px; border-radius: 22px; background: var(--card); border: 1px solid var(--border); } .stat span { display: block; color: var(--muted); font-size: 0.86rem; } .stat strong { display: block; margin-top: 8px; font-size: clamp(1.35rem, 2.7vw, 2.1rem); letter-spacing: -0.06em; } .panel-card { padding: clamp(16px, 3vw, 24px); } .section-title { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 16px; } .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } .task-list { display: grid; gap: 12px; } .task-card { display: grid; gap: 12px; padding: 15px; border-radius: 20px; background: rgba(255, 255, 255, 0.085); border: 1px solid var(--border); } .task-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; } .task-title { display: grid; gap: 5px; } .badges { display: flex; flex-wrap: wrap; gap: 7px; } .badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; font-weight: 800; } .done-avatars { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.88rem; } .mini-avatar { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 10px; background: var(--member-color, var(--primary)); font-size: 15px; } .leaderboard { display: grid; gap: 10px; } .score-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); } .progress { height: 10px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.12); margin-top: 8px; } .progress span { display: block; height: 100%; width: var(--w, 0%); background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: inherit; } .check-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; } .check { display: flex; align-items: center; gap: 8px; padding: 11px; border-radius: 15px; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.08); color: var(--text); } .check input { width: 18px; height: 18px; accent-color: var(--primary); } .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; } .theme-option { min-height: 92px; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; padding: 12px; color: white; text-align: left; background: linear-gradient(135deg, var(--a), var(--b)); } .empty { padding: 18px; border-radius: 18px; border: 1px dashed var(--border); color: var(--muted); text-align: center; background: rgba(255, 255, 255, 0.055); } .toast { position: fixed; z-index: 20; right: 18px; bottom: 18px; width: min(380px, calc(100% - 36px)); padding: 14px 16px; border-radius: 18px; background: rgba(15, 15, 28, 0.88); border: 1px solid var(--border); color: white; box-shadow: var(--shadow); backdrop-filter: blur(18px); transform: translateY(18px); opacity: 0; pointer-events: none; transition: 0.25s ease; } .toast.show { opacity: 1; transform: translateY(0); } .toast.error { background: color-mix(in srgb, var(--danger) 72%, #111); } @media (max-width: 960px) { .hero, .app-layout, .grid-2 { grid-template-columns: 1fr; } .sidebar { position: static; } .stats-grid { grid-template-columns: repeat(2, 1fr); } .theme-grid { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 620px) { .shell { width: min(100% - 22px, 1180px); } .topbar { align-items: flex-start; flex-direction: column; } .hero { padding-top: 12px; } .two-cols, .check-row, .stats-grid, .theme-grid { grid-template-columns: 1fr; } .actions .btn { width: 100%; } .section-title { flex-direction: column; } } </style> </head> <body> <header class="shell topbar"> <div class="brand"> <div class="logo">💞</div> <div> <h1>Cuidar Juntos</h1> <p>Autocuidado, rotina e competição saudável para casal</p> </div> </div> <div id="connectionStatus" class="pill">🔄 Inicializando</div> </header> <section id="setupView" class="shell hero"> <div class="card hero-copy"> <h2>Um jogo leve para vocês virarem <span class="gradient-text">time na vida real.</span></h2> <p> Criem uma sala, compartilhem o código e acompanhem hábitos, check-ins, desafios da semana, sequência da dupla e placar. O tema escolhido por um aparece para os dois. </p> </div> <div class="card setup-card"> <h3>Começar</h3> <p>Escolha seu nome, crie uma sala ou entre com o código do par.</p> <div id="setupWarning" class="notice" hidden></div> <form id="profileForm" class="form-grid"> <div class="two-cols"> <div class="field"> <label for="displayName">Seu nome</label> <input id="displayName" maxlength="32" placeholder="Ex: Ana" autocomplete="name" required /> </div> <div class="field"> <label for="avatar">Emoji</label> <input id="avatar" maxlength="4" placeholder="🌻" /> </div> </div> <div class="field"> <label for="memberColor">Sua cor no placar</label> <input id="memberColor" type="color" value="#ff6b9a" /> </div> <button class="btn" type="submit">Salvar perfil</button> </form> <div class="divider"></div> <div class="actions"> <button id="createRoomButton" class="btn primary" type="button">✨ Criar sala do casal</button> </div> <div class="divider"></div> <div class="form-grid"> <div class="field"> <label for="roomCodeInput">Código da sala</label> <input id="roomCodeInput" maxlength="6" placeholder="EX: A7K2P9" /> </div> <button id="joinRoomButton" class="btn primary" type="button">Entrar na sala</button> </div> </div> </section> <main id="appView" class="shell" hidden></main> <div id="toast" class="toast"></div> <script type="module"> import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js"; import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"; import { doc, getFirestore, onSnapshot, runTransaction, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js"; const firebaseConfig = { apiKey: "AIzaSyB30lvr7tkpGuW4iQ84Q7fv1vt6Aj1N0jY", authDomain: "rotina-1a62f.firebaseapp.com", projectId: "rotina-1a62f", storageBucket: "rotina-1a62f.firebasestorage.app", messagingSenderId: "1046876189091", appId: "1:1046876189091:web:800242f5d41284cdcc2a16" }; const COLLECTION = "coupleRooms"; const ROOM_KEY = "cuidarJuntos.roomId"; const PROFILE_KEY = "cuidarJuntos.profile"; const THEMES = { aurora: { name: "Aurora", primary: "#ff6b9a", accent: "#7c3aed", bg: "#100f24", text: "#fff7fb", card: "rgba(255, 255, 255, 0.10)" }, bosque: { name: "Bosque", primary: "#22c55e", accent: "#14b8a6", bg: "#052e26", text: "#f0fdf4", card: "rgba(255, 255, 255, 0.10)" }, sol: { name: "Pôr do sol", primary: "#fb7185", accent: "#f59e0b", bg: "#2b1020", text: "#fff7ed", card: "rgba(255, 255, 255, 0.12)" }, ceu: { name: "Céu calmo", primary: "#38bdf8", accent: "#6366f1", bg: "#081629", text: "#eff6ff", card: "rgba(255, 255, 255, 0.10)" } }; const state = { app: null, auth: null, db: null, uid: null, roomId: null, room: null, unsubscribe: null, activeTab: "hoje", ready: false }; const $ = (selector) => document.querySelector(selector); function todayKey() { const date = new Date(); date.setMinutes(date.getMinutes() - date.getTimezoneOffset()); return date.toISOString().slice(0, 10); } function dateToKey(date) { const copy = new Date(date); copy.setMinutes(copy.getMinutes() - copy.getTimezoneOffset()); return copy.toISOString().slice(0, 10); } function keyToDate(key) { const [year, month, day] = key.split("-").map(Number); return new Date(year, month - 1, day, 12, 0, 0); } function addDaysKey(days) { const date = new Date(); date.setDate(date.getDate() + days); return dateToKey(date); } function formatDate(key) { return keyToDate(key).toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "short" }); } function startOfWeek(date = new Date()) { const copy = new Date(date); const day = (copy.getDay() + 6) % 7; copy.setHours(0, 0, 0, 0); copy.setDate(copy.getDate() - day); return copy; } function isCurrentWeek(key) { const date = keyToDate(key); const start = startOfWeek(); const end = new Date(start); end.setDate(start.getDate() + 7); return date >= start && date < end; } function escapeHTML(value = "") { return String(value) .replaceAll("&", "&amp;") .replaceAll("<", "&lt;") .replaceAll(">", "&gt;") .replaceAll('"', "&quot;") .replaceAll("'", "&#039;"); } function normalizeHex(value, fallback) { return /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback; } function randomRoomCode() { const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let code = ""; for (let i = 0; i < 6; i++) { code += chars[Math.floor(Math.random() * chars.length)]; } return code; } function makeId(prefix) { if (crypto && crypto.randomUUID) { return `${prefix}_${crypto.randomUUID()}`; } return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`; } function showToast(message, type = "ok") { const toast = $("#toast"); toast.textContent = message; toast.className = `toast show ${type === "error" ? "error" : ""}`; window.clearTimeout(showToast.timer); showToast.timer = window.setTimeout(() => { toast.className = "toast"; }, 3200); } function setStatus(text) { $("#connectionStatus").textContent = text; } function hasFirebaseConfig() { return firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("COLE_"); } function loadProfile() { try { return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {}; } catch { return {}; } } function saveProfile(profile) { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } function getProfileFromForm() { const name = $("#displayName").value.trim().slice(0, 32) || "Pessoa"; const avatar = $("#avatar").value.trim().slice(0, 4) || "💛"; const color = $("#memberColor").value || "#ff6b9a"; const profile = { uid: state.uid, name, avatar, color }; saveProfile(profile); return profile; } function hydrateProfileForm() { const profile = loadProfile(); $("#displayName").value = profile.name || ""; $("#avatar").value = profile.avatar || "💛"; $("#memberColor").value = normalizeHex(profile.color, "#ff6b9a"); const roomFromUrl = new URLSearchParams(location.search).get("room"); if (roomFromUrl) { $("#roomCodeInput").value = roomFromUrl.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6); } } function defaultHabits() { return [ { id: makeId("habit"), title: "Beber água e cuidar do corpo", kind: "Autocuidado", points: 10, createdAt: Date.now(), createdBy: state.uid, done: {} }, { id: makeId("habit"), title: "Movimento de 15 minutos", kind: "Saúde", points: 15, createdAt: Date.now(), createdBy: state.uid, done: {} }, { id: makeId("habit"), title: "Planejar uma pequena prioridade do dia", kind: "Desenvolvimento", points: 10, createdAt: Date.now(), createdBy: state.uid, done: {} }, { id: makeId("habit"), title: "Mandar uma mensagem carinhosa", kind: "Relação", points: 10, createdAt: Date.now(), createdBy: state.uid, done: {} } ]; } function defaultChallenges() { return [ { id: makeId("challenge"), title: "7 dias de check-in emocional", kind: "Desafio da dupla", points: 20, startDate: todayKey(), endDate: addDaysKey(7), createdAt: Date.now(), createdBy: state.uid, done: {} } ]; } async function createRoom() { if (!state.uid) { showToast("Autenticação ainda não terminou.", "error"); return; } const profile = { ...getProfileFromForm(), joinedAt: Date.now() }; const roomId = randomRoomCode(); const roomRef = doc(state.db, COLLECTION, roomId); const theme = THEMES.aurora; await setDoc(roomRef, { roomId, createdAt: serverTimestamp(), updatedAt: serverTimestamp(), members: { [state.uid]: profile }, settings: { themeName: "aurora", ...theme }, daily: {}, habits: defaultHabits(), challenges: defaultChallenges() }); localStorage.setItem(ROOM_KEY, roomId); subscribeToRoom(roomId); showToast("Sala criada! Compartilhe o código com seu par."); } async function joinRoom() { if (!state.uid) { showToast("Autenticação ainda não terminou.", "error"); return; } const roomId = $("#roomCodeInput").value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6); if (roomId.length !== 6) { showToast("Digite um código de sala com 6 caracteres.", "error"); return; } const profile = { ...getProfileFromForm(), joinedAt: Date.now() }; const roomRef = doc(state.db, COLLECTION, roomId); await setDoc(roomRef, { members: { [state.uid]: profile }, updatedAt: serverTimestamp() }, { merge: true }); localStorage.setItem(ROOM_KEY, roomId); subscribeToRoom(roomId); showToast("Você entrou na sala!"); } function subscribeToRoom(roomId) { if (state.unsubscribe) { state.unsubscribe(); } state.roomId = roomId; setStatus(`🟢 Sala ${roomId}`); const roomRef = doc(state.db, COLLECTION, roomId); state.unsubscribe = onSnapshot( roomRef, (snapshot) => { if (!snapshot.exists()) { leaveRoom(false); showToast("Sala não encontrada.", "error"); return; } state.room = snapshot.data(); applyTheme(state.room.settings); renderApp(); }, (error) => { console.error(error); leaveRoom(false); showToast("Não foi possível acessar a sala. Confira o código ou as regras do Firestore.", "error"); } ); } async function updateRoom(mutator) { if (!state.roomId) { throw new Error("Nenhuma sala ativa."); } const roomRef = doc(state.db, COLLECTION, state.roomId); await runTransaction(state.db, async (transaction) => { const snapshot = await transaction.get(roomRef); if (!snapshot.exists()) { throw new Error("Sala não encontrada."); } const data = snapshot.data(); mutator(data); data.updatedAt = serverTimestamp(); transaction.set(roomRef, data); }); } function leaveRoom(showMessage = true) { if (state.unsubscribe) { state.unsubscribe(); } state.unsubscribe = null; state.roomId = null; state.room = null; localStorage.removeItem(ROOM_KEY); $("#setupView").hidden = false; $("#appView").hidden = true; setStatus(state.ready ? "🟢 Conectado" : "🔄 Inicializando"); if (showMessage) { showToast("Você saiu da sala."); } } function members(room = state.room) { return Object.values(room?.members || {}); } function getMember(uid) { return state.room?.members?.[uid] || { name: "Pessoa", avatar: "💛", color: "#ff6b9a" }; } function isDone(item, uid, date = todayKey()) { return Boolean(item?.done?.[date]?.[uid]); } function completedBy(item, date = todayKey()) { return Object.entries(item?.done?.[date] || {}) .filter(([, value]) => Boolean(value)) .map(([uid]) => getMember(uid)); } function computeScore(uid, mode = "week") { const room = state.room; if (!room) return 0; const dateFilter = (key) => { if (mode === "today") return key === todayKey(); if (mode === "week") return isCurrentWeek(key); return true; }; let score = 0; Object.entries(room.daily || {}).forEach(([date, day]) => { if (dateFilter(date) && day?.checkins?.[uid]) { score += 5; } }); [...(room.habits || []), ...(room.challenges || [])].forEach((item) => { Object.entries(item.done || {}).forEach(([date, doneMap]) => { if (dateFilter(date) && doneMap?.[uid]) { score += Number(item.points || 0); } }); }); return score; } function countTodayDone(uid) { const list = [...(state.room?.habits || []), ...(state.room?.challenges || [])]; const tasks = list.filter((item) => isDone(item, uid, todayKey())).length; const checkin = state.room?.daily?.[todayKey()]?.checkins?.[uid] ? 1 : 0; return tasks + checkin; } function computeDuoStreak() { const people = members(); if (people.length < 2) return 0; let streak = 0; const date = new Date(); for (let i = 0; i < 60; i++) { const key = dateToKey(date); const checkins = state.room?.daily?.[key]?.checkins || {}; const allChecked = people.every((person) => Boolean(checkins[person.uid])); if (!allChecked) break; streak += 1; date.setDate(date.getDate() - 1); } return streak; } function applyTheme(settings = THEMES.aurora) { const theme = { ...THEMES.aurora, ...settings }; const root = document.documentElement; root.style.setProperty("--primary", theme.primary); root.style.setProperty("--accent", theme.accent); root.style.setProperty("--bg", theme.bg); root.style.setProperty("--text", theme.text); root.style.setProperty("--card", theme.card || "rgba(255, 255, 255, 0.10)"); } function renderApp() { const room = state.room; const people = members(room); const weekScores = people.map((person) => ({ ...person, weekScore: computeScore(person.uid, "week"), todayScore: computeScore(person.uid, "today"), todayDone: countTodayDone(person.uid) })); const totalWeek = weekScores.reduce((sum, person) => sum + person.weekScore, 0); const top = [...weekScores].sort((a, b) => b.weekScore - a.weekScore)[0]; const active = state.activeTab; $("#setupView").hidden = true; $("#appView").hidden = false; $("#appView").innerHTML = ` <div class="app-layout"> <aside class="card sidebar"> <div class="room-code"> <span>Código da sala</span> <strong>${escapeHTML(room.roomId)}</strong> <button class="btn small" data-action="copy-invite" type="button">🔗 Copiar convite</button> </div> <nav class="nav" aria-label="Navegação principal"> ${navButton("hoje", "🌤️ Hoje", active)} ${navButton("rotina", "✅ Rotina", active)} ${navButton("desafios", "🏆 Desafios", active)} ${navButton("tema", "🎨 Tema", active)} </nav> <div class="member-list"> ${people.map(renderMemberCard).join("")} ${people.length < 2 ? `<div class="empty">Compartilhe o código para seu par entrar.</div>` : ""} </div> <div class="actions"> <button class="btn small" data-action="sync-profile" type="button">👤 Atualizar perfil</button> <button class="btn small danger" data-action="leave-room" type="button">Sair da sala</button> </div> </aside> <section class="main"> <div class="stats-grid"> <div class="stat"> <span>Pontos da dupla na semana</span> <strong>${totalWeek}</strong> </div> <div class="stat"> <span>Sequência da dupla</span> <strong>${computeDuoStreak()}d</strong> </div> <div class="stat"> <span>Liderança saudável</span> <strong>${top ? escapeHTML(top.avatar) : "💛"} ${top ? escapeHTML(top.weekScore) : 0}</strong> </div> <div class="stat"> <span>Hoje</span> <strong>${formatDate(todayKey())}</strong> </div> </div> ${renderPanel(active, weekScores)} </section> </div> `; } function navButton(tab, label, active) { return ` <button class="btn ${active === tab ? "active" : ""}" data-tab="${tab}" type="button"> ${label} </button> `; } function renderMemberCard(person) { return ` <div class="member-card"> <div class="avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}"> ${escapeHTML(person.avatar || "💛")} </div> <div> <strong>${escapeHTML(person.name || "Pessoa")}</strong> <span>${person.uid === state.uid ? "Você" : "Par"} · ${computeScore(person.uid, "week")} pts semana</span> </div> </div> `; } function renderPanel(active, weekScores) { if (active === "rotina") return renderRoutinePanel(); if (active === "desafios") return renderChallengesPanel(); if (active === "tema") return renderThemePanel(); return renderTodayPanel(weekScores); } function option(value, label, current) { return `<option value="${escapeHTML(value)}" ${String(current || "") === value ? "selected" : ""}>${escapeHTML(label)}</option>`; } function checkBox(name, label, checked) { return ` <label class="check"> <input type="checkbox" name="${escapeHTML(name)}" ${checked ? "checked" : ""} /> ${escapeHTML(label)} </label> `; } function healthyMessage(scores) { if (scores.length < 2) { return "Quando seu par entrar, o placar vira uma disputa leve entre vocês."; } const sorted = [...scores].sort((a, b) => b.weekScore - a.weekScore); const diff = Math.abs(sorted[0].weekScore - sorted[1].weekScore); if (diff <= 15) { return "Placar bem equilibrado. Ótimo sinal: vocês estão caminhando juntos."; } return `${sorted[0].name} está puxando o ritmo. A ideia é inspirar, não cobrar.`; } function renderTodayPanel(weekScores) { const room = state.room; const today = todayKey(); const checkin = room.daily?.[today]?.checkins?.[state.uid] || {}; const activeItems = [ ...(room.habits || []), ...(room.challenges || []).filter((item) => !item.endDate || item.endDate >= today || isDone(item, state.uid, today)) ]; return ` <section class="card panel-card"> <div class="section-title"> <div> <h3>Missão de hoje</h3> <p class="hint">Faça seu check-in, conclua hábitos e marque pontos sem transformar cuidado em cobrança.</p> </div> <span class="pill">+5 pts por check-in</span> </div> <div class="grid-2"> <form id="checkinForm" class="form-grid"> <div class="field"> <label for="mood">Como você está?</label> <select id="mood" name="mood"> ${option("leve", "🌿 Leve", checkin.mood)} ${option("focado", "🎯 Focado(a)", checkin.mood)} ${option("cansado", "🫠 Cansado(a)", checkin.mood)} ${option("ansioso", "🌧️ Ansioso(a)", checkin.mood)} ${option("feliz", "☀️ Feliz", checkin.mood)} </select> </div> <div class="field"> <label for="energy">Energia de 1 a 5</label> <select id="energy" name="energy"> ${[1, 2, 3, 4, 5].map((n) => option(String(n), `${"⚡".repeat(n)} ${n}`, String(checkin.energy || "3"))).join("")} </select> </div> <div class="check-row"> ${checkBox("water", "💧 Água", checkin.water)} ${checkBox("sleep", "😴 Sono", checkin.sleep)} ${checkBox("movement", "🚶 Movimento", checkin.movement)} </div> <div class="field"> <label for="gratitude">Gratidão ou pequena vitória</label> <textarea id="gratitude" name="gratitude" placeholder="Hoje eu valorizo...">${escapeHTML(checkin.gratitude || "")}</textarea> </div> <button class="btn primary" type="submit">Salvar check-in</button> </form> <div> <h3>Placar da semana</h3> <p class="hint">${healthyMessage(weekScores)}</p> <div class="leaderboard"> ${renderLeaderboard(weekScores)} </div> </div> </div> </section> <section class="card panel-card"> <div class="section-title"> <div> <h3>Tarefas de hoje</h3> <p class="hint">Cada conclusão marca pontos individuais e fortalece a consistência do casal.</p> </div> </div> <div class="task-list"> ${activeItems.length ? activeItems.map((item) => renderTaskCard(item, item.endDate ? "challenge" : "habit")).join("") : `<div class="empty">Nenhuma tarefa cadastrada ainda.</div>`} </div> </section> `; } function renderLeaderboard(scores) { const max = Math.max(1, ...scores.map((person) => person.weekScore)); return scores .sort((a, b) => b.weekScore - a.weekScore) .map((person) => ` <div class="score-row"> <div> <strong>${escapeHTML(person.avatar)} ${escapeHTML(person.name)}</strong> <div class="progress"> <span style="--w: ${(person.weekScore / max) * 100}%"></span> </div> <span class="hint">${person.todayDone} ações hoje</span> </div> <strong>${person.weekScore} pts</strong> </div> `) .join(""); } function renderTaskCard(item, type) { const today = todayKey(); const done = isDone(item, state.uid, today); const donePeople = completedBy(item, today); const expired = item.endDate && item.endDate < today; return ` <article class="task-card"> <div class="task-head"> <div class="task-title"> <strong>${escapeHTML(item.title)}</strong> <div class="badges"> <span class="badge">${escapeHTML(item.kind || "Rotina")}</span> <span class="badge">+${Number(item.points || 0)} pts</span> ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""} ${expired ? `<span class="badge">Encerrado</span>` : ""} </div> </div> <button class="btn small ${done ? "success" : ""}" data-action="toggle-item" data-type="${type}" data-id="${escapeHTML(item.id)}" type="button" ${expired && !done ? "disabled" : ""} > ${done ? "✔️ Feito" : `+${Number(item.points || 0)} pts`} </button> </div> <div class="done-avatars"> ${donePeople.length ? donePeople.map((person) => ` <span class="mini-avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}">${escapeHTML(person.avatar || "💛")}</span> `).join("") : "Ninguém marcou ainda"} </div> </article> `; } function renderRoutinePanel() { const habits = state.room.habits || []; return ` <section class="card panel-card"> <div class="section-title"> <div> <h3>Construção de rotina</h3> <p class="hint">Cadastrem hábitos pequenos, repetíveis e com pontuação justa.</p> </div> </div> <div class="grid-2"> <form id="habitForm" class="form-grid"> <div class="field"> <label for="habitTitle">Novo hábito</label> <input id="habitTitle" name="title" maxlength="80" placeholder="Ex: Ler 10 páginas" required /> </div> <div class="two-cols"> <div class="field"> <label for="habitKind">Categoria</label> <select id="habitKind" name="kind"> <option>Autocuidado</option> <option>Saúde</option> <option>Desenvolvimento</option> <option>Relação</option> <option>Casa</option> </select> </div> <div class="field"> <label for="habitPoints">Pontos</label> <input id="habitPoints" name="points" type="number" min="1" max="50" value="10" required /> </div> </div> <button class="btn primary" type="submit">Adicionar hábito</button> </form> <div class="task-list"> ${habits.length ? habits.map((habit) => renderManageItem(habit, "habit")).join("") : `<div class="empty">Nenhum hábito cadastrado.</div>`} </div> </div> </section> `; } function renderChallengesPanel() { const challenges = state.room.challenges || []; return ` <section class="card panel-card"> <div class="section-title"> <div> <h3>Desafios saudáveis</h3> <p class="hint">Criem missões com prazo para dar energia ao jogo sem virar pressão.</p> </div> </div> <div class="grid-2"> <form id="challengeForm" class="form-grid"> <div class="field"> <label for="challengeTitle">Novo desafio</label> <input id="challengeTitle" name="title" maxlength="90" placeholder="Ex: Caminhar juntos 3x na semana" required /> </div> <div class="two-cols"> <div class="field"> <label for="challengeEnd">Termina em</label> <input id="challengeEnd" name="endDate" type="date" value="${addDaysKey(7)}" required /> </div> <div class="field"> <label for="challengePoints">Pontos</label> <input id="challengePoints" name="points" type="number" min="5" max="100" value="20" required /> </div> </div> <button class="btn primary" type="submit">Criar desafio</button> </form> <div class="task-list"> ${challenges.length ? challenges.map((challenge) => renderManageItem(challenge, "challenge")).join("") : `<div class="empty">Nenhum desafio criado.</div>`} </div> </div> </section> `; } function renderManageItem(item, type) { return ` <article class="task-card"> <div class="task-head"> <div class="task-title"> <strong>${escapeHTML(item.title)}</strong> <div class="badges"> <span class="badge">${escapeHTML(item.kind || (type === "challenge" ? "Desafio" : "Rotina"))}</span> <span class="badge">+${Number(item.points || 0)} pts</span> ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""} </div> </div> <button class="btn small danger" data-action="remove-item" data-type="${type}" data-id="${escapeHTML(item.id)}" type="button"> Remover </button> </div> </article> `; } function renderThemePanel() { const settings = state.room.settings || THEMES.aurora; return ` <section class="card panel-card"> <div class="section-title"> <div> <h3>Tema sincronizado</h3> <p class="hint">Quando uma pessoa muda as cores, a outra recebe a mudança em tempo real.</p> </div> </div> <div class="theme-grid"> ${Object.entries(THEMES).map(([key, theme]) => ` <button class="theme-option" data-action="set-theme" data-theme="${key}" style="--a: ${theme.primary}; --b: ${theme.accent};" type="button" > <strong>${escapeHTML(theme.name)}</strong> ${settings.themeName === key ? "✔️ Em uso" : "Aplicar"} </button> `).join("")} </div> <div class="divider"></div> <form id="customThemeForm" class="form-grid"> <div class="grid-2"> <div class="field"> <label for="primaryColor">Cor principal</label> <input id="primaryColor" name="primary" type="color" value="${normalizeHex(settings.primary, "#ff6b9a")}" /> </div> <div class="field"> <label for="accentColor">Cor secundária</label> <input id="accentColor" name="accent" type="color" value="${normalizeHex(settings.accent, "#7c3aed")}" /> </div> <div class="field"> <label for="bgColor">Fundo</label> <input id="bgColor" name="bg" type="color" value="${normalizeHex(settings.bg, "#100f24")}" /> </div> <div class="field"> <label for="textColor">Texto</label> <input id="textColor" name="text" type="color" value="${normalizeHex(settings.text, "#fff7fb")}" /> </div> </div> <button class="btn primary" type="submit">Salvar tema personalizado</button> </form> </section> `; } async function submitCheckin(form) { const formData = new FormData(form); const today = todayKey(); await updateRoom((data) => { data.daily ||= {}; data.daily[today] ||= { checkins: {} }; data.daily[today].checkins ||= {}; data.daily[today].checkins[state.uid] = { mood: formData.get("mood"), energy: Number(formData.get("energy")), water: Boolean(formData.get("water")), sleep: Boolean(formData.get("sleep")), movement: Boolean(formData.get("movement")), gratitude: String(formData.get("gratitude") || "").trim().slice(0, 400), updatedAt: Date.now() }; }); showToast("Check-in salvo. +5 pts!"); } async function addHabit(form) { const formData = new FormData(form); const title = String(formData.get("title") || "").trim().slice(0, 80); const points = Math.max(1, Math.min(50, Number(formData.get("points") || 10))); if (!title) { showToast("Digite o nome do hábito.", "error"); return; } await updateRoom((data) => { data.habits ||= []; data.habits.push({ id: makeId("habit"), title, kind: String(formData.get("kind") || "Rotina"), points, createdAt: Date.now(), createdBy: state.uid, done: {} }); }); form.reset(); showToast("Hábito adicionado."); } async function addChallenge(form) { const formData = new FormData(form); const title = String(formData.get("title") || "").trim().slice(0, 90); const points = Math.max(5, Math.min(100, Number(formData.get("points") || 20))); const endDate = String(formData.get("endDate") || addDaysKey(7)); if (!title) { showToast("Digite o nome do desafio.", "error"); return; } await updateRoom((data) => { data.challenges ||= []; data.challenges.push({ id: makeId("challenge"), title, kind: "Desafio", points, startDate: todayKey(), endDate, createdAt: Date.now(), createdBy: state.uid, done: {} }); }); form.reset(); showToast("Desafio criado."); } async function toggleItem(type, id) { const listName = type === "challenge" ? "challenges" : "habits"; const today = todayKey(); await updateRoom((data) => { data[listName] ||= []; const item = data[listName].find((entry) => entry.id === id); if (!item) return; item.done ||= {}; item.done[today] ||= {}; if (item.done[today][state.uid]) { delete item.done[today][state.uid]; } else { item.done[today][state.uid] = true; } if (Object.keys(item.done[today]).length === 0) { delete item.done[today]; } }); } async function removeItem(type, id) { const confirmed = window.confirm("Remover este item para o casal?"); if (!confirmed) return; const listName = type === "challenge" ? "challenges" : "habits"; await updateRoom((data) => { data[listName] = (data[listName] || []).filter((entry) => entry.id !== id); }); showToast("Item removido."); } async function setTheme(themeName) { const theme = THEMES[themeName]; if (!theme) return; await updateRoom((data) => { data.settings = { themeName, ...theme }; }); showToast("Tema sincronizado."); } async function setCustomTheme(form) { const formData = new FormData(form); await updateRoom((data) => { data.settings = { themeName: "custom", name: "Personalizado", primary: normalizeHex(formData.get("primary"), "#ff6b9a"), accent: normalizeHex(formData.get("accent"), "#7c3aed"), bg: normalizeHex(formData.get("bg"), "#100f24"), text: normalizeHex(formData.get("text"), "#fff7fb"), card: "rgba(255, 255, 255, 0.11)" }; }); showToast("Tema personalizado salvo para os dois."); } async function syncProfile() { const profile = { ...getProfileFromForm(), updatedAt: Date.now() }; await updateRoom((data) => { data.members ||= {}; const existing = data.members[state.uid] || {}; data.members[state.uid] = { ...existing, ...profile, uid: state.uid, joinedAt: existing.joinedAt || Date.now() }; }); showToast("Perfil atualizado na sala."); } async function copyInvite() { const roomId = state.roomId; const url = `${location.origin}${location.pathname}?room=${roomId}`; try { await navigator.clipboard.writeText(url); showToast("Convite copiado."); } catch { showToast(`Código da sala: ${roomId}`); } } document.addEventListener("submit", async (event) => { event.preventDefault(); try { const form = event.target; if (form.id === "profileForm") { getProfileFromForm(); if (state.roomId) { await syncProfile(); } showToast("Perfil salvo."); } if (form.id === "checkinForm") { await submitCheckin(form); } if (form.id === "habitForm") { await addHabit(form); } if (form.id === "challengeForm") { await addChallenge(form); } if (form.id === "customThemeForm") { await setCustomTheme(form); } } catch (error) { console.error(error); showToast(error.message || "Algo deu errado.", "error"); } }); document.addEventListener("click", async (event) => { const tabButton = event.target.closest("[data-tab]"); const actionButton = event.target.closest("[data-action]"); try { if (tabButton) { state.activeTab = tabButton.dataset.tab; renderApp(); return; } if (!actionButton) return; const action = actionButton.dataset.action; if (action === "copy-invite") { await copyInvite(); } if (action === "leave-room") { leaveRoom(true); } if (action === "sync-profile") { await syncProfile(); } if (action === "set-theme") { await setTheme(actionButton.dataset.theme); } if (action === "toggle-item") { await toggleItem(actionButton.dataset.type, actionButton.dataset.id); } if (action === "remove-item") { await removeItem(actionButton.dataset.type, actionButton.dataset.id); } } catch (error) { console.error(error); showToast(error.message || "Não foi possível concluir a ação.", "error"); } }); $("#createRoomButton").addEventListener("click", async () => { try { await createRoom(); } catch (error) { console.error(error); showToast("Não foi possível criar a sala.", "error"); } }); $("#joinRoomButton").addEventListener("click", async () => { try { await joinRoom(); } catch (error) { console.error(error); showToast("Não foi possível entrar. Código inválido, sala cheia ou regras do Firestore bloqueando.", "error"); } }); async function init() { hydrateProfileForm(); if (!hasFirebaseConfig()) { $("#setupWarning").hidden = false; $("#setupWarning").textContent = "Antes de usar a sincronização, cole seu firebaseConfig no código e publique as regras do Firestore."; $("#createRoomButton").disabled = true; $("#joinRoomButton").disabled = true; setStatus("⚠️ Configure o Firebase"); return; } state.app = initializeApp(firebaseConfig); state.auth = getAuth(state.app); state.db = getFirestore(state.app); onAuthStateChanged(state.auth, (user) => { if (!user) return; state.uid = user.uid; state.ready = true; setStatus("🟢 Conectado"); const savedRoomId = localStorage.getItem(ROOM_KEY); if (savedRoomId) { subscribeToRoom(savedRoomId); } }); await signInAnonymously(state.auth); } init().catch((error) => { console.error(error); setStatus("🔴 Erro"); showToast("Falha ao inicializar o app.", "error"); }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuidar Juntos</title>
+
+  <style>
+    :root {
+      --primary: #ff6b9a;
+      --accent: #7c3aed;
+      --bg: #100f24;
+      --card: rgba(255, 255, 255, 0.1);
+      --card-strong: rgba(255, 255, 255, 0.16);
+      --text: #fff7fb;
+      --muted: rgba(255, 247, 251, 0.72);
+      --border: rgba(255, 255, 255, 0.18);
+      --danger: #fb7185;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--primary) 35%, transparent), transparent 28%),
+        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 34%),
+        linear-gradient(135deg, var(--bg), #070711 78%);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .app-bg-orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--primary) 22%, transparent);
+      filter: blur(25px);
+      bottom: -160px;
+      right: -120px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 0 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 14px 40px color-mix(in srgb, var(--primary) 34%, transparent);
+      font-size: 24px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 2.8vw, 2rem);
+      letter-spacing: -0.04em;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      white-space: nowrap;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+      align-items: stretch;
+      padding: 28px 0 38px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+    }
+
+    .hero-copy {
+      padding: clamp(24px, 5vw, 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-copy h2 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.075em;
+    }
+
+    .hero-copy p {
+      margin: 20px 0 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+      line-height: 1.65;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent), #fff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .setup-card {
+      padding: 22px;
+    }
+
+    .setup-card h3,
+    .panel-card h3,
+    .section-title h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+
+    .setup-card p,
+    .hint {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 13px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .field input[type="color"] {
+      height: 48px;
+      padding: 5px;
+    }
+
+    .field textarea {
+      min-height: 94px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: color-mix(in srgb, var(--primary) 80%, white);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 12px 16px;
+      border-radius: 15px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--border);
+      transition: transform 0.2s, filter 0.2s, background 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-color: transparent;
+      font-weight: 800;
+    }
+
+    .btn.danger {
+      color: #fff;
+      background: color-mix(in srgb, var(--danger) 65%, transparent);
+    }
+
+    .btn.success {
+      color: #052e24;
+      background: var(--success);
+      font-weight: 900;
+    }
+
+    .btn.small {
+      min-height: 36px;
+      padding: 8px 11px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 18px 0;
+      background: var(--border);
+    }
+
+    .notice {
+      padding: 14px;
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--warning) 18%, transparent);
+      border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      padding: 12px 0 42px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 14px;
+      align-self: start;
+      padding: 16px;
+    }
+
+    .room-code {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 25%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
+      border: 1px solid var(--border);
+    }
+
+    .room-code strong {
+      font-size: 1.9rem;
+      letter-spacing: 0.12em;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .nav button {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .nav button.active {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      font-weight: 900;
+      border-color: transparent;
+    }
+
+    .member-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .member-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--member-color, var(--primary));
+      font-size: 22px;
+      flex: 0 0 auto;
+    }
+
+    .member-card strong {
+      display: block;
+      line-height: 1.15;
+    }
+
+    .member-card span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(1.35rem, 2.7vw, 2.1rem);
+      letter-spacing: -0.06em;
+    }
+
+    .panel-card {
+      padding: clamp(16px, 3vw, 24px);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .task-card {
+      display: grid;
+      gap: 12px;
+      padding: 15px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.085);
+      border: 1px solid var(--border);
+    }
+
+    .task-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .task-title {
+      display: grid;
+      gap: 5px;
+    }
+
+    .task-title strong {
+      font-size: 1rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .task-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .done-avatars {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .mini-avatar {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--member-color, var(--primary));
+      font-size: 15px;
+    }
+
+    .leaderboard {
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+    }
+
+    .progress {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      margin-top: 8px;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: var(--w, 0%);
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: inherit;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .check input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .theme-option {
+      min-height: 92px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      padding: 12px;
+      color: white;
+      text-align: left;
+      background: linear-gradient(135deg, var(--a), var(--b));
+    }
+
+    .theme-option strong {
+      display: block;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.24);
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 20;
+      right: 18px;
+      bottom: 18px;
+      width: min(380px, calc(100% - 36px));
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(15, 15, 28, 0.88);
+      border: 1px solid var(--border);
+      color: white;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.error {
+      background: color-mix(in srgb, var(--danger) 72%, #111);
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .app-layout,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .shell {
+        width: min(100% - 22px, var(--max));
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding-top: 12px;
+      }
+
+      .two-cols,
+      .check-row,
+      .stats-grid,
+      .theme-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions .btn {
+        width: 100%;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-bg-orb"></div>
+
+  <header class="shell topbar">
+    <div class="brand">
+      <div class="logo">💞</div>
+      <div>
+        <h1>Cuidar Juntos</h1>
+        <p>Autocuidado, rotina e competição saudável para casal</p>
+      </div>
+    </div>
+    <div id="connectionStatus" class="pill">🔄 Inicializando</div>
+  </header>
+
+  <section id="setupView" class="shell hero">
+    <div class="card hero-copy">
+      <h2>Um jogo leve para vocês virarem <span class="gradient-text">time na vida real.</span></h2>
+      <p>
+        Criem uma sala, compartilhem o código e acompanhem hábitos, check-ins,
+        desafios da semana, sequência da dupla e placar. O tema escolhido por um
+        aparece para os dois.
+      </p>
+    </div>
+
+    <div class="card setup-card">
+      <h3>Começar</h3>
+      <p>Escolha seu nome, crie uma sala ou entre com o código do par.</p>
+
+      <div id="setupWarning" class="notice" hidden></div>
+
+      <form id="profileForm" class="form-grid">
+        <div class="two-cols">
+          <div class="field">
+            <label for="displayName">Seu nome</label>
+            <input id="displayName" maxlength="32" placeholder="Ex: Ana" autocomplete="name" required />
+          </div>
+
+          <div class="field">
+            <label for="avatar">Emoji</label>
+            <input id="avatar" maxlength="4" placeholder="🌻" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="memberColor">Sua cor no placar</label>
+          <input id="memberColor" type="color" value="#ff6b9a" />
+        </div>
+
+        <button class="btn" type="submit">Salvar perfil</button>
+      </form>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <button id="createRoomButton" class="btn primary" type="button">✨ Criar sala do casal</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="roomCodeInput">Código da sala</label>
+          <input id="roomCodeInput" maxlength="6" placeholder="EX: A7K2P9" />
+        </div>
+        <button id="joinRoomButton" class="btn primary" type="button">Entrar na sala</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="appView" class="shell" hidden></main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInAnonymously
+    } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import {
+      doc,
+      getFirestore,
+      onSnapshot,
+      runTransaction,
+      serverTimestamp,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-pG1xZyQoLqByrizu3jYlrMtSkO9yZr0",
+      authDomain: "casinha-4d078.firebaseapp.com",
+      projectId: "casinha-4d078",
+      storageBucket: "casinha-4d078.firebasestorage.app",
+      messagingSenderId: "120575493435",
+      appId: "1:120575493435:web:e355019986f48e79f5631e"
+    };
+
+    const COLLECTION = "coupleRooms";
+    const ROOM_KEY = "cuidarJuntos.roomId";
+    const PROFILE_KEY = "cuidarJuntos.profile";
+
+    const THEMES = {
+      aurora: {
+        name: "Aurora",
+        primary: "#ff6b9a",
+        accent: "#7c3aed",
+        bg: "#100f24",
+        text: "#fff7fb",
+        card: "rgba(255, 255, 255, 0.10)"
+      },
+      bosque: {
+        name: "Bosque",
+        primary: "#22c55e",
+        accent: "#14b8a6",
+        bg: "#052e26",
+        text: "#f0fdf4",
+        card: "rgba(255, 255, 255, 0.10)"
+      },
+      sol: {
+        name: "Pôr do sol",
+        primary: "#fb7185",
+        accent: "#f59e0b",
+        bg: "#2b1020",
+        text: "#fff7ed",
+        card: "rgba(255, 255, 255, 0.12)"
+      },
+      ceu: {
+        name: "Céu calmo",
+        primary: "#38bdf8",
+        accent: "#6366f1",
+        bg: "#081629",
+        text: "#eff6ff",
+        card: "rgba(255, 255, 255, 0.10)"
+      }
+    };
+
+    const state = {
+      app: null,
+      auth: null,
+      db: null,
+      uid: null,
+      roomId: null,
+      room: null,
+      unsubscribe: null,
+      activeTab: "hoje",
+      ready: false
+    };
+
+    const $ = (selector) => document.querySelector(selector);
+    const TODAY = () => dateToKey(new Date());
+
+    function hasFirebaseConfig() {
+      return firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("COLE_") && firebaseConfig.projectId !== "SEU_PROJETO";
+    }
+
+    function escapeHTML(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeHex(value, fallback) {
+      return /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback;
+    }
+
+    function dateToKey(date) {
+      const local = new Date(date);
+      local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
+      return local.toISOString().slice(0, 10);
+    }
+
+    function keyToDate(key) {
+      const [year, month, day] = key.split("-").map(Number);
+      return new Date(year, month - 1, day, 12, 0, 0);
+    }
+
+    function addDaysKey(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return dateToKey(date);
+    }
+
+    function formatDate(key) {
+      return keyToDate(key).toLocaleDateString("pt-BR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "short"
+      });
+    }
+
+    function startOfWeek(date = new Date()) {
+      const copy = new Date(date);
+      const day = (copy.getDay() + 6) % 7;
+      copy.setHours(0, 0, 0, 0);
+      copy.setDate(copy.getDate() - day);
+      return copy;
+    }
+
+    function isCurrentWeek(key) {
+      const date = keyToDate(key);
+      const start = startOfWeek();
+      const end = new Date(start);
+      end.setDate(start.getDate() + 7);
+      return date >= start && date < end;
+    }
+
+    function randomRoomCode() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let code = "";
+      for (let i = 0; i < 6; i += 1) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return code;
+    }
+
+    function makeId(prefix) {
+      const random = crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      return `${prefix}_${random}`;
+    }
+
+    function showToast(message, type = "ok") {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.className = `toast show ${type === "error" ? "error" : ""}`;
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        toast.className = "toast";
+      }, 3200);
+    }
+
+    function setStatus(text) {
+      $("#connectionStatus").textContent = text;
+    }
+
+    function loadProfile() {
+      try {
+        return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveProfile(profile) {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    }
+
+    function getProfileFromForm() {
+      const name = $("#displayName").value.trim().slice(0, 32) || "Pessoa";
+      const avatar = $("#avatar").value.trim().slice(0, 4) || "💛";
+      const color = $("#memberColor").value || "#ff6b9a";
+      const profile = { uid: state.uid, name, avatar, color };
+      saveProfile(profile);
+      return profile;
+    }
+
+    function hydrateProfileForm() {
+      const profile = loadProfile();
+      $("#displayName").value = profile.name || "";
+      $("#avatar").value = profile.avatar || "💛";
+      $("#memberColor").value = normalizeHex(profile.color, "#ff6b9a");
+
+      const roomFromUrl = new URLSearchParams(location.search).get("room");
+      if (roomFromUrl) {
+        $("#roomCodeInput").value = roomFromUrl.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+      }
+    }
+
+    function defaultHabits() {
+      return [
+        {
+          id: makeId("habit"),
+          title: "Beber água e cuidar do corpo",
+          kind: "Autocuidado",
+          points: 10,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        },
+        {
+          id: makeId("habit"),
+          title: "Movimento de 15 minutos",
+          kind: "Saúde",
+          points: 15,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        },
+        {
+          id: makeId("habit"),
+          title: "Planejar uma pequena prioridade do dia",
+          kind: "Desenvolvimento",
+          points: 10,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        },
+        {
+          id: makeId("habit"),
+          title: "Mandar uma mensagem carinhosa",
+          kind: "Relação",
+          points: 10,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        }
+      ];
+    }
+
+    function defaultChallenges() {
+      return [
+        {
+          id: makeId("challenge"),
+          title: "7 dias de check-in emocional",
+          kind: "Desafio da dupla",
+          points: 20,
+          startDate: TODAY(),
+          endDate: addDaysKey(7),
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        }
+      ];
+    }
+
+    async function createRoom() {
+      if (!state.uid) {
+        showToast("Autenticação ainda não terminou.", "error");
+        return;
+      }
+
+      const profile = {
+        ...getProfileFromForm(),
+        joinedAt: Date.now()
+      };
+
+      const roomId = randomRoomCode();
+      const roomRef = doc(state.db, COLLECTION, roomId);
+      const theme = THEMES.aurora;
+
+      await setDoc(roomRef, {
+        roomId,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        members: {
+          [state.uid]: profile
+        },
+        settings: {
+          themeName: "aurora",
+          ...theme
+        },
+        daily: {},
+        habits: defaultHabits(),
+        challenges: defaultChallenges()
+      });
+
+      localStorage.setItem(ROOM_KEY, roomId);
+      subscribeToRoom(roomId);
+      showToast("Sala criada! Compartilhe o código com seu par.");
+    }
+
+    async function joinRoom() {
+      if (!state.uid) {
+        showToast("Autenticação ainda não terminou.", "error");
+        return;
+      }
+
+      const roomId = $("#roomCodeInput").value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+      if (roomId.length !== 6) {
+        showToast("Digite um código de sala com 6 caracteres.", "error");
+        return;
+      }
+
+      const profile = {
+        ...getProfileFromForm(),
+        joinedAt: Date.now()
+      };
+
+      const roomRef = doc(state.db, COLLECTION, roomId);
+
+      await setDoc(roomRef, {
+        members: {
+          [state.uid]: profile
+        },
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      localStorage.setItem(ROOM_KEY, roomId);
+      subscribeToRoom(roomId);
+      showToast("Você entrou na sala!");
+    }
+
+    function subscribeToRoom(roomId) {
+      if (state.unsubscribe) {
+        state.unsubscribe();
+      }
+
+      state.roomId = roomId;
+      setStatus(`🟢 Sala ${roomId}`);
+
+      const roomRef = doc(state.db, COLLECTION, roomId);
+      state.unsubscribe = onSnapshot(
+        roomRef,
+        (snapshot) => {
+          if (!snapshot.exists()) {
+            leaveRoom(false);
+            showToast("Sala não encontrada.", "error");
+            return;
+          }
+
+          state.room = snapshot.data();
+          applyTheme(state.room.settings);
+          renderApp();
+        },
+        (error) => {
+          console.error(error);
+          leaveRoom(false);
+          showToast("Não foi possível acessar a sala. Confira o código ou as regras do Firestore.", "error");
+        }
+      );
+    }
+
+    async function updateRoom(mutator) {
+      if (!state.roomId) {
+        throw new Error("Nenhuma sala ativa.");
+      }
+
+      const roomRef = doc(state.db, COLLECTION, state.roomId);
+
+      await runTransaction(state.db, async (transaction) => {
+        const snapshot = await transaction.get(roomRef);
+        if (!snapshot.exists()) {
+          throw new Error("Sala não encontrada.");
+        }
+
+        const data = snapshot.data();
+        mutator(data);
+        data.updatedAt = serverTimestamp();
+        transaction.set(roomRef, data);
+      });
+    }
+
+    function leaveRoom(showMessage = true) {
+      if (state.unsubscribe) {
+        state.unsubscribe();
+      }
+
+      state.unsubscribe = null;
+      state.roomId = null;
+      state.room = null;
+      localStorage.removeItem(ROOM_KEY);
+
+      $("#setupView").hidden = false;
+      $("#appView").hidden = true;
+      setStatus(state.ready ? "🟢 Conectado" : "🔄 Inicializando");
+
+      if (showMessage) {
+        showToast("Você saiu da sala.");
+      }
+    }
+
+    function members(room = state.room) {
+      return Object.values(room?.members || {});
+    }
+
+    function getMember(uid) {
+      return state.room?.members?.[uid] || { name: "Pessoa", avatar: "💛", color: "#ff6b9a" };
+    }
+
+    function isDone(item, uid, date = TODAY()) {
+      return Boolean(item?.done?.[date]?.[uid]);
+    }
+
+    function completedBy(item, date = TODAY()) {
+      return Object.entries(item?.done?.[date] || {})
+        .filter(([, value]) => Boolean(value))
+        .map(([uid]) => getMember(uid));
+    }
+
+    function computeScore(uid, mode = "week") {
+      const room = state.room;
+      if (!room) return 0;
+
+      const dateFilter = (key) => {
+        if (mode === "today") return key === TODAY();
+        if (mode === "week") return isCurrentWeek(key);
+        return true;
+      };
+
+      let score = 0;
+
+      Object.entries(room.daily || {}).forEach(([date, day]) => {
+        if (dateFilter(date) && day?.checkins?.[uid]) {
+          score += 5;
+        }
+      });
+
+      [...(room.habits || []), ...(room.challenges || [])].forEach((item) => {
+        Object.entries(item.done || {}).forEach(([date, doneMap]) => {
+          if (dateFilter(date) && doneMap?.[uid]) {
+            score += Number(item.points || 0);
+          }
+        });
+      });
+
+      return score;
+    }
+
+    function countTodayDone(uid) {
+      const list = [...(state.room?.habits || []), ...(state.room?.challenges || [])];
+      const tasks = list.filter((item) => isDone(item, uid, TODAY())).length;
+      const checkin = state.room?.daily?.[TODAY()]?.checkins?.[uid] ? 1 : 0;
+      return tasks + checkin;
+    }
+
+    function computeDuoStreak() {
+      const people = members();
+      if (people.length < 2) return 0;
+
+      let streak = 0;
+      const date = new Date();
+
+      for (let i = 0; i < 60; i += 1) {
+        const key = dateToKey(date);
+        const checkins = state.room?.daily?.[key]?.checkins || {};
+        const allChecked = people.every((person) => Boolean(checkins[person.uid]));
+
+        if (!allChecked) break;
+
+        streak += 1;
+        date.setDate(date.getDate() - 1);
+      }
+
+      return streak;
+    }
+
+    function applyTheme(settings = THEMES.aurora) {
+      const theme = { ...THEMES.aurora, ...settings };
+      const root = document.documentElement;
+
+      root.style.setProperty("--primary", theme.primary);
+      root.style.setProperty("--accent", theme.accent);
+      root.style.setProperty("--bg", theme.bg);
+      root.style.setProperty("--text", theme.text);
+      root.style.setProperty("--card", theme.card || "rgba(255, 255, 255, 0.10)");
+    }
+
+    function renderApp() {
+      const room = state.room;
+      const people = members(room);
+      const weekScores = people.map((person) => ({
+        ...person,
+        weekScore: computeScore(person.uid, "week"),
+        todayScore: computeScore(person.uid, "today"),
+        todayDone: countTodayDone(person.uid)
+      }));
+
+      const totalWeek = weekScores.reduce((sum, person) => sum + person.weekScore, 0);
+      const top = [...weekScores].sort((a, b) => b.weekScore - a.weekScore)[0];
+      const active = state.activeTab;
+
+      $("#setupView").hidden = true;
+      $("#appView").hidden = false;
+
+      $("#appView").innerHTML = `
+        <div class="app-layout">
+          <aside class="card sidebar">
+            <div class="room-code">
+              <span>Código da sala</span>
+              <strong>${escapeHTML(room.roomId)}</strong>
+              <button class="btn small" data-action="copy-invite" type="button">🔗 Copiar convite</button>
+            </div>
+
+            <nav class="nav" aria-label="Navegação principal">
+              ${navButton("hoje", "🌤️ Hoje", active)}
+              ${navButton("rotina", "✅ Rotina", active)}
+              ${navButton("desafios", "🏆 Desafios", active)}
+              ${navButton("tema", "🎨 Tema", active)}
+            </nav>
+
+            <div class="member-list">
+              ${people.map(renderMemberCard).join("")}
+              ${people.length < 2 ? `<div class="empty">Compartilhe o código para seu par entrar.</div>` : ""}
+            </div>
+
+            <div class="actions">
+              <button class="btn small" data-action="sync-profile" type="button">👤 Atualizar perfil</button>
+              <button class="btn small danger" data-action="leave-room" type="button">Sair da sala</button>
+            </div>
+          </aside>
+
+          <section class="main">
+            <div class="stats-grid">
+              <div class="stat">
+                <span>Pontos da dupla na semana</span>
+                <strong>${totalWeek}</strong>
+              </div>
+              <div class="stat">
+                <span>Sequência da dupla</span>
+                <strong>${computeDuoStreak()}d</strong>
+              </div>
+              <div class="stat">
+                <span>Liderança saudável</span>
+                <strong>${top ? escapeHTML(top.avatar) : "💛"} ${top ? escapeHTML(top.weekScore) : 0}</strong>
+              </div>
+              <div class="stat">
+                <span>Hoje</span>
+                <strong>${formatDate(TODAY())}</strong>
+              </div>
+            </div>
+
+            ${renderPanel(active, weekScores)}
+          </section>
+        </div>
+      `;
+    }
+
+    function navButton(tab, label, active) {
+      return `
+        <button class="btn ${active === tab ? "active" : ""}" data-tab="${tab}" type="button">
+          ${label}
+        </button>
+      `;
+    }
+
+    function renderMemberCard(person) {
+      return `
+        <div class="member-card">
+          <div class="avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}">
+            ${escapeHTML(person.avatar || "💛")}
+          </div>
+          <div>
+            <strong>${escapeHTML(person.name || "Pessoa")}</strong>
+            <span>${person.uid === state.uid ? "Você" : "Par"} · ${computeScore(person.uid, "week")} pts semana</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPanel(active, weekScores) {
+      if (active === "rotina") return renderRoutinePanel();
+      if (active === "desafios") return renderChallengesPanel();
+      if (active === "tema") return renderThemePanel();
+      return renderTodayPanel(weekScores);
+    }
+
+    function renderTodayPanel(weekScores) {
+      const room = state.room;
+      const today = TODAY();
+      const checkin = room.daily?.[today]?.checkins?.[state.uid] || {};
+      const activeItems = [
+        ...(room.habits || []),
+        ...(room.challenges || []).filter((item) => !item.endDate || item.endDate >= today || isDone(item, state.uid, today))
+      ];
+
+      return `
+        <section class="card panel-card">
+          <div class="section-title">
+            <div>
+              <h3>Missão de hoje</h3>
+              <p class="hint">Faça seu check-in, conclua hábitos e marque pontos sem transformar cuidado em cobrança.</p>
+            </div>
+            <span class="pill">+5 pts por check-in</span>
+          </div>
+
+          <div class="grid-2">
+            <form id="checkinForm" class="form-grid">
+              <div class="field">
+                <label for="mood">Como você está?</label>
+                <select id="mood" name="mood">
+                  ${option("leve", "🌿 Leve", checkin.mood)}
+                  ${option("focado", "🎯 Focado(a)", checkin.mood)}
+                  ${option("cansado", "🫠 Cansado(a)", checkin.mood)}
+                  ${option("ansioso", "🌧️ Ansioso(a)", checkin.mood)}
+                  ${option("feliz", "☀️ Feliz", checkin.mood)}
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="energy">Energia de 1 a 5</label>
+                <select id="energy" name="energy">
+                  ${[1, 2, 3, 4, 5].map((n) => option(String(n), `${"⚡".repeat(n)} ${n}`, String(checkin.energy || "3"))).join("")}
+                </select>
+              </div>
+
+              <div class="check-row">
+                ${checkBox("water", "💧 Água", checkin.water)}
+                ${checkBox("sleep", "😴 Sono", checkin.sleep)}
+                ${checkBox("movement", "🚶 Movimento", checkin.movement)}
+              </div>
+
+              <div class="field">
+                <label for="gratitude">Gratidão ou pequena vitória</label>
+                <textarea id="gratitude" name="gratitude" placeholder="Hoje eu valorizo...">${escapeHTML(checkin.gratitude || "")}</textarea>
+              </div>
+
+              <button class="btn primary" type="submit">Salvar check-in</button>
+            </form>
+
+            <div>
+              <h3>Placar da semana</h3>
+              <p class="hint">${healthyMessage(weekScores)}</p>
+              <div class="leaderboard">
+                ${renderLeaderboard(weekScores)}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card panel-card">
+          <div class="section-title">
+            <div>
+              <h3>Tarefas de hoje</h3>
+              <p class="hint">Cada conclusão marca pontos individuais e fortalece a consistência do casal.</p>
+            </div>
+          </div>
+
+          <div class="task-list">
+            ${activeItems.length ? activeItems.map((item) => renderTaskCard(item, item.endDate ? "challenge" : "habit")).join("") : `<div class="empty">Nenhuma tarefa cadastrada ainda.</div>`}
+          </div>
+        </section>
+      `;
+    }
+
+    function option(value, label, current) {
+      return `<option value="${escapeHTML(value)}" ${String(current || "") === value ? "selected" : ""}>${escapeHTML(label)}</option>`;
+    }
+
+    function checkBox(name, label, checked) {
+      return `
+        <label class="check">
+          <input type="checkbox" name="${escapeHTML(name)}" ${checked ? "checked" : ""} />
+          ${escapeHTML(label)}
+        </label>
+      `;
+    }
+
+    function healthyMessage(scores) {
+      if (scores.length < 2) {
+        return "Quando seu par entrar, o placar vira uma disputa leve entre vocês.";
+      }
+
+      const sorted = [...scores].sort((a, b) => b.weekScore - a.weekScore);
+      const diff = Math.abs(sorted[0].weekScore - sorted[1].weekScore);
+
+      if (diff <= 15) {
+        return "Placar bem equilibrado. Ótimo sinal: vocês estão caminhando juntos.";
+      }
+
+      return `${sorted[0].name} está puxando o ritmo. A ideia é inspirar, não cobrar.`;
+    }
+
+    function renderLeaderboard(scores) {
+      const max = Math.max(1, ...scores.map((person) => person.weekScore));
+
+      return scores
+        .sort((a, b) => b.weekScore - a.weekScore)
+        .map((person) => `
+          <div class="score-row">
+            <div>
+              <strong>${escapeHTML(person.avatar)} ${escapeHTML(person.name)}</strong>
+              <div class="progress">
+                <span style="--w: ${(person.weekScore / max) * 100}%"></span>
+              </div>
+              <span class="hint">${person.todayDone} ações hoje</span>
+            </div>
+            <strong>${person.weekScore} pts</strong>
+          </div>
+        `)
+        .join("");
+    }
+
+    function renderTaskCard(item, type) {
+      const today = TODAY();
+      const done = isDone(item, state.uid, today);
+      const donePeople = completedBy(item, today);
+      const expired = item.endDate && item.endDate < today;
+
+      return `
+        <article class="task-card">
+          <div class="task-head">
+            <div class="task-title">
+              <strong>${escapeHTML(item.title)}</strong>
+              <div class="badges">
+                <span class="badge">${escapeHTML(item.kind || "Rotina")}</span>
+                <span class="badge">+${Number(item.points || 0)} pts</span>
+                ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""}
+                ${expired ? `<span class="badge">Encerrado</span>` : ""}
+              </div>
+            </div>
+
+            <button
+              class="btn small ${done ? "success" : ""}"
+              data-action="toggle-item"
+              data-type="${type}"
+              data-id="${escapeHTML(item.id)}"
+              type="button"
+              ${expired && !done ? "disabled" : ""}
+            >
+              ${done ? "✔️ Feito" : `+${Number(item.points || 0)} pts`}
+            </button>
+          </div>
+
+          <div class="task-foot">
+            <div class="done-avatars">
+              ${donePeople.length ? donePeople.map((person) => `
+                <span class="mini-avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}">${escapeHTML(person.avatar || "💛")}</span>
+              `).join("") : "Ninguém marcou ainda"}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderRoutinePanel() {
+      const habits = state.room.habits || [];
+
+      return `
+        <section class="card panel-card">
+          <div class="section-title">
+            <div>
+              <h3>Construção de rotina</h3>
+              <p class="hint">Cadastrem hábitos pequenos, repetíveis e com pontuação justa.</p>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <form id="habitForm" class="form-grid">
+              <div class="field">
+                <label for="habitTitle">Novo hábito</label>
+                <input id="habitTitle" name="title" maxlength="80" placeholder="Ex: Ler 10 páginas" required />
+              </div>
+
+              <div class="two-cols">
+                <div class="field">
+                  <label for="habitKind">Categoria</label>
+                  <select id="habitKind" name="kind">
+                    <option>Autocuidado</option>
+                    <option>Saúde</option>
+                    <option>Desenvolvimento</option>
+                    <option>Relação</option>
+                    <option>Casa</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="habitPoints">Pontos</label>
+                  <input id="habitPoints" name="points" type="number" min="1" max="50" value="10" required />
+                </div>
+              </div>
+
+              <button class="btn primary" type="submit">Adicionar hábito</button>
+            </form>
+
+            <div class="task-list">
+              ${habits.length ? habits.map((habit) => renderManageItem(habit, "habit")).join("") : `<div class="empty">Nenhum hábito cadastrado.</div>`}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChallengesPanel() {
+      const challenges = state.room.challenges || [];
+
+      return `
+        <section class="card panel-card">
+          <div class="section-title">
+            <div>
+              <h3>Desafios saudáveis</h3>
+              <p class="hint">Criem missões com prazo para dar energia ao jogo sem virar pressão.</p>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <form id="challengeForm" class="form-grid">
+              <div class="field">
+                <label for="challengeTitle">Novo desafio</label>
+                <input id="challengeTitle" name="title" maxlength="90" placeholder="Ex: Caminhar juntos 3x na semana" required />
+              </div>
+
+              <div class="two-cols">
+                <div class="field">
+                  <label for="challengeEnd">Termina em</label>
+                  <input id="challengeEnd" name="endDate" type="date" value="${addDaysKey(7)}" required />
+                </div>
+
+                <div class="field">
+                  <label for="challengePoints">Pontos</label>
+                  <input id="challengePoints" name="points" type="number" min="5" max="100" value="20" required />
+                </div>
+              </div>
+
+              <button class="btn primary" type="submit">Criar desafio</button>
+            </form>
+
+            <div class="task-list">
+              ${challenges.length ? challenges.map((challenge) => renderManageItem(challenge, "challenge")).join("") : `<div class="empty">Nenhum desafio criado.</div>`}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderManageItem(item, type) {
+      return `
+        <article class="task-card">
+          <div class="task-head">
+            <div class="task-title">
+              <strong>${escapeHTML(item.title)}</strong>
+              <div class="badges">
+                <span class="badge">${escapeHTML(item.kind || (type === "challenge" ? "Desafio" : "Rotina"))}</span>
+                <span class="badge">+${Number(item.points || 0)} pts</span>
+                ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""}
+              </div>
+            </div>
+
+            <button class="btn small danger" data-action="remove-item" data-type="${type}" data-id="${escapeHTML(item.id)}" type="button">
+              Remover
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderThemePanel() {
+      const settings = state.room.settings || THEMES.aurora;
+
+      return `
+        <section class="card panel-card">
+          <div class="section-title">
+            <div>
+              <h3>Tema sincronizado</h3>
+              <p class="hint">Quando uma pessoa muda as cores, a outra recebe a mudança em tempo real.</p>
+            </div>
+          </div>
+
+          <div class="theme-grid">
+            ${Object.entries(THEMES).map(([key, theme]) => `
+              <button
+                class="theme-option"
+                data-action="set-theme"
+                data-theme="${key}"
+                style="--a: ${theme.primary}; --b: ${theme.accent};"
+                type="button"
+              >
+                <strong>${escapeHTML(theme.name)}</strong>
+                ${settings.themeName === key ? "✔️ Em uso" : "Aplicar"}
+              </button>
+            `).join("")}
+          </div>
+
+          <div class="divider"></div>
+
+          <form id="customThemeForm" class="form-grid">
+            <div class="grid-2">
+              <div class="field">
+                <label for="primaryColor">Cor principal</label>
+                <input id="primaryColor" name="primary" type="color" value="${normalizeHex(settings.primary, "#ff6b9a")}" />
+              </div>
+
+              <div class="field">
+                <label for="accentColor">Cor secundária</label>
+                <input id="accentColor" name="accent" type="color" value="${normalizeHex(settings.accent, "#7c3aed")}" />
+              </div>
+
+              <div class="field">
+                <label for="bgColor">Fundo</label>
+                <input id="bgColor" name="bg" type="color" value="${normalizeHex(settings.bg, "#100f24")}" />
+              </div>
+
+              <div class="field">
+                <label for="textColor">Texto</label>
+                <input id="textColor" name="text" type="color" value="${normalizeHex(settings.text, "#fff7fb")}" />
+              </div>
+            </div>
+
+            <button class="btn primary" type="submit">Salvar tema personalizado</button>
+          </form>
+        </section>
+      `;
+    }
+
+    async function submitCheckin(form) {
+      const formData = new FormData(form);
+      const today = TODAY();
+
+      await updateRoom((data) => {
+        data.daily ||= {};
+        data.daily[today] ||= { checkins: {} };
+        data.daily[today].checkins ||= {};
+        data.daily[today].checkins[state.uid] = {
+          mood: formData.get("mood"),
+          energy: Number(formData.get("energy")),
+          water: Boolean(formData.get("water")),
+          sleep: Boolean(formData.get("sleep")),
+          movement: Boolean(formData.get("movement")),
+          gratitude: String(formData.get("gratitude") || "").trim().slice(0, 400),
+          updatedAt: Date.now()
+        };
+      });
+
+      showToast("Check-in salvo. +5 pts!");
+    }
+
+    async function addHabit(form) {
+      const formData = new FormData(form);
+      const title = String(formData.get("title") || "").trim().slice(0, 80);
+      const points = Math.max(1, Math.min(50, Number(formData.get("points") || 10)));
+
+      if (!title) {
+        showToast("Digite o nome do hábito.", "error");
+        return;
+      }
+
+      await updateRoom((data) => {
+        data.habits ||= [];
+        data.habits.push({
+          id: makeId("habit"),
+          title,
+          kind: String(formData.get("kind") || "Rotina"),
+          points,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        });
+      });
+
+      form.reset();
+      showToast("Hábito adicionado.");
+    }
+
+    async function addChallenge(form) {
+      const formData = new FormData(form);
+      const title = String(formData.get("title") || "").trim().slice(0, 90);
+      const points = Math.max(5, Math.min(100, Number(formData.get("points") || 20)));
+      const endDate = String(formData.get("endDate") || addDaysKey(7));
+
+      if (!title) {
+        showToast("Digite o nome do desafio.", "error");
+        return;
+      }
+
+      await updateRoom((data) => {
+        data.challenges ||= [];
+        data.challenges.push({
+          id: makeId("challenge"),
+          title,
+          kind: "Desafio",
+          points,
+          startDate: TODAY(),
+          endDate,
+          createdAt: Date.now(),
+          createdBy: state.uid,
+          done: {}
+        });
+      });
+
+      form.reset();
+      showToast("Desafio criado.");
+    }
+
+    async function toggleItem(type, id) {
+      const listName = type === "challenge" ? "challenges" : "habits";
+      const today = TODAY();
+
+      await updateRoom((data) => {
+        data[listName] ||= [];
+        const item = data[listName].find((entry) => entry.id === id);
+        if (!item) return;
+
+        item.done ||= {};
+        item.done[today] ||= {};
+
+        if (item.done[today][state.uid]) {
+          delete item.done[today][state.uid];
+        } else {
+          item.done[today][state.uid] = true;
+        }
+
+        if (Object.keys(item.done[today]).length === 0) {
+          delete item.done[today];
+        }
+      });
+    }
+
+    async function removeItem(type, id) {
+      const confirmed = window.confirm("Remover este item para o casal?");
+      if (!confirmed) return;
+
+      const listName = type === "challenge" ? "challenges" : "habits";
+
+      await updateRoom((data) => {
+        data[listName] = (data[listName] || []).filter((entry) => entry.id !== id);
+      });
+
+      showToast("Item removido.");
+    }
+
+    async function setTheme(themeName) {
+      const theme = THEMES[themeName];
+      if (!theme) return;
+
+      await updateRoom((data) => {
+        data.settings = {
+          themeName,
+          ...theme
+        };
+      });
+
+      showToast("Tema sincronizado.");
+    }
+
+    async function setCustomTheme(form) {
+      const formData = new FormData(form);
+
+      await updateRoom((data) => {
+        data.settings = {
+          themeName: "custom",
+          name: "Personalizado",
+          primary: normalizeHex(formData.get("primary"), "#ff6b9a"),
+          accent: normalizeHex(formData.get("accent"), "#7c3aed"),
+          bg: normalizeHex(formData.get("bg"), "#100f24"),
+          text: normalizeHex(formData.get("text"), "#fff7fb"),
+          card: "rgba(255, 255, 255, 0.11)"
+        };
+      });
+
+      showToast("Tema personalizado salvo para os dois.");
+    }
+
+    async function syncProfile() {
+      const profile = {
+        ...getProfileFromForm(),
+        updatedAt: Date.now()
+      };
+
+      await updateRoom((data) => {
+        data.members ||= {};
+        const existing = data.members[state.uid] || {};
+        data.members[state.uid] = {
+          ...existing,
+          ...profile,
+          uid: state.uid,
+          joinedAt: existing.joinedAt || Date.now()
+        };
+      });
+
+      showToast("Perfil atualizado na sala.");
+    }
+
+    async function copyInvite() {
+      const roomId = state.roomId;
+      const url = `${location.origin}${location.pathname}?room=${roomId}`;
+
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast("Convite copiado.");
+      } catch {
+        showToast(`Código da sala: ${roomId}`);
+      }
+    }
+
+    document.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      try {
+        const form = event.target;
+
+        if (form.id === "profileForm") {
+          getProfileFromForm();
+          if (state.roomId) await syncProfile();
+          showToast("Perfil salvo.");
+        }
+
+        if (form.id === "checkinForm") await submitCheckin(form);
+        if (form.id === "habitForm") await addHabit(form);
+        if (form.id === "challengeForm") await addChallenge(form);
+        if (form.id === "customThemeForm") await setCustomTheme(form);
+      } catch (error) {
+        console.error(error);
+        showToast(error.message || "Algo deu errado.", "error");
+      }
+    });
+
+    document.addEventListener("click", async (event) => {
+      const tabButton = event.target.closest("[data-tab]");
+      const actionButton = event.target.closest("[data-action]");
+
+      try {
+        if (tabButton) {
+          state.activeTab = tabButton.dataset.tab;
+          renderApp();
+          return;
+        }
+
+        if (!actionButton) return;
+
+        const action = actionButton.dataset.action;
+
+        if (action === "copy-invite") await copyInvite();
+        if (action === "leave-room") leaveRoom(true);
+        if (action === "sync-profile") await syncProfile();
+        if (action === "set-theme") await setTheme(actionButton.dataset.theme);
+        if (action === "toggle-item") await toggleItem(actionButton.dataset.type, actionButton.dataset.id);
+        if (action === "remove-item") await removeItem(actionButton.dataset.type, actionButton.dataset.id);
+      } catch (error) {
+        console.error(error);
+        showToast(error.message || "Não foi possível concluir a ação.", "error");
+      }
+    });
+
+    $("#createRoomButton").addEventListener("click", async () => {
+      try {
+        await createRoom();
+      } catch (error) {
+        console.error(error);
+        showToast("Não foi possível criar a sala.", "error");
+      }
+    });
+
+    $("#joinRoomButton").addEventListener("click", async () => {
+      try {
+        await joinRoom();
+      } catch (error) {
+        console.error(error);
+        showToast("Não foi possível entrar. Código inválido, sala cheia ou regras do Firestore bloqueando.", "error");
+      }
+    });
+
+    async function init() {
+      hydrateProfileForm();
+
+      if (!hasFirebaseConfig()) {
+        $("#setupWarning").hidden = false;
+        $("#setupWarning").textContent =
+          "Antes de usar a sincronização, cole seu firebaseConfig no código e publique as regras do Firestore.";
+        $("#createRoomButton").disabled = true;
+        $("#joinRoomButton").disabled = true;
+        setStatus("⚠️ Configure o Firebase");
+        return;
+      }
+
+      state.app = initializeApp(firebaseConfig);
+      state.auth = getAuth(state.app);
+      state.db = getFirestore(state.app);
+
+      onAuthStateChanged(state.auth, (user) => {
+        if (!user) return;
+
+        state.uid = user.uid;
+        state.ready = true;
+        setStatus("🟢 Conectado");
+
+        const savedRoomId = localStorage.getItem(ROOM_KEY);
+        if (savedRoomId) {
+          subscribeToRoom(savedRoomId);
+        }
+      });
+
+      await signInAnonymously(state.auth);
+    }
+
+    init().catch((error) => {
+      console.error(error);
+      setStatus("🔴 Erro");
+      showToast("Falha ao inicializar o app.", "error");
+    });
+  </script>
+</body>
+</html>
