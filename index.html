@@ -11,9 +11,8 @@
       --bg: #171425;
       --bg-2: #302b3d;
       --panel: rgba(31, 26, 47, 0.94);
-      --panel-2: rgba(38, 31, 58, 0.9);
       --card: rgba(255, 255, 255, 0.055);
-      --card-2: rgba(255, 255, 255, 0.075);
+      --card-2: rgba(255, 255, 255, 0.078);
       --text: #f7efff;
       --muted: rgba(247, 239, 255, 0.64);
       --border: rgba(255, 255, 255, 0.115);
@@ -285,26 +284,35 @@
       line-height: 1.45;
     }
 
-    .mission-tabs {
+    .hero-mission {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 9px;
-      margin-top: 12px;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-2) 18%, transparent), transparent 40%),
+        rgba(255, 255, 255, 0.06);
     }
 
-    .mission-tab {
-      min-height: 40px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.045);
+    .hero-mission h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 2.45rem);
+      letter-spacing: -0.07em;
+      line-height: 1;
+    }
+
+    .hero-mission p {
+      margin: 0;
       color: var(--muted);
-      font-weight: 1000;
+      font-weight: 900;
+      line-height: 1.45;
     }
 
-    .mission-tab.active {
-      border-color: transparent;
-      color: white;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .notice {
@@ -434,10 +442,11 @@
 
     .mission-actions {
       display: flex;
-      flex-direction: column;
       gap: 8px;
-      align-items: flex-end;
+      align-items: center;
       flex: 0 0 auto;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .badges {
@@ -479,6 +488,28 @@
       color: var(--muted);
       font-weight: 1000;
       text-align: center;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .segment {
+      min-height: 40px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-weight: 1000;
+    }
+
+    .segment.active {
+      border-color: transparent;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
     }
 
     .week-board {
@@ -662,6 +693,41 @@
       font-size: 0.82rem;
     }
 
+    .quick-money {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .more-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .more-card {
+      min-height: 92px;
+      display: grid;
+      align-content: center;
+      gap: 5px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+      color: var(--text);
+      text-align: left;
+    }
+
+    .more-card strong {
+      font-size: 1rem;
+    }
+
+    .more-card span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
     .bottom-nav {
       position: fixed;
       left: 50%;
@@ -787,7 +853,7 @@
     }
 
     .modal {
-      width: min(680px, 100%);
+      width: min(720px, 100%);
       max-height: min(86vh, 850px);
       overflow: auto;
       padding: 18px;
@@ -813,6 +879,19 @@
       color: var(--muted);
       font-weight: 900;
       line-height: 1.4;
+    }
+
+    details.advanced {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    details.advanced summary {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 1000;
     }
 
     .toast {
@@ -856,7 +935,8 @@
 
       .grid-2,
       .grid-3,
-      .member-grid {
+      .member-grid,
+      .more-grid {
         grid-template-columns: 1fr;
       }
 
@@ -891,7 +971,7 @@
         grid-template-columns: 1fr;
       }
 
-      .mission-tabs {
+      .segmented {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -923,11 +1003,11 @@
 
       .mission-actions {
         width: 100%;
-        flex-direction: row;
-        align-items: stretch;
+        justify-content: stretch;
       }
 
-      .mission-actions .btn {
+      .mission-actions .btn,
+      .hero-actions .btn {
         flex: 1;
       }
     }
@@ -1043,37 +1123,45 @@
     const ACHIEVEMENTS = [
       ["missoes", "🏆", "1 missão feita", 1, "missionsDone"],
       ["missoes", "🏆", "5 missões feitas", 5, "missionsDone"],
-      ["missoes", "🔒", "10 missões feitas", 10, "missionsDone"],
-      ["missoes", "🔒", "25 missões feitas", 25, "missionsDone"],
-      ["missoes", "🔒", "50 missões feitas", 50, "missionsDone"],
-      ["missoes", "🔒", "100 missões feitas", 100, "missionsDone"],
-      ["missoes", "🔒", "250 missões feitas", 250, "missionsDone"],
-      ["missoes", "🔒", "500 missões feitas", 500, "missionsDone"],
+      ["missoes", "🏆", "10 missões feitas", 10, "missionsDone"],
+      ["missoes", "🏆", "25 missões feitas", 25, "missionsDone"],
+      ["missoes", "🏆", "50 missões feitas", 50, "missionsDone"],
+      ["missoes", "🏆", "100 missões feitas", 100, "missionsDone"],
+      ["missoes", "🏆", "250 missões feitas", 250, "missionsDone"],
+      ["missoes", "🏆", "500 missões feitas", 500, "missionsDone"],
       ["perfeito", "⭐", "1 dia perfeito", 1, "perfectDays"],
       ["perfeito", "⭐", "3 dias perfeitos", 3, "perfectDays"],
-      ["perfeito", "🔒", "7 dias perfeitos", 7, "perfectDays"],
-      ["perfeito", "🔒", "15 dias perfeitos", 15, "perfectDays"],
-      ["perfeito", "🔒", "30 dias perfeitos", 30, "perfectDays"],
-      ["perfeito", "🔒", "60 dias perfeitos", 60, "perfectDays"],
-      ["perfeito", "🔒", "100 dias perfeitos", 100, "perfectDays"],
+      ["perfeito", "⭐", "7 dias perfeitos", 7, "perfectDays"],
+      ["perfeito", "⭐", "15 dias perfeitos", 15, "perfectDays"],
+      ["perfeito", "⭐", "30 dias perfeitos", 30, "perfectDays"],
+      ["perfeito", "⭐", "60 dias perfeitos", 60, "perfectDays"],
+      ["perfeito", "⭐", "100 dias perfeitos", 100, "perfectDays"],
       ["pets", "🐾", "1 em Pets", 1, "petsDone"],
       ["pets", "🐾", "5 em Pets", 5, "petsDone"],
-      ["pets", "🔒", "10 em Pets", 10, "petsDone"],
-      ["pets", "🔒", "25 em Pets", 25, "petsDone"],
-      ["pets", "🔒", "50 em Pets", 50, "petsDone"],
-      ["pets", "🔒", "100 em Pets", 100, "petsDone"],
+      ["pets", "🐾", "10 em Pets", 10, "petsDone"],
+      ["pets", "🐾", "25 em Pets", 25, "petsDone"],
+      ["pets", "🐾", "50 em Pets", 50, "petsDone"],
+      ["pets", "🐾", "100 em Pets", 100, "petsDone"],
       ["casa", "🏠", "1 em Casa", 1, "casaDone"],
       ["casa", "🏠", "5 em Casa", 5, "casaDone"],
-      ["casa", "🔒", "10 em Casa", 10, "casaDone"],
-      ["casa", "🔒", "25 em Casa", 25, "casaDone"],
+      ["casa", "🏠", "10 em Casa", 10, "casaDone"],
+      ["casa", "🏠", "25 em Casa", 25, "casaDone"],
       ["financeiro", "💰", "1 em Financeiro", 1, "financeiroDone"],
-      ["financeiro", "🔒", "5 em Financeiro", 5, "financeiroDone"],
+      ["financeiro", "💰", "5 em Financeiro", 5, "financeiroDone"],
       ["relacionamento", "💞", "1 em Relacionamento", 1, "relacionamentoDone"],
       ["saude", "🌿", "1 em Saúde", 1, "saudeDone"],
       ["tempo", "⏱️", "10 min economizados", 10, "minutesDone"],
-      ["tempo", "🔒", "60 min economizados", 60, "minutesDone"],
+      ["tempo", "⏱️", "60 min economizados", 60, "minutesDone"],
       ["cofrinho", "🐷", "R$ 10 guardados", 10, "moneySaved"],
-      ["cofrinho", "🔒", "R$ 100 guardados", 100, "moneySaved"]
+      ["cofrinho", "🐷", "R$ 100 guardados", 100, "moneySaved"]
+    ];
+
+    const ENCOURAGEMENTS = [
+      "Bora fechar essa juntos?",
+      "Faz uma pequena e já vale.",
+      "Eu puxei essa, você puxa a próxima?",
+      "Sem cobrança: só um passinho já ajuda.",
+      "A Base agradece qualquer avanço hoje 💛"
     ];
 
     const state = {
@@ -1085,8 +1173,9 @@
       cloudReady: false,
       signedIn: false,
       roomId: localStorage.getItem(STORAGE.room) || "",
-      page: "missoes",
-      missionTab: "base",
+      page: "hoje",
+      rotinaTab: "daily",
+      moreView: "menu",
       hallFilter: "todas",
       data: null
     };
@@ -1214,24 +1303,47 @@
       return CATEGORIES[key] || CATEGORIES.casa;
     }
 
-    function createMission(partial = {}) {
-      const frequency = partial.frequency || "daily";
+    function xpByMinutes(minutes) {
+      const value = Number(minutes || 5);
 
+      if (value <= 5) return 8;
+      if (value <= 15) return 12;
+      if (value <= 30) return 22;
+      if (value <= 60) return 38;
+      return 55;
+    }
+
+    function energyNumber(value) {
+      if (value === "leve") return 1;
+      if (value === "media") return 3;
+      if (value === "pesada") return 5;
+      return clamp(value || 1, 1, 5);
+    }
+
+    function energyLabel(value) {
+      const number = Number(value || 1);
+      if (number <= 1) return "leve";
+      if (number <= 3) return "média";
+      return "pesada";
+    }
+
+    function createMission(partial = {}) {
       return {
         id: partial.id || makeId("mission"),
         title: partial.title || "Nova missão",
         description: partial.description || "",
         category: partial.category || "casa",
-        frequency,
+        frequency: partial.frequency || "daily",
         days: Array.isArray(partial.days) ? partial.days : [new Date().getDay()],
         monthDay: Number(partial.monthDay || new Date().getDate()),
         date: partial.date || todayKey(),
-        xp: clamp(partial.xp || 10, 1, 200),
+        xp: clamp(partial.xp || xpByMinutes(partial.minutes || 5), 1, 200),
         energy: clamp(partial.energy || 1, 1, 5),
         minutes: clamp(partial.minutes || 5, 1, 600),
         assigned: partial.assigned || "any",
         createdAt: partial.createdAt || Date.now(),
-        done: partial.done || {}
+        done: partial.done || {},
+        skipped: partial.skipped || {}
       };
     }
 
@@ -1239,7 +1351,7 @@
       const profile = getProfile();
 
       return {
-        version: 2,
+        version: 3,
         roomId,
         baseName: "Base da Família",
         createdAt: Date.now(),
@@ -1276,19 +1388,19 @@
             description: "Cuidar dos pets e manter o ambiente limpo.",
             category: "pets",
             frequency: "daily",
+            minutes: 8,
             xp: 11,
             energy: 1,
-            minutes: 8,
             assigned: "any"
           }),
           createMission({
-            title: "varrer a casa",
+            title: "Varrer a casa",
             description: "Uma passada rápida para manter a Base em ordem.",
             category: "casa",
             frequency: "daily",
+            minutes: 40,
             xp: 38,
             energy: 4,
-            minutes: 40,
             assigned: "any"
           }),
           createMission({
@@ -1297,9 +1409,9 @@
             category: "casa",
             frequency: "weekly",
             days: [6],
+            minutes: 5,
             xp: 19,
             energy: 2,
-            minutes: 5,
             assigned: "any"
           }),
           createMission({
@@ -1307,9 +1419,9 @@
             description: "Perguntar como o outro está ou mandar uma mensagem boa.",
             category: "relacionamento",
             frequency: "daily",
+            minutes: 3,
             xp: 12,
             energy: 1,
-            minutes: 3,
             assigned: "both"
           })
         ],
@@ -1346,7 +1458,8 @@
           ...createMission({}),
           ...mission,
           days: Array.isArray(mission.days) ? mission.days.map(Number) : [],
-          done: mission.done || {}
+          done: mission.done || {},
+          skipped: mission.skipped || {}
         })) : fallback.missions,
         history: Array.isArray(input?.history) ? input.history : []
       };
@@ -1568,6 +1681,10 @@
       return mission.date === key;
     }
 
+    function isSkipped(mission, key) {
+      return Boolean(mission.skipped?.[key]);
+    }
+
     function doneMap(mission, key) {
       return mission.done?.[key] || {};
     }
@@ -1582,6 +1699,8 @@
     }
 
     function baseComplete(mission, key = todayKey()) {
+      if (isSkipped(mission, key)) return true;
+
       const map = doneMap(mission, key);
 
       if (mission.assigned === "both" && members().length > 1) {
@@ -1597,7 +1716,7 @@
       for (let offset = -back; offset <= forward; offset += 1) {
         const key = todayKey(offset);
 
-        if (isDueOn(mission, key)) {
+        if (isDueOn(mission, key) && !isSkipped(mission, key)) {
           dates.push(key);
         }
       }
@@ -1606,7 +1725,7 @@
     }
 
     function missionsDueToday() {
-      return state.data.missions.filter((mission) => isDueOn(mission, todayKey()));
+      return state.data.missions.filter((mission) => isDueOn(mission, todayKey()) && !isSkipped(mission, todayKey()));
     }
 
     function missionsByFrequency(frequency) {
@@ -1624,27 +1743,74 @@
         }
       }
 
-      return items.sort((a, b) => a.key.localeCompare(b.key));
+      return items.sort((a, b) => {
+        const energy = Number(a.mission.energy || 1) - Number(b.mission.energy || 1);
+        if (energy !== 0) return energy;
+        const minutes = Number(a.mission.minutes || 5) - Number(b.mission.minutes || 5);
+        if (minutes !== 0) return minutes;
+        return a.key.localeCompare(b.key);
+      });
     }
 
-    function nextMission() {
-      const today = todayKey();
-      const pendingToday = missionsDueToday().find((mission) => !baseComplete(mission, today));
+    function suggestedMission() {
+      const overdue = overdueItems();
 
-      if (pendingToday) {
-        return { mission: pendingToday, key: today };
+      if (overdue.length) {
+        return {
+          ...overdue[0],
+          reason: "Comece por essa. É pequena e destrava o recomeço."
+        };
+      }
+
+      const today = todayKey();
+      const todayPending = missionsDueToday()
+        .filter((mission) => !baseComplete(mission, today))
+        .sort((a, b) => {
+          const systemA = systemPriority(a.category);
+          const systemB = systemPriority(b.category);
+          if (systemA !== systemB) return systemB - systemA;
+          const energy = Number(a.energy || 1) - Number(b.energy || 1);
+          if (energy !== 0) return energy;
+          return Number(a.minutes || 5) - Number(b.minutes || 5);
+        })[0];
+
+      if (todayPending) {
+        return {
+          mission: todayPending,
+          key: today,
+          reason: "Essa ajuda a Base hoje."
+        };
       }
 
       for (let offset = 1; offset <= 31; offset += 1) {
         const key = todayKey(offset);
-        const found = state.data.missions.find((mission) => isDueOn(mission, key));
+        const found = state.data.missions.find((mission) => isDueOn(mission, key) && !isSkipped(mission, key));
 
         if (found) {
-          return { mission: found, key };
+          return {
+            mission: found,
+            key,
+            reason: "Próxima missão programada."
+          };
         }
       }
 
       return null;
+    }
+
+    function systemPriority(category) {
+      if (category === "pets") return 100 - systemHealth("pets");
+      if (category === "casa") return 100 - systemHealth("casa");
+      return 0;
+    }
+
+    function nextKeyForMission(mission) {
+      for (let offset = 0; offset <= 40; offset += 1) {
+        const key = todayKey(offset);
+        if (isDueOn(mission, key) && !isSkipped(mission, key)) return key;
+      }
+
+      return mission.date || todayKey();
     }
 
     function completedEvents() {
@@ -1696,7 +1862,7 @@
 
       for (let offset = 0; offset >= -120; offset -= 1) {
         const key = todayKey(offset);
-        const due = state.data.missions.filter((mission) => isDueOn(mission, key));
+        const due = state.data.missions.filter((mission) => isDueOn(mission, key) && !isSkipped(mission, key));
 
         if (due.length && due.every((mission) => baseComplete(mission, key))) {
           count += 1;
@@ -1711,7 +1877,7 @@
 
       for (let offset = 0; offset >= -90; offset -= 1) {
         const key = todayKey(offset);
-        const due = state.data.missions.filter((mission) => isDueOn(mission, key));
+        const due = state.data.missions.filter((mission) => isDueOn(mission, key) && !isSkipped(mission, key));
 
         if (!due.length || !due.every((mission) => baseComplete(mission, key))) {
           break;
@@ -1802,9 +1968,9 @@
           </div>
 
           <div class="top-actions">
-            <button class="btn small" data-action="open-profile">👤 Perfil</button>
-            <button class="btn small" data-action="open-notices">🔔 Avisos</button>
-            <button class="btn small" data-action="open-theme">☀️ Tema</button>
+            <button class="btn small" data-action="open-profile" type="button">👤 Perfil</button>
+            <button class="btn small" data-action="open-notices" type="button">🔔 Avisos</button>
+            <button class="btn small" data-action="open-theme" type="button">☀️ Tema</button>
           </div>
         </header>
 
@@ -1815,20 +1981,20 @@
     function renderPage() {
       const page = document.getElementById("page");
 
-      if (state.page === "missoes") page.innerHTML = renderMissionsPage();
+      if (state.page === "hoje") page.innerHTML = renderTodayPage();
+      if (state.page === "rotina") page.innerHTML = renderRoutinePage();
       if (state.page === "base") page.innerHTML = renderBasePage();
       if (state.page === "cofrinho") page.innerHTML = renderWalletPage();
-      if (state.page === "hall") page.innerHTML = renderHallPage();
-      if (state.page === "historico") page.innerHTML = renderHistoryPage();
+      if (state.page === "mais") page.innerHTML = renderMorePage();
     }
 
     function renderBottomNav() {
       const items = [
-        ["missoes", "⚡", "Missões"],
+        ["hoje", "⚡", "Hoje"],
+        ["rotina", "✅", "Rotina"],
         ["base", "📊", "Base"],
         ["cofrinho", "🐷", "Cofrinho"],
-        ["hall", "🏆", "Hall"],
-        ["historico", "🧾", "Histórico"]
+        ["mais", "☰", "Mais"]
       ];
 
       navEl.innerHTML = items.map(([page, icon, label]) => `
@@ -1839,134 +2005,107 @@
       `).join("");
     }
 
-    function renderMissionsPage() {
-      return `
-        <section class="panel">
-          <div class="section-title">
-            <div>
-              <h2>Missões</h2>
-            </div>
-            <span class="pill strong">${escapeHTML(formatLongDate(todayKey()))}</span>
-          </div>
-
-          <div class="mission-tabs">
-            ${renderMissionTab("base", "Base")}
-            ${renderMissionTab("daily", "Diárias")}
-            ${renderMissionTab("weekly", "Semanais")}
-            ${renderMissionTab("monthly", "Mensais")}
-          </div>
-        </section>
-
-        ${renderNotices()}
-
-        ${state.missionTab === "base" ? renderMissionBaseTab() : ""}
-        ${state.missionTab === "daily" ? renderMissionFrequencyTab("daily", "Diárias", "+ Nova diária") : ""}
-        ${state.missionTab === "weekly" ? renderWeeklyTab() : ""}
-        ${state.missionTab === "monthly" ? renderMissionFrequencyTab("monthly", "Mensais", "+ Nova mensal") : ""}
-      `;
-    }
-
-    function renderMissionTab(tab, label) {
-      return `
-        <button class="mission-tab ${state.missionTab === tab ? "active" : ""}" data-mission-tab="${tab}" type="button">
-          ${label}
-        </button>
-      `;
-    }
-
-    function renderNotices() {
+    function renderTodayPage() {
+      const suggestion = suggestedMission();
       const overdue = overdueItems();
-      const next = nextMission();
+      const today = missionsDueToday();
+      const todayPending = today.filter((mission) => !baseComplete(mission, todayKey()));
       const remaining = dayPerfectRemaining();
 
       return `
-        <article class="notice profile">
-          <div class="icon">👤</div>
-          <div>
-            <strong>Perfil ativo: ${escapeHTML(me().name)}</strong>
-            <p>XP e provocações estão personalizados para este aparelho.</p>
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Hoje</h2>
+              <p>${escapeHTML(formatLongDate(todayKey()))}</p>
+            </div>
+            <span class="pill strong">${today.filter((mission) => baseComplete(mission, todayKey())).length}/${today.length} feitas</span>
           </div>
-        </article>
 
-        <article class="notice danger">
-          <div class="icon">⚠️</div>
-          <div>
-            <strong>${overdue.length} atrasada(s)</strong>
-            <p>Comece por: ${next ? escapeHTML(next.mission.title) : "uma missão pequena"}.</p>
-          </div>
-        </article>
-
-        <article class="notice suggestion">
-          <div class="icon">🧠</div>
-          <div>
-            <strong>Sugestão da Base</strong>
-            <p>${next ? `${escapeHTML(next.mission.title)} • ${next.mission.minutes} min • ${next.mission.xp} XP.` : "Nenhuma missão pendente agora."}</p>
-          </div>
-        </article>
-
-        <article class="notice danger">
-          <div class="icon">🐾</div>
-          <div>
-            <strong>Pets precisa de atenção</strong>
-            <p>Saúde do sistema em ${systemHealth("pets")}%. </p>
-          </div>
-        </article>
-
-        <article class="notice danger">
-          <div class="icon">🏠</div>
-          <div>
-            <strong>Casa precisa de atenção</strong>
-            <p>Saúde do sistema em ${systemHealth("casa")}%. </p>
-          </div>
-        </article>
-      `;
-    }
-
-    function renderMissionBaseTab() {
-      const next = nextMission();
-      const overdue = overdueItems();
-
-      return `
-        <section class="grid-2">
-          <div class="panel">
-            <div class="section-title">
-              <div>
-                <h2>Próxima</h2>
+          ${suggestion ? renderHeroMission(suggestion.mission, suggestion.key, suggestion.reason) : `
+            <div class="hero-mission">
+              <h2>Base em ordem ⭐</h2>
+              <p>Nada urgente agora. Pode respirar.</p>
+              <div class="hero-actions">
+                <button class="btn primary" data-action="open-quick-mission" type="button">+ Criar missão rápida</button>
               </div>
             </div>
-            ${next ? renderMissionCard(next.mission, next.key) : `<div class="empty">Nada pendente.</div>`}
-          </div>
-
-          <div class="panel">
-            <div class="section-title">
-              <div>
-                <h2>Base hoje</h2>
-              </div>
-            </div>
-            ${renderTodayStats()}
-          </div>
+          `}
         </section>
 
         <section class="panel">
-          <div class="grid-3">
-            ${renderCompactFrequency("daily", "☀️ Diária")}
-            ${renderCompactFrequency("weekly", "📅 Semanal")}
-            ${renderCompactFrequency("monthly", "🗓️ Mensal")}
+          <div class="section-title">
+            <div>
+              <h2>Progresso</h2>
+              <p>${remaining === 0 ? "Dia perfeito liberado." : `Faltam ${remaining} missão(ões) para Dia Perfeito.`}</p>
+            </div>
+          </div>
+          ${renderTodayStats()}
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Missões de hoje</h2>
+              <p>Toque em Feita e acabou.</p>
+            </div>
+            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Rápida</button>
+          </div>
+
+          <div class="list">
+            ${todayPending.map((mission) => renderMissionCard(mission, todayKey(), true)).join("") || `<div class="empty">Nenhuma missão pendente hoje.</div>`}
           </div>
         </section>
 
         <section class="panel">
           <div class="section-title">
             <div>
-              <h2>Atrasadas</h2>
+              <h2>Modo recomeço</h2>
+              <p>${overdue.length} pendência(s) gentil(is). Escolha só uma.</p>
             </div>
-            <span class="pill strong">${overdue.length}</span>
+            <button class="btn small accent" data-action="solve-one-overdue" type="button">Resolver 1 agora</button>
           </div>
 
           <div class="list">
-            ${overdue.slice(0, 14).map(({ mission, key }) => renderMissionCard(mission, key, true)).join("") || `<div class="empty">Nada atrasado.</div>`}
+            ${overdue.slice(0, 4).map(({ mission, key }) => renderMissionCard(mission, key, true)).join("") || `<div class="empty">Nada atrasado.</div>`}
           </div>
         </section>
+      `;
+    }
+
+    function renderHeroMission(mission, key, reason) {
+      const cat = categoryOf(mission.category);
+      const people = doneMembers(mission, key);
+      const missing = missingPeople(mission, key);
+
+      return `
+        <article class="hero-mission">
+          <div>
+            <p>${escapeHTML(reason)}</p>
+            <h2>${cat.icon} ${escapeHTML(mission.title)}</h2>
+          </div>
+
+          <div class="badges">
+            <span class="pill">${cat.label}</span>
+            <span class="pill">${mission.minutes} min</span>
+            <span class="pill">${mission.xp} XP</span>
+            <span class="pill">${energyLabel(mission.energy)}</span>
+            <span class="pill">${key < todayKey() ? "recomeço" : formatDate(key)}</span>
+          </div>
+
+          <div class="done-row">
+            ${people.length ? "Já fez:" : "Ninguém marcou ainda."}
+            ${people.map((person) => `<span class="mini-avatar" style="--c:${escapeHTML(person.color || "#b77aff")}">${escapeHTML(person.avatar || "👤")}</span>`).join("")}
+            ${missing.length ? `<span class="pill">Falta alguém da Base</span>` : ""}
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Feita</button>
+            <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje</button>
+            <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
+            <button class="btn" data-action="encourage" data-id="${escapeHTML(mission.id)}" type="button">Incentivar 💌</button>
+          </div>
+        </article>
       `;
     }
 
@@ -1994,68 +2133,48 @@
       `;
     }
 
-    function renderCompactFrequency(frequency, title) {
-      const key = todayKey();
-      const list = missionsByFrequency(frequency)
-        .filter((mission) => frequency === "monthly" ? isDueOn(mission, key) : true)
-        .slice(0, 2);
+    function renderRoutinePage() {
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Rotina</h2>
+              <p>Crie rápido. Ajuste detalhes só quando precisar.</p>
+            </div>
+            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Missão rápida</button>
+          </div>
+
+          <div class="segmented">
+            ${renderRoutineTab("daily", "Diárias")}
+            ${renderRoutineTab("weekly", "Semanais")}
+            ${renderRoutineTab("monthly", "Mensais")}
+            ${renderRoutineTab("once", "Únicas")}
+          </div>
+
+          ${state.rotinaTab === "weekly" ? renderWeeklyBoard() : renderMissionListByFrequency(state.rotinaTab)}
+        </section>
+      `;
+    }
+
+    function renderRoutineTab(tab, label) {
+      return `
+        <button class="segment ${state.rotinaTab === tab ? "active" : ""}" data-routine-tab="${tab}" type="button">
+          ${label}
+        </button>
+      `;
+    }
+
+    function renderMissionListByFrequency(frequency) {
+      const list = missionsByFrequency(frequency);
 
       return `
-        <div>
-          <p class="pill">${title}</p>
-          <div style="height: 10px"></div>
-          <div class="list">
-            ${list.map((mission) => renderMissionCard(mission, nextKeyForMission(mission), true)).join("") || `<div class="empty">Nada pendente.</div>`}
-          </div>
+        <div class="list">
+          ${list.map((mission) => renderMissionCard(mission, nextKeyForMission(mission), false)).join("") || `<div class="empty">Nada cadastrado.</div>`}
         </div>
       `;
     }
 
-    function nextKeyForMission(mission) {
-      for (let offset = 0; offset <= 40; offset += 1) {
-        const key = todayKey(offset);
-        if (isDueOn(mission, key)) return key;
-      }
-
-      return mission.date || todayKey();
-    }
-
-    function renderMissionFrequencyTab(frequency, title, buttonLabel) {
-      const list = missionsByFrequency(frequency);
-      const defaultAction = frequency === "daily" ? "open-daily-form" : frequency === "monthly" ? "open-monthly-form" : "open-mission-form";
-
-      return `
-        <section class="panel">
-          <div class="section-title">
-            <div>
-              <h2>${title}</h2>
-            </div>
-            <button class="btn small primary" data-action="${defaultAction}" type="button">${buttonLabel}</button>
-          </div>
-
-          <div class="list">
-            ${list.map((mission) => renderMissionCard(mission, nextKeyForMission(mission))).join("") || `<div class="empty">Nenhuma missão cadastrada.</div>`}
-          </div>
-        </section>
-      `;
-    }
-
-    function renderWeeklyTab() {
-      return `
-        <section class="panel">
-          <div class="section-title">
-            <div>
-              <h2>Semanais</h2>
-            </div>
-            <button class="btn small primary" data-action="open-weekly-form" type="button">+ Nova semanal</button>
-          </div>
-
-          ${renderWeekBoard()}
-        </section>
-      `;
-    }
-
-    function renderWeekBoard() {
+    function renderWeeklyBoard() {
       const start = startOfWeekMonday();
 
       const columns = WEEK_ORDER.map((dayIndex, orderIndex) => {
@@ -2086,10 +2205,9 @@
           <div class="badges">
             <span class="pill">${mission.minutes} min</span>
             <span class="pill">${mission.xp} XP</span>
-            <span class="pill">${mission.energy} energia</span>
           </div>
           <button class="btn small good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
-            ${doneByMe(mission, key) ? "Feita" : "Fazer"}
+            ${doneByMe(mission, key) ? "Feita" : "Feita"}
           </button>
           <button class="btn small" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
         </article>
@@ -2100,6 +2218,7 @@
       const cat = categoryOf(mission.category);
       const done = doneByMe(mission, key);
       const people = doneMembers(mission, key);
+      const missing = missingPeople(mission, key);
       const isOverdue = key < todayKey() && !baseComplete(mission, key);
 
       return `
@@ -2108,12 +2227,12 @@
             <div class="mission-title">
               <strong>${cat.icon} ${escapeHTML(mission.title)}</strong>
               <div class="badges">
-                <span class="pill">${cat.icon} ${cat.label}</span>
+                <span class="pill">${cat.label}</span>
                 <span class="pill">${mission.assigned === "both" ? "Os dois fazem" : "Qualquer um pode fazer"}</span>
                 <span class="pill">${mission.minutes} min</span>
                 <span class="pill">${mission.xp} XP</span>
-                <span class="pill">${mission.energy} energia</span>
-                <span class="pill">${isOverdue ? "Atrasada" : formatDate(key)}</span>
+                <span class="pill">${energyLabel(mission.energy)}</span>
+                <span class="pill">${isOverdue ? "Recomeço" : formatDate(key)}</span>
               </div>
               ${!compact && mission.description ? `<small>${escapeHTML(mission.description)}</small>` : ""}
             </div>
@@ -2123,18 +2242,26 @@
                 ${done ? "Feita" : "Feita"}
               </button>
               <button class="btn small" data-action="view-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Ver</button>
-              <button class="btn small" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
+              <button class="btn small" data-action="mission-menu" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">⋯</button>
             </div>
           </div>
 
           <div class="done-row">
-            ${people.length ? "Feita por:" : "Ainda não feita por ninguém."}
+            ${people.length ? "Já fez:" : "Ainda não feita."}
             ${people.map((person) => `
               <span class="mini-avatar" style="--c:${escapeHTML(person.color || "#b77aff")}">${escapeHTML(person.avatar || "👤")}</span>
             `).join("")}
+            ${missing.length ? `<span class="pill">Falta alguém da Base</span>` : ""}
           </div>
         </article>
       `;
+    }
+
+    function missingPeople(mission, key) {
+      if (mission.assigned !== "both") return [];
+
+      const map = doneMap(mission, key);
+      return members().filter((person) => !map[person.uid]);
     }
 
     function renderBasePage() {
@@ -2149,7 +2276,6 @@
               <h2>📊 Base</h2>
               <p>XP individual, moral da Base, rotina e competição saudável.</p>
             </div>
-            <button class="btn small primary" data-action="open-mission-form" type="button">+ Missão</button>
           </div>
 
           <div class="stats">
@@ -2251,6 +2377,7 @@
           <div class="section-title">
             <div>
               <h2>🐷 Cofrinho</h2>
+              <p>Depósito rápido em 1 toque.</p>
             </div>
             <button class="btn small primary" data-action="open-goal-form" type="button">+ Meta</button>
           </div>
@@ -2295,13 +2422,67 @@
             </div>
 
             <div class="mission-actions">
-              <button class="btn small good" data-action="open-deposit-form" data-id="${escapeHTML(goal.id)}" type="button">Depositar</button>
               <button class="btn small" data-action="edit-goal" data-id="${escapeHTML(goal.id)}" type="button">Editar</button>
             </div>
           </div>
 
           <div class="progress"><span style="--w:${percent}%"></span></div>
+
+          <div class="quick-money">
+            <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="5" type="button">+ R$5</button>
+            <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="10" type="button">+ R$10</button>
+            <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="25" type="button">+ R$25</button>
+            <button class="btn small primary" data-action="open-deposit-form" data-id="${escapeHTML(goal.id)}" type="button">Outro</button>
+          </div>
         </article>
+      `;
+    }
+
+    function renderMorePage() {
+      if (state.moreView === "hall") return renderHallPage();
+      if (state.moreView === "historico") return renderHistoryPage();
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Mais</h2>
+              <p>Configurações, recompensas e histórico ficam fora do fluxo diário.</p>
+            </div>
+          </div>
+
+          <div class="more-grid">
+            <button class="more-card" data-more-view="hall" type="button">
+              <strong>🏆 Hall</strong>
+              <span>Conquistas desbloqueadas</span>
+            </button>
+
+            <button class="more-card" data-more-view="historico" type="button">
+              <strong>🧾 Histórico</strong>
+              <span>Tudo que a Base já fez</span>
+            </button>
+
+            <button class="more-card" data-action="open-theme" type="button">
+              <strong>☀️ Tema</strong>
+              <span>Cores sincronizadas</span>
+            </button>
+
+            <button class="more-card" data-action="open-profile" type="button">
+              <strong>👤 Perfil e sala</strong>
+              <span>Nome, convite e sincronização</span>
+            </button>
+
+            <button class="more-card" data-action="open-notices" type="button">
+              <strong>🔔 Avisos</strong>
+              <span>Resumo da Base</span>
+            </button>
+
+            <button class="more-card" data-action="open-settings" type="button">
+              <strong>⚙️ Configurações</strong>
+              <span>Recomeço, dados e rotina</span>
+            </button>
+          </div>
+        </section>
       `;
     }
 
@@ -2326,8 +2507,9 @@
           <div class="section-title">
             <div>
               <h2>🏆 Hall</h2>
+              <p>Recompensas da Base.</p>
             </div>
-            <span class="pill strong">${unlockedCount()} desbloqueadas</span>
+            <button class="btn small" data-more-view="menu" type="button">Voltar</button>
           </div>
 
           <div class="achievement-tabs">
@@ -2341,7 +2523,7 @@
               const unlocked = m[metric] >= needed;
               return `
                 <article class="achievement ${unlocked ? "unlocked" : ""}">
-                  <div class="big">${unlocked ? icon.replace("🔒", "🏆") : "🔒"}</div>
+                  <div class="big">${unlocked ? icon : "🔒"}</div>
                   <strong>${escapeHTML(label)}</strong>
                 </article>
               `;
@@ -2384,7 +2566,23 @@
         `
       }));
 
-      const history = [...missionEvents, ...walletEvents]
+      const skipEvents = (state.data.history || [])
+        .filter((item) => item.type === "skip")
+        .map((item) => ({
+          at: item.createdAt || Date.now(),
+          html: `
+            <div class="history-item">
+              <div>
+                🕊️ ${escapeHTML(item.title || "Missão pulada")}
+                <br>
+                <span>${escapeHTML(item.byName || "Pessoa")} • pulou sem culpa • ${formatDate(item.date || todayKey())}</span>
+              </div>
+              <strong>recomeço</strong>
+            </div>
+          `
+        }));
+
+      const history = [...missionEvents, ...walletEvents, ...skipEvents]
         .sort((a, b) => b.at - a.at)
         .slice(0, 90);
 
@@ -2395,6 +2593,7 @@
               <h2>🧾 Histórico</h2>
               <p>Tudo que a Base já movimentou.</p>
             </div>
+            <button class="btn small" data-more-view="menu" type="button">Voltar</button>
           </div>
 
           <div class="history-list">
@@ -2425,6 +2624,277 @@
       modalRoot.hidden = true;
       modalRoot.className = "";
       modalRoot.innerHTML = "";
+    }
+
+    function openQuickMissionModal() {
+      openModal("Missão rápida", "3 campos e pronto. O app calcula XP e energia.", `
+        <form id="quickMissionForm" class="form-grid">
+          <div class="field">
+            <label>Nome</label>
+            <input name="title" maxlength="70" placeholder="Ex: Lavar louça" required>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Quando</label>
+              <select name="frequency">
+                <option value="daily">Diária</option>
+                <option value="weekly">Semanal</option>
+                <option value="monthly">Mensal</option>
+                <option value="once">Hoje / uma vez</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Tempo</label>
+              <select name="minutes">
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+                <option value="15">15 min</option>
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
+                <option value="60">60 min</option>
+              </select>
+            </div>
+          </div>
+
+          <details class="advanced">
+            <summary>Ajustar detalhes</summary>
+            <div style="height:12px"></div>
+
+            <div class="form-grid">
+              <div class="form-2">
+                <div class="field">
+                  <label>Categoria</label>
+                  <select name="category">
+                    ${Object.entries(CATEGORIES).map(([key, cat]) => `<option value="${key}">${cat.icon} ${cat.label}</option>`).join("")}
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Energia</label>
+                  <select name="energy">
+                    <option value="leve">Leve</option>
+                    <option value="media">Média</option>
+                    <option value="pesada">Pesada</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Quem faz?</label>
+                <select name="assigned">
+                  <option value="any">Qualquer um pode fazer</option>
+                  <option value="both">Os dois fazem</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Dias da semana, para semanal</label>
+                <div class="day-checks">
+                  ${DAY_SHORT.map((day, index) => `
+                    <label>
+                      <input type="checkbox" name="days" value="${index}" ${index === new Date().getDay() ? "checked" : ""}>
+                      ${day}
+                    </label>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <button class="btn primary" type="submit">Criar missão</button>
+        </form>
+      `);
+    }
+
+    function openMissionForm(missionId) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      const selectedDays = new Set(mission.days?.length ? mission.days.map(Number) : [new Date().getDay()]);
+
+      openModal("Editar missão", "Ajuste os detalhes da missão.", `
+        <form id="missionForm" class="form-grid" data-id="${escapeHTML(mission.id)}">
+          <div class="field">
+            <label>Título</label>
+            <input name="title" maxlength="70" value="${escapeHTML(mission.title)}" required>
+          </div>
+
+          <div class="field">
+            <label>Descrição</label>
+            <textarea name="description" maxlength="260">${escapeHTML(mission.description || "")}</textarea>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Categoria</label>
+              <select name="category">
+                ${Object.entries(CATEGORIES).map(([key, cat]) => `
+                  <option value="${key}" ${mission.category === key ? "selected" : ""}>${cat.icon} ${cat.label}</option>
+                `).join("")}
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Frequência</label>
+              <select name="frequency">
+                ${[
+                  ["daily", "Diária"],
+                  ["weekly", "Semanal"],
+                  ["monthly", "Mensal"],
+                  ["once", "Uma vez"]
+                ].map(([key, label]) => `
+                  <option value="${key}" ${mission.frequency === key ? "selected" : ""}>${label}</option>
+                `).join("")}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Dias da semana, para semanal</label>
+            <div class="day-checks">
+              ${DAY_SHORT.map((day, index) => `
+                <label>
+                  <input type="checkbox" name="days" value="${index}" ${selectedDays.has(index) ? "checked" : ""}>
+                  ${day}
+                </label>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Data, para missão única</label>
+              <input name="date" type="date" value="${escapeHTML(mission.date || todayKey())}">
+            </div>
+
+            <div class="field">
+              <label>Dia do mês, para mensal</label>
+              <input name="monthDay" type="number" min="1" max="31" value="${escapeHTML(mission.monthDay || new Date().getDate())}">
+            </div>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Minutos</label>
+              <input name="minutes" type="number" min="1" max="600" value="${escapeHTML(mission.minutes || 5)}">
+            </div>
+
+            <div class="field">
+              <label>XP</label>
+              <input name="xp" type="number" min="1" max="200" value="${escapeHTML(mission.xp || 10)}">
+            </div>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Energia</label>
+              <select name="energy">
+                <option value="leve" ${mission.energy <= 1 ? "selected" : ""}>Leve</option>
+                <option value="media" ${mission.energy > 1 && mission.energy <= 3 ? "selected" : ""}>Média</option>
+                <option value="pesada" ${mission.energy > 3 ? "selected" : ""}>Pesada</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Quem faz?</label>
+              <select name="assigned">
+                <option value="any" ${mission.assigned !== "both" ? "selected" : ""}>Qualquer um pode fazer</option>
+                <option value="both" ${mission.assigned === "both" ? "selected" : ""}>Os dois fazem</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit">Salvar missão</button>
+          <button class="btn bad" type="button" data-action="delete-mission" data-id="${escapeHTML(mission.id)}">Excluir missão</button>
+        </form>
+      `);
+    }
+
+    function openMissionView(missionId, key) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      const cat = categoryOf(mission.category);
+      const people = doneMembers(mission, key);
+      const missing = missingPeople(mission, key);
+
+      openModal(`${cat.icon} ${escapeHTML(mission.title)}`, formatLongDate(key), `
+        <div class="history-list">
+          <div class="history-item">
+            <div>
+              Categoria
+              <br>
+              <span>${cat.icon} ${cat.label}</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Recompensa
+              <br>
+              <span>${mission.minutes} min • ${mission.xp} XP • energia ${energyLabel(mission.energy)}</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Base
+              <br>
+              <span>${people.length ? `Já fez: ${people.map((p) => `${p.avatar} ${p.name}`).join(", ")}` : "ninguém ainda"}${missing.length ? " • falta alguém da Base" : ""}</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Descrição
+              <br>
+              <span>${escapeHTML(mission.description || "Sem descrição.")}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="hero-actions">
+          <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Feita</button>
+          <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje</button>
+          <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
+        </div>
+      `);
+    }
+
+    function openMissionMenu(missionId, key) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      openModal("Ações da missão", escapeHTML(mission.title), `
+        <div class="list">
+          <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Marcar feita</button>
+          <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje sem culpa</button>
+          <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
+          <button class="btn" data-action="encourage" data-id="${escapeHTML(mission.id)}" type="button">Mandar incentivo 💌</button>
+          <button class="btn" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
+          <button class="btn bad" data-action="delete-mission" data-id="${escapeHTML(mission.id)}" type="button">Excluir</button>
+        </div>
+      `);
+    }
+
+    function openRescheduleModal(missionId, oldKey) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      openModal("Reagendar", escapeHTML(mission.title), `
+        <form id="rescheduleForm" class="form-grid" data-id="${escapeHTML(mission.id)}" data-old-date="${escapeHTML(oldKey)}">
+          <div class="field">
+            <label>Nova data</label>
+            <input name="newDate" type="date" value="${todayKey(1)}" required>
+          </div>
+
+          <button class="btn primary" type="submit">Reagendar</button>
+        </form>
+      `);
     }
 
     function openProfileModal() {
@@ -2554,9 +3024,9 @@
         <div class="history-list">
           <div class="history-item">
             <div>
-              ⚠️ Atrasadas
+              ⚠️ Recomeço
               <br>
-              <span>${overdueItems().length} item(ns). Comece por uma missão pequena.</span>
+              <span>${overdueItems().length} pendência(s) gentil(is). Escolha só uma.</span>
             </div>
           </div>
 
@@ -2587,150 +3057,13 @@
       `);
     }
 
-    function openMissionForm(defaultFrequency = "daily", missionId = "") {
-      const mission = state.data.missions.find((item) => item.id === missionId) || null;
-      const frequency = mission?.frequency || defaultFrequency;
-      const selectedDays = new Set(mission?.days?.length ? mission.days.map(Number) : [new Date().getDay()]);
-
-      openModal(mission ? "Editar missão" : "Nova missão", "Missões pequenas, claras e possíveis funcionam melhor.", `
-        <form id="missionForm" class="form-grid" data-id="${mission ? escapeHTML(mission.id) : ""}">
-          <div class="field">
-            <label>Título</label>
-            <input name="title" maxlength="70" value="${escapeHTML(mission?.title || "")}" placeholder="Ex: LIXO NA RUA" required>
-          </div>
-
-          <div class="field">
-            <label>Descrição</label>
-            <textarea name="description" maxlength="260" placeholder="Detalhe rápido da missão">${escapeHTML(mission?.description || "")}</textarea>
-          </div>
-
-          <div class="form-2">
-            <div class="field">
-              <label>Categoria</label>
-              <select name="category">
-                ${Object.entries(CATEGORIES).map(([key, cat]) => `
-                  <option value="${key}" ${mission?.category === key ? "selected" : ""}>${cat.icon} ${cat.label}</option>
-                `).join("")}
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Frequência</label>
-              <select name="frequency">
-                ${[
-                  ["daily", "Diária"],
-                  ["weekly", "Semanal"],
-                  ["monthly", "Mensal"],
-                  ["once", "Uma vez"]
-                ].map(([key, label]) => `
-                  <option value="${key}" ${frequency === key ? "selected" : ""}>${label}</option>
-                `).join("")}
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Dias da semana, para missão semanal</label>
-            <div class="day-checks">
-              ${DAY_SHORT.map((day, index) => `
-                <label>
-                  <input type="checkbox" name="days" value="${index}" ${selectedDays.has(index) ? "checked" : ""}>
-                  ${day}
-                </label>
-              `).join("")}
-            </div>
-          </div>
-
-          <div class="form-2">
-            <div class="field">
-              <label>Data, para missão única</label>
-              <input name="date" type="date" value="${escapeHTML(mission?.date || todayKey())}">
-            </div>
-
-            <div class="field">
-              <label>Dia do mês, para mensal</label>
-              <input name="monthDay" type="number" min="1" max="31" value="${escapeHTML(mission?.monthDay || new Date().getDate())}">
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Quem faz?</label>
-            <select name="assigned">
-              <option value="any" ${mission?.assigned !== "both" ? "selected" : ""}>Qualquer um pode fazer</option>
-              <option value="both" ${mission?.assigned === "both" ? "selected" : ""}>Os dois fazem</option>
-            </select>
-          </div>
-
-          <div class="form-2">
-            <div class="field">
-              <label>Minutos</label>
-              <input name="minutes" type="number" min="1" max="600" value="${escapeHTML(mission?.minutes || 5)}">
-            </div>
-
-            <div class="field">
-              <label>XP</label>
-              <input name="xp" type="number" min="1" max="200" value="${escapeHTML(mission?.xp || 10)}">
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Energia</label>
-            <input name="energy" type="number" min="1" max="5" value="${escapeHTML(mission?.energy || 1)}">
-          </div>
-
-          <button class="btn primary" type="submit">${mission ? "Salvar missão" : "Criar missão"}</button>
-          ${mission ? `<button class="btn bad" type="button" data-action="delete-mission" data-id="${escapeHTML(mission.id)}">Excluir missão</button>` : ""}
-        </form>
-      `);
-    }
-
-    function openMissionView(missionId, key) {
-      const mission = state.data.missions.find((item) => item.id === missionId);
-      if (!mission) return;
-
-      const cat = categoryOf(mission.category);
-      const people = doneMembers(mission, key);
-
-      openModal(`${cat.icon} ${escapeHTML(mission.title)}`, formatLongDate(key), `
-        <div class="history-list">
-          <div class="history-item">
-            <div>
-              Categoria
-              <br>
-              <span>${cat.icon} ${cat.label}</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Recompensa
-              <br>
-              <span>${mission.minutes} min • ${mission.xp} XP • ${mission.energy} energia</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Feita por
-              <br>
-              <span>${people.length ? people.map((p) => `${p.avatar} ${p.name}`).join(", ") : "ninguém ainda"}</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Descrição
-              <br>
-              <span>${escapeHTML(mission.description || "Sem descrição.")}</span>
-            </div>
-          </div>
+    function openSettingsModal() {
+      openModal("Configurações", "Ajustes de recomeço e manutenção.", `
+        <div class="list">
+          <button class="btn" data-action="clear-skips" type="button">Limpar pulos/recomeços</button>
+          <button class="btn" data-action="repair-systems" type="button">Recalcular saúde da Base</button>
+          <button class="btn bad" data-action="reset-local-cache" type="button">Limpar cache local deste aparelho</button>
         </div>
-
-        <div style="height:14px"></div>
-
-        <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
-          ${doneByMe(mission, key) ? "Desmarcar" : "Marcar como feita"}
-        </button>
       `);
     }
 
@@ -2774,8 +3107,8 @@
           </div>
 
           <div class="field">
-            <label>Descrição</label>
-            <input name="description" maxlength="70" placeholder="Ex: economizei no lanche" required>
+            <label>Descrição opcional</label>
+            <input name="description" maxlength="70" placeholder="Ex: economizei no lanche">
           </div>
 
           <button class="btn primary" type="submit">Adicionar ao cofrinho</button>
@@ -2833,10 +3166,118 @@
       toast("Base atualizada.");
     }
 
+    async function skipDay(missionId, key) {
+      await updateData((data) => {
+        const mission = data.missions.find((item) => item.id === missionId);
+        if (!mission) return;
+
+        mission.skipped ||= {};
+        mission.skipped[key] = {
+          by: state.uid,
+          byName: me().name,
+          at: Date.now()
+        };
+
+        data.history ||= [];
+        data.history.push({
+          type: "skip",
+          missionId,
+          title: mission.title,
+          uid: state.uid,
+          byName: me().name,
+          date: key,
+          createdAt: Date.now()
+        });
+      });
+
+      closeModal();
+      toast("Pulado sem culpa. Recomeço liberado.");
+    }
+
+    async function rescheduleMission(form) {
+      const missionId = form.dataset.id;
+      const oldKey = form.dataset.oldDate;
+      const formData = new FormData(form);
+      const newDate = String(formData.get("newDate") || todayKey(1));
+
+      await updateData((data) => {
+        const mission = data.missions.find((item) => item.id === missionId);
+        if (!mission) return;
+
+        mission.skipped ||= {};
+        mission.skipped[oldKey] = {
+          by: state.uid,
+          byName: me().name,
+          at: Date.now(),
+          reason: "reagendado"
+        };
+
+        data.missions.push(createMission({
+          title: mission.title,
+          description: mission.description,
+          category: mission.category,
+          frequency: "once",
+          date: newDate,
+          xp: mission.xp,
+          energy: mission.energy,
+          minutes: mission.minutes,
+          assigned: mission.assigned
+        }));
+
+        data.history ||= [];
+        data.history.push({
+          type: "reschedule",
+          missionId,
+          title: mission.title,
+          uid: state.uid,
+          byName: me().name,
+          date: oldKey,
+          newDate,
+          createdAt: Date.now()
+        });
+      });
+
+      closeModal();
+      toast("Missão reagendada.");
+    }
+
+    async function saveQuickMission(form) {
+      const formData = new FormData(form);
+      const title = String(formData.get("title") || "").trim().slice(0, 70);
+      const frequency = String(formData.get("frequency") || "daily");
+      const minutes = clamp(formData.get("minutes"), 1, 600);
+      const days = formData.getAll("days").map(Number);
+
+      if (!title) {
+        toast("Dê um nome para a missão.");
+        return;
+      }
+
+      const mission = createMission({
+        title,
+        frequency,
+        minutes,
+        xp: xpByMinutes(minutes),
+        category: String(formData.get("category") || "casa"),
+        energy: energyNumber(formData.get("energy") || "leve"),
+        assigned: String(formData.get("assigned") || "any"),
+        days: days.length ? days : [new Date().getDay()],
+        date: todayKey()
+      });
+
+      await updateData((data) => {
+        data.missions.push(mission);
+      });
+
+      closeModal();
+      toast("Missão criada. Ajustes ficam em Rotina.");
+    }
+
     async function saveMission(form) {
       const formData = new FormData(form);
       const id = form.dataset.id;
       const days = formData.getAll("days").map(Number);
+      const minutes = clamp(formData.get("minutes"), 1, 600);
 
       const payload = {
         title: String(formData.get("title") || "").trim().slice(0, 70),
@@ -2847,9 +3288,9 @@
         monthDay: clamp(formData.get("monthDay"), 1, 31),
         date: String(formData.get("date") || todayKey()),
         assigned: String(formData.get("assigned") || "any"),
-        minutes: clamp(formData.get("minutes"), 1, 600),
-        xp: clamp(formData.get("xp"), 1, 200),
-        energy: clamp(formData.get("energy"), 1, 5)
+        minutes,
+        xp: clamp(formData.get("xp") || xpByMinutes(minutes), 1, 200),
+        energy: energyNumber(formData.get("energy") || "leve")
       };
 
       if (!payload.title) {
@@ -2858,17 +3299,13 @@
       }
 
       await updateData((data) => {
-        if (id) {
-          const mission = data.missions.find((item) => item.id === id);
-          if (!mission) return;
-          Object.assign(mission, payload);
-        } else {
-          data.missions.push(createMission(payload));
-        }
+        const mission = data.missions.find((item) => item.id === id);
+        if (!mission) return;
+        Object.assign(mission, payload);
       });
 
       closeModal();
-      toast(id ? "Missão atualizada." : "Missão criada.");
+      toast("Missão atualizada.");
     }
 
     async function deleteMission(id) {
@@ -3002,11 +3439,34 @@
       toast("Meta excluída.");
     }
 
+    async function quickDeposit(goalId, amount) {
+      await updateData((data) => {
+        const goal = data.wallet.goals.find((item) => item.id === goalId);
+        if (!goal) return;
+
+        goal.saved = Number(goal.saved || 0) + Number(amount);
+
+        data.wallet.deposits ||= [];
+        data.wallet.deposits.push({
+          id: makeId("deposit"),
+          goalId,
+          amount: Number(amount),
+          description: `Depósito rápido de ${money(amount)}`,
+          uid: state.uid,
+          byName: me().name,
+          date: todayKey(),
+          createdAt: Date.now()
+        });
+      });
+
+      toast(`${money(amount)} guardado.`);
+    }
+
     async function saveDeposit(form) {
       const goalId = form.dataset.id;
       const formData = new FormData(form);
       const amount = clamp(formData.get("amount"), 0.01, 9999999);
-      const description = String(formData.get("description") || "Depósito").trim().slice(0, 70);
+      const description = String(formData.get("description") || `Depósito de ${money(amount)}`).trim().slice(0, 70);
 
       await updateData((data) => {
         const goal = data.wallet.goals.find((item) => item.id === goalId);
@@ -3043,6 +3503,69 @@
       toast(system === "pets" ? "Pets receberam atenção. 🐾" : "Casa recebeu atenção. 🏠");
     }
 
+    async function solveOneOverdue() {
+      const item = overdueItems()[0];
+
+      if (!item) {
+        toast("Nada para recomeçar agora.");
+        return;
+      }
+
+      await toggleDone(item.mission.id, item.key);
+    }
+
+    async function encourage(missionId) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      const text = `${ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)]} — ${mission?.title || "missão da Base"}`;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Incentivo copiado para mandar no WhatsApp.");
+      } catch {
+        toast(text);
+      }
+    }
+
+    async function clearSkips() {
+      const ok = confirm("Limpar todos os pulos/recomeços?");
+      if (!ok) return;
+
+      await updateData((data) => {
+        data.missions.forEach((mission) => {
+          mission.skipped = {};
+        });
+      });
+
+      closeModal();
+      toast("Pulos limpos.");
+    }
+
+    async function repairSystems() {
+      await updateData((data) => {
+        const pets = categoryDoneCount("pets");
+        const casa = categoryDoneCount("casa");
+
+        data.systems.pets.health = clamp(pets * 8, 0, 100);
+        data.systems.pets.mood = data.systems.pets.health >= 70 ? "feliz" : "precisa de atenção";
+
+        data.systems.casa.health = clamp(casa * 7, 0, 100);
+        data.systems.casa.mood = data.systems.casa.health >= 70 ? "em ordem" : "precisa de atenção";
+      });
+
+      closeModal();
+      toast("Saúde recalculada.");
+    }
+
+    function resetLocalCache() {
+      const ok = confirm("Limpar o cache local deste aparelho?");
+      if (!ok) return;
+
+      localStorage.removeItem(STORAGE.localData);
+      localStorage.removeItem(STORAGE.profile);
+      toast("Cache local limpo.");
+      location.reload();
+    }
+
     async function copyRoom() {
       const url = `${location.origin}${location.pathname}?room=${state.roomId}`;
 
@@ -3066,19 +3589,27 @@
 
     document.addEventListener("click", async (event) => {
       const pageBtn = event.target.closest("[data-page]");
-      const tabBtn = event.target.closest("[data-mission-tab]");
+      const routineBtn = event.target.closest("[data-routine-tab]");
+      const moreBtn = event.target.closest("[data-more-view]");
       const hallBtn = event.target.closest("[data-hall-filter]");
       const actionBtn = event.target.closest("[data-action]");
 
       try {
         if (pageBtn) {
           state.page = pageBtn.dataset.page;
+          if (state.page !== "mais") state.moreView = "menu";
           render();
           return;
         }
 
-        if (tabBtn) {
-          state.missionTab = tabBtn.dataset.missionTab;
+        if (routineBtn) {
+          state.rotinaTab = routineBtn.dataset.routineTab;
+          render();
+          return;
+        }
+
+        if (moreBtn) {
+          state.moreView = moreBtn.dataset.moreView;
           render();
           return;
         }
@@ -3097,16 +3628,18 @@
         if (action === "open-profile") openProfileModal();
         if (action === "open-theme") openThemeModal();
         if (action === "open-notices") openNoticesModal();
+        if (action === "open-settings") openSettingsModal();
+        if (action === "open-quick-mission") openQuickMissionModal();
 
-        if (action === "open-mission-form") openMissionForm("daily");
-        if (action === "open-daily-form") openMissionForm("daily");
-        if (action === "open-weekly-form") openMissionForm("weekly");
-        if (action === "open-monthly-form") openMissionForm("monthly");
-
-        if (action === "edit-mission") openMissionForm("daily", actionBtn.dataset.id);
+        if (action === "edit-mission") openMissionForm(actionBtn.dataset.id);
         if (action === "view-mission") openMissionView(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "mission-menu") openMissionMenu(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "toggle-done") await toggleDone(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "skip-day") await skipDay(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "reschedule-mission") openRescheduleModal(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "delete-mission") await deleteMission(actionBtn.dataset.id);
+        if (action === "solve-one-overdue") await solveOneOverdue();
+        if (action === "encourage") await encourage(actionBtn.dataset.id);
 
         if (action === "set-theme") await setTheme(actionBtn.dataset.theme);
         if (action === "care-system") await careSystem(actionBtn.dataset.system);
@@ -3115,6 +3648,7 @@
         if (action === "edit-goal") openGoalForm(actionBtn.dataset.id);
         if (action === "open-deposit-form") openDepositForm(actionBtn.dataset.id);
         if (action === "delete-goal") await deleteGoal(actionBtn.dataset.id);
+        if (action === "quick-deposit") await quickDeposit(actionBtn.dataset.id, actionBtn.dataset.amount);
 
         if (action === "copy-room") await copyRoom();
 
@@ -3128,6 +3662,10 @@
           await joinRoom(code, false);
           closeModal();
         }
+
+        if (action === "clear-skips") await clearSkips();
+        if (action === "repair-systems") await repairSystems();
+        if (action === "reset-local-cache") resetLocalCache();
       } catch (error) {
         console.error(error);
         toast(error.message || "Não foi possível concluir.");
@@ -3140,8 +3678,10 @@
       try {
         const form = event.target;
 
-        if (form.id === "profileForm") await saveProfileForm(form);
+        if (form.id === "quickMissionForm") await saveQuickMission(form);
         if (form.id === "missionForm") await saveMission(form);
+        if (form.id === "rescheduleForm") await rescheduleMission(form);
+        if (form.id === "profileForm") await saveProfileForm(form);
         if (form.id === "customThemeForm") await saveCustomTheme(form);
         if (form.id === "goalForm") await saveGoal(form);
         if (form.id === "depositForm") await saveDeposit(form);
