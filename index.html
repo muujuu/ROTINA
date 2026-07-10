@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cuidar Juntos</title>
+
+  <title>Base da Família</title>
 
   <style>
     :root {
-      --primary: #ff6b9a;
-      --accent: #7c3aed;
-      --bg: #100f24;
-      --card: rgba(255, 255, 255, 0.1);
-      --card-strong: rgba(255, 255, 255, 0.16);
-      --text: #fff7fb;
-      --muted: rgba(255, 247, 251, 0.72);
-      --border: rgba(255, 255, 255, 0.18);
-      --danger: #fb7185;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --radius-lg: 28px;
-      --radius-md: 18px;
-      --radius-sm: 12px;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
-      --max: 1180px;
+      --bg: #171425;
+      --bg-2: #302b3d;
+      --panel: rgba(31, 26, 47, 0.94);
+      --panel-2: rgba(38, 31, 58, 0.9);
+      --card: rgba(255, 255, 255, 0.055);
+      --card-2: rgba(255, 255, 255, 0.075);
+      --text: #f7efff;
+      --muted: rgba(247, 239, 255, 0.64);
+      --border: rgba(255, 255, 255, 0.115);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --primary: #b77aff;
+      --primary-2: #f47bca;
+      --accent: #ffc247;
+      --good: #5de38f;
+      --bad: #ff557b;
+      --warn: #ffd15c;
+      --info: #82caff;
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1040px;
+      --nav-h: 76px;
+      color-scheme: dark;
     }
 
     * {
@@ -33,24 +42,31 @@
       display: none !important;
     }
 
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
+      padding-bottom: calc(var(--nav-h) + 46px + env(safe-area-inset-bottom));
       color: var(--text);
       font-family:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--primary) 35%, transparent), transparent 28%),
-        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 34%),
-        linear-gradient(135deg, var(--bg), #070711 78%);
+        radial-gradient(circle at 13% 12%, color-mix(in srgb, var(--primary-2) 28%, transparent), transparent 29%),
+        radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--primary) 28%, transparent), transparent 31%),
+        radial-gradient(circle at 50% 110%, rgba(255, 255, 255, 0.06), transparent 36%),
+        linear-gradient(135deg, var(--bg), var(--bg-2) 76%);
       overflow-x: hidden;
     }
 
     button,
     input,
-    select,
-    textarea {
+    textarea,
+    select {
       font: inherit;
     }
 
@@ -60,140 +76,631 @@
     }
 
     .shell {
-      width: min(var(--max), calc(100% - 32px));
+      width: min(var(--max), calc(100% - 28px));
       margin: 0 auto;
     }
 
-    .app-bg-orb {
-      position: fixed;
-      width: 420px;
-      height: 420px;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--primary) 22%, transparent);
-      filter: blur(25px);
-      bottom: -160px;
-      right: -120px;
-      pointer-events: none;
-      z-index: -1;
+    .app {
+      padding-top: 24px;
     }
 
-    .topbar {
+    .top-card,
+    .panel,
+    .notice,
+    .modal {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .top-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 24px 0 18px;
+      gap: 18px;
+      padding: 18px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(90deg, rgba(27, 23, 41, 0.96), rgba(29, 24, 43, 0.88)),
+        var(--panel);
     }
 
     .brand {
+      min-width: 0;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
     .logo {
-      width: 46px;
-      height: 46px;
+      position: relative;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
       display: grid;
       place-items: center;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      box-shadow: 0 14px 40px color-mix(in srgb, var(--primary) 34%, transparent);
-      font-size: 24px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.04);
+      font-size: 1.35rem;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.28);
     }
 
     .brand h1 {
       margin: 0;
-      font-size: clamp(1.3rem, 2.8vw, 2rem);
-      letter-spacing: -0.04em;
+      font-size: clamp(1.45rem, 4vw, 2.1rem);
+      line-height: 1;
+      letter-spacing: -0.065em;
     }
 
-    .brand p {
-      margin: 2px 0 0;
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-weight: 900;
+      font-size: 0.84rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--good);
+      box-shadow: 0 0 18px var(--good);
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 10px 14px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.065);
+      color: var(--text);
+      font-weight: 1000;
+      text-decoration: none;
+      transition: transform 0.18s ease, filter 0.18s ease, background 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .btn.primary {
+      border-color: transparent;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 14px 34px color-mix(in srgb, var(--primary) 25%, transparent);
+    }
+
+    .btn.good {
+      border-color: transparent;
+      color: #10281a;
+      background: var(--good);
+    }
+
+    .btn.bad {
+      border-color: transparent;
+      color: #fff;
+      background: color-mix(in srgb, var(--bad) 82%, #211a2f);
+    }
+
+    .btn.accent {
+      border-color: transparent;
+      color: #2d2140;
+      background: var(--accent);
+    }
+
+    .btn.small {
+      min-height: 34px;
+      padding: 8px 11px;
+      border-radius: 13px;
+      font-size: 0.78rem;
+    }
+
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 13px;
+      gap: 6px;
+      min-height: 28px;
+      padding: 6px 10px;
       border: 1px solid var(--border);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text);
-      white-space: nowrap;
-      backdrop-filter: blur(18px);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 22px;
-      align-items: stretch;
-      padding: 28px 0 38px;
-    }
-
-    .card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(22px);
-    }
-
-    .hero-copy {
-      padding: clamp(24px, 5vw, 44px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero-copy h2 {
-      max-width: 720px;
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 4.6rem);
-      line-height: 0.95;
-      letter-spacing: -0.075em;
-    }
-
-    .hero-copy p {
-      margin: 20px 0 0;
-      max-width: 620px;
+      background: rgba(255, 255, 255, 0.055);
       color: var(--muted);
-      font-size: clamp(1rem, 1.7vw, 1.18rem);
-      line-height: 1.65;
+      font-size: 0.74rem;
+      font-weight: 1000;
+      line-height: 1.1;
+      white-space: nowrap;
     }
 
-    .gradient-text {
-      background: linear-gradient(135deg, var(--primary), var(--accent), #fff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
+    .pill.strong {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.09);
     }
 
-    .setup-card {
-      padding: 22px;
+    .main-stack {
+      display: grid;
+      gap: 15px;
+      margin-top: 15px;
     }
 
-    .setup-card h3,
-    .panel-card h3,
+    .panel {
+      padding: 16px;
+      border-radius: var(--radius-xl);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2,
     .section-title h3 {
       margin: 0;
-      font-size: 1.15rem;
+      letter-spacing: -0.055em;
+      line-height: 1.08;
+    }
+
+    .section-title h2 {
+      font-size: 1.45rem;
+    }
+
+    .section-title p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .mission-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .mission-tab {
+      min-height: 40px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-weight: 1000;
+    }
+
+    .mission-tab.active {
+      border-color: transparent;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    }
+
+    .notice {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: 20px;
+      background: rgba(31, 26, 47, 0.74);
+      box-shadow: none;
+    }
+
+    .notice.profile {
+      border-color: color-mix(in srgb, var(--primary) 42%, transparent);
+    }
+
+    .notice.danger {
+      border-color: color-mix(in srgb, var(--bad) 48%, transparent);
+    }
+
+    .notice.suggestion {
+      border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    }
+
+    .notice.good {
+      border-color: color-mix(in srgb, var(--good) 38%, transparent);
+    }
+
+    .notice .icon {
+      width: 32px;
+      flex: 0 0 32px;
+      text-align: center;
+      font-size: 1.32rem;
+    }
+
+    .notice strong {
+      display: block;
+      font-size: 1rem;
+    }
+
+    .notice p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--card);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.42rem;
+      letter-spacing: -0.06em;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.81rem;
+      font-weight: 1000;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mission-card {
+      display: grid;
+      gap: 11px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+    }
+
+    .mission-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .mission-title {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .mission-title strong {
+      font-size: 1.05rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      word-break: break-word;
+    }
+
+    .mission-title small {
+      color: var(--muted);
+      font-weight: 850;
+      line-height: 1.35;
+    }
+
+    .mission-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+      flex: 0 0 auto;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .done-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 1000;
+    }
+
+    .mini-avatar {
+      width: 25px;
+      height: 25px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 9px;
+      color: white;
+      background: var(--c, var(--primary));
+      font-size: 0.86rem;
+    }
+
+    .empty {
+      min-height: 43px;
+      display: grid;
+      place-items: center;
+      padding: 13px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .week-board {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(122px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scroll-snap-type: x proximity;
+    }
+
+    .week-day {
+      min-height: 255px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      scroll-snap-align: start;
+    }
+
+    .week-day h3 {
+      margin: 0 0 10px;
+      font-size: 0.98rem;
       letter-spacing: -0.03em;
     }
 
-    .setup-card p,
-    .hint {
-      color: var(--muted);
-      line-height: 1.55;
+    .week-list {
+      display: grid;
+      gap: 8px;
     }
 
-    .form-grid {
+    .week-mini {
       display: grid;
+      gap: 7px;
+      min-height: 128px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .week-mini strong {
+      font-size: 0.9rem;
+      line-height: 1.08;
+      word-break: break-word;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+    }
+
+    .member-card {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      color: white;
+      background: var(--c, var(--primary));
+      font-size: 1.35rem;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+    }
+
+    .member-card strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    .member-card span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 1000;
+    }
+
+    .progress {
+      height: 11px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress span {
+      display: block;
+      width: var(--w, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+    }
+
+    .achievement-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .ach-tab {
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 1000;
+    }
+
+    .ach-tab.active {
+      border-color: transparent;
+      color: #2d2140;
+      background: var(--accent);
+    }
+
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .achievement {
+      min-height: 96px;
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      text-align: center;
+      font-weight: 1000;
+    }
+
+    .achievement .big {
+      font-size: 1.55rem;
+      opacity: 0.55;
+      filter: grayscale(1);
+    }
+
+    .achievement.unlocked {
+      border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .achievement.unlocked .big {
+      opacity: 1;
+      filter: none;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.045);
+      font-weight: 1000;
+    }
+
+    .history-item span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      z-index: 50;
+      width: min(680px, calc(100% - 24px));
+      min-height: var(--nav-h);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(25, 21, 38, 0.88);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(20px);
+      transform: translateX(-50%);
+    }
+
+    .nav-btn {
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      padding: 8px 6px;
+      border-radius: 16px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 1000;
+    }
+
+    .nav-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    }
+
+    .nav-btn .nav-icon {
+      font-size: 1rem;
+      line-height: 1;
     }
 
     .field {
@@ -203,421 +710,128 @@
 
     .field label {
       color: var(--muted);
-      font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
+      font-weight: 1000;
     }
 
     .field input,
     .field select,
     .field textarea {
       width: 100%;
+      padding: 12px 13px;
       border: 1px solid var(--border);
       border-radius: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text);
-      padding: 13px 14px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-
-    .field input[type="color"] {
-      height: 48px;
-      padding: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
     }
 
     .field textarea {
-      min-height: 94px;
+      min-height: 92px;
       resize: vertical;
     }
 
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: color-mix(in srgb, var(--primary) 80%, white);
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
-    }
-
-    .two-cols {
-      display: grid;
-      grid-template-columns: 1fr 110px;
-      gap: 12px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .field input[type="color"] {
       min-height: 46px;
-      padding: 12px 16px;
-      border-radius: 15px;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid var(--border);
-      transition: transform 0.2s, filter 0.2s, background 0.2s;
+      padding: 5px;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.08);
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      border-color: transparent;
-      font-weight: 800;
-    }
-
-    .btn.danger {
-      color: #fff;
-      background: color-mix(in srgb, var(--danger) 65%, transparent);
-    }
-
-    .btn.success {
-      color: #052e24;
-      background: var(--success);
-      font-weight: 900;
-    }
-
-    .btn.small {
-      min-height: 36px;
-      padding: 8px 11px;
-      border-radius: 12px;
-      font-size: 0.88rem;
-    }
-
-    .divider {
-      height: 1px;
-      margin: 18px 0;
-      background: var(--border);
-    }
-
-    .notice {
-      padding: 14px;
-      border-radius: 16px;
-      background: color-mix(in srgb, var(--warning) 18%, transparent);
-      border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
-      color: var(--text);
-      line-height: 1.55;
-    }
-
-    .app-layout {
+    .form-grid {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
-      padding: 12px 0 42px;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 14px;
-      align-self: start;
-      padding: 16px;
-    }
-
-    .room-code {
-      display: grid;
-      gap: 8px;
-      padding: 16px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 25%, transparent), color-mix(in srgb, var(--accent) 18%, transparent));
-      border: 1px solid var(--border);
-    }
-
-    .room-code strong {
-      font-size: 1.9rem;
-      letter-spacing: 0.12em;
-    }
-
-    .nav {
-      display: grid;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .nav button {
-      width: 100%;
-      justify-content: flex-start;
-      text-align: left;
-    }
-
-    .nav button.active {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      font-weight: 900;
-      border-color: transparent;
-    }
-
-    .member-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .member-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .avatar {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: 15px;
-      background: var(--member-color, var(--primary));
-      font-size: 22px;
-      flex: 0 0 auto;
-    }
-
-    .member-card strong {
-      display: block;
-      line-height: 1.15;
-    }
-
-    .member-card span {
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .main {
-      display: grid;
-      gap: 18px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
     }
 
-    .stat {
-      padding: 16px;
-      border-radius: 22px;
-      background: var(--card);
-      border: 1px solid var(--border);
-    }
-
-    .stat span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .stat strong {
-      display: block;
-      margin-top: 8px;
-      font-size: clamp(1.35rem, 2.7vw, 2.1rem);
-      letter-spacing: -0.06em;
-    }
-
-    .panel-card {
-      padding: clamp(16px, 3vw, 24px);
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .grid-2 {
+    .form-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .task-list {
-      display: grid;
       gap: 12px;
     }
 
-    .task-card {
+    .day-checks {
       display: grid;
-      gap: 12px;
-      padding: 15px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.085);
-      border: 1px solid var(--border);
-    }
-
-    .task-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .task-title {
-      display: grid;
-      gap: 5px;
-    }
-
-    .task-title strong {
-      font-size: 1rem;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
+      grid-template-columns: repeat(7, 1fr);
       gap: 7px;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 800;
-    }
-
-    .task-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .done-avatars {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .mini-avatar {
-      width: 28px;
-      height: 28px;
+    .day-checks label {
+      min-height: 38px;
       display: grid;
       place-items: center;
-      border-radius: 10px;
-      background: var(--member-color, var(--primary));
-      font-size: 15px;
-    }
-
-    .leaderboard {
-      display: grid;
-      gap: 10px;
-    }
-
-    .score-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border);
-    }
-
-    .progress {
-      height: 10px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      margin-top: 8px;
-    }
-
-    .progress span {
-      display: block;
-      height: 100%;
-      width: var(--w, 0%);
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      border-radius: inherit;
-    }
-
-    .check-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px;
-      border-radius: 15px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text);
-    }
-
-    .check input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--primary);
-    }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .theme-option {
-      min-height: 92px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      padding: 12px;
-      color: white;
-      text-align: left;
-      background: linear-gradient(135deg, var(--a), var(--b));
-    }
-
-    .theme-option strong {
-      display: block;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.24);
-    }
-
-    .empty {
-      padding: 18px;
-      border-radius: 18px;
-      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--muted);
-      text-align: center;
-      background: rgba(255, 255, 255, 0.055);
+      font-weight: 1000;
+      cursor: pointer;
+    }
+
+    .day-checks input {
+      display: none;
+    }
+
+    .day-checks label:has(input:checked) {
+      border-color: transparent;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(9, 8, 14, 0.68);
+      backdrop-filter: blur(14px);
+    }
+
+    .modal {
+      width: min(680px, 100%);
+      max-height: min(86vh, 850px);
+      overflow: auto;
+      padding: 18px;
+      border-radius: 24px;
+      background: #201a31;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      letter-spacing: -0.055em;
+    }
+
+    .modal-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-weight: 900;
+      line-height: 1.4;
     }
 
     .toast {
       position: fixed;
-      z-index: 20;
       right: 18px;
-      bottom: 18px;
+      bottom: calc(var(--nav-h) + 34px);
+      z-index: 120;
       width: min(380px, calc(100% - 36px));
       padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(15, 15, 28, 0.88);
       border: 1px solid var(--border);
-      color: white;
+      border-radius: 18px;
+      background: rgba(25, 21, 38, 0.94);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      transform: translateY(18px);
+      color: #fff;
+      font-weight: 1000;
       opacity: 0;
+      transform: translateY(16px);
       pointer-events: none;
-      transition: 0.25s ease;
+      transition: 0.22s ease;
     }
 
     .toast.show {
@@ -625,133 +839,105 @@
       transform: translateY(0);
     }
 
-    .toast.error {
-      background: color-mix(in srgb, var(--danger) 72%, #111);
-    }
-
-    @media (max-width: 960px) {
-      .hero,
-      .app-layout,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: static;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .theme-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 620px) {
-      .shell {
-        width: min(100% - 22px, var(--max));
-      }
-
-      .topbar {
+    @media (max-width: 880px) {
+      .top-card {
         align-items: flex-start;
         flex-direction: column;
       }
 
-      .hero {
-        padding-top: 12px;
+      .top-actions {
+        width: 100%;
+        justify-content: stretch;
       }
 
-      .two-cols,
-      .check-row,
-      .stats-grid,
-      .theme-grid {
+      .top-actions .btn {
+        flex: 1;
+      }
+
+      .grid-2,
+      .grid-3,
+      .member-grid {
         grid-template-columns: 1fr;
       }
 
-      .actions .btn {
-        width: 100%;
+      .achievement-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .section-title {
+      .week-board {
+        grid-template-columns: repeat(7, minmax(76vw, 1fr));
+      }
+
+      .week-day {
+        min-width: 76vw;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding-bottom: calc(var(--nav-h) + 28px + env(safe-area-inset-bottom));
+      }
+
+      .shell {
+        width: min(100% - 20px, var(--max));
+      }
+
+      .app {
+        padding-top: 12px;
+      }
+
+      .stats,
+      .form-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .top-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .achievement-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-nav {
+        width: calc(100% - 18px);
+        border-radius: 20px;
+      }
+
+      .nav-btn {
+        font-size: 0.68rem;
+      }
+
+      .day-checks {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .mission-main {
         flex-direction: column;
+      }
+
+      .mission-actions {
+        width: 100%;
+        flex-direction: row;
+        align-items: stretch;
+      }
+
+      .mission-actions .btn {
+        flex: 1;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="app-bg-orb"></div>
-
-  <header class="shell topbar">
-    <div class="brand">
-      <div class="logo">💞</div>
-      <div>
-        <h1>Cuidar Juntos</h1>
-        <p>Autocuidado, rotina e competição saudável para casal</p>
-      </div>
-    </div>
-    <div id="connectionStatus" class="pill">🔄 Inicializando</div>
-  </header>
-
-  <section id="setupView" class="shell hero">
-    <div class="card hero-copy">
-      <h2>Um jogo leve para vocês virarem <span class="gradient-text">time na vida real.</span></h2>
-      <p>
-        Criem uma sala, compartilhem o código e acompanhem hábitos, check-ins,
-        desafios da semana, sequência da dupla e placar. O tema escolhido por um
-        aparece para os dois.
-      </p>
-    </div>
-
-    <div class="card setup-card">
-      <h3>Começar</h3>
-      <p>Escolha seu nome, crie uma sala ou entre com o código do par.</p>
-
-      <div id="setupWarning" class="notice" hidden></div>
-
-      <form id="profileForm" class="form-grid">
-        <div class="two-cols">
-          <div class="field">
-            <label for="displayName">Seu nome</label>
-            <input id="displayName" maxlength="32" placeholder="Ex: Ana" autocomplete="name" required />
-          </div>
-
-          <div class="field">
-            <label for="avatar">Emoji</label>
-            <input id="avatar" maxlength="4" placeholder="🌻" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="memberColor">Sua cor no placar</label>
-          <input id="memberColor" type="color" value="#ff6b9a" />
-        </div>
-
-        <button class="btn" type="submit">Salvar perfil</button>
-      </form>
-
-      <div class="divider"></div>
-
-      <div class="actions">
-        <button id="createRoomButton" class="btn primary" type="button">✨ Criar sala do casal</button>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="roomCodeInput">Código da sala</label>
-          <input id="roomCodeInput" maxlength="6" placeholder="EX: A7K2P9" />
-        </div>
-        <button id="joinRoomButton" class="btn primary" type="button">Entrar na sala</button>
-      </div>
-    </div>
-  </section>
-
-  <main id="appView" class="shell" hidden></main>
-
+  <div id="app" class="app shell"></div>
+  <nav id="bottomNav" class="bottom-nav"></nav>
+  <div id="modalRoot" hidden></div>
   <div id="toast" class="toast"></div>
 
   <script type="module">
@@ -766,12 +952,11 @@
       getFirestore,
       onSnapshot,
       runTransaction,
-      serverTimestamp,
       setDoc
     } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyD-pG1xZyQoLqByrizu3jYlrMtSkO9yZr0",
+      apiKey: "AIzaSyD-pG1xZyQoLqBYrizu3jYlrMtSkO9yZr0",
       authDomain: "casinha-4d078.firebaseapp.com",
       projectId: "casinha-4d078",
       storageBucket: "casinha-4d078.firebasestorage.app",
@@ -779,62 +964,145 @@
       appId: "1:120575493435:web:e355019986f48e79f5631e"
     };
 
-    const COLLECTION = "coupleRooms";
-    const ROOM_KEY = "cuidarJuntos.roomId";
-    const PROFILE_KEY = "cuidarJuntos.profile";
+    const COLLECTION = "familyBases";
+
+    const STORAGE = {
+      uid: "baseFamilia.uid",
+      profile: "baseFamilia.profile",
+      room: "baseFamilia.roomId",
+      localData: "baseFamilia.localData"
+    };
+
+    const DAY_NAMES = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    const DAY_SHORT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+    const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
+    const CATEGORIES = {
+      pets: { label: "Pets", icon: "🐾" },
+      casa: { label: "Casa", icon: "🏠" },
+      financeiro: { label: "Financeiro", icon: "💰" },
+      relacionamento: { label: "Relacionamento", icon: "💞" },
+      saude: { label: "Saúde", icon: "🌿" },
+      perfeito: { label: "Dia Perfeito", icon: "⭐" },
+      tempo: { label: "Tempo", icon: "⏱️" }
+    };
 
     const THEMES = {
+      familia: {
+        name: "Base da Família",
+        bg: "#171425",
+        bg2: "#302b3d",
+        panel: "rgba(31, 26, 47, 0.94)",
+        primary: "#b77aff",
+        primary2: "#f47bca",
+        accent: "#ffc247",
+        text: "#f7efff"
+      },
       aurora: {
         name: "Aurora",
-        primary: "#ff6b9a",
-        accent: "#7c3aed",
         bg: "#100f24",
-        text: "#fff7fb",
-        card: "rgba(255, 255, 255, 0.10)"
+        bg2: "#2d2744",
+        panel: "rgba(28, 23, 48, 0.94)",
+        primary: "#8b5cf6",
+        primary2: "#ec4899",
+        accent: "#fbbf24",
+        text: "#fff7fb"
       },
       bosque: {
         name: "Bosque",
+        bg: "#08251f",
+        bg2: "#173a32",
+        panel: "rgba(9, 48, 38, 0.93)",
         primary: "#22c55e",
-        accent: "#14b8a6",
-        bg: "#052e26",
-        text: "#f0fdf4",
-        card: "rgba(255, 255, 255, 0.10)"
+        primary2: "#14b8a6",
+        accent: "#bef264",
+        text: "#f0fdf4"
+      },
+      ceu: {
+        name: "Céu",
+        bg: "#081629",
+        bg2: "#202d50",
+        panel: "rgba(12, 30, 55, 0.94)",
+        primary: "#38bdf8",
+        primary2: "#6366f1",
+        accent: "#fde68a",
+        text: "#eff6ff"
       },
       sol: {
         name: "Pôr do sol",
+        bg: "#2a1324",
+        bg2: "#46304a",
+        panel: "rgba(54, 29, 46, 0.94)",
         primary: "#fb7185",
-        accent: "#f59e0b",
-        bg: "#2b1020",
-        text: "#fff7ed",
-        card: "rgba(255, 255, 255, 0.12)"
-      },
-      ceu: {
-        name: "Céu calmo",
-        primary: "#38bdf8",
-        accent: "#6366f1",
-        bg: "#081629",
-        text: "#eff6ff",
-        card: "rgba(255, 255, 255, 0.10)"
+        primary2: "#f97316",
+        accent: "#fde047",
+        text: "#fff7ed"
       }
     };
+
+    const ACHIEVEMENTS = [
+      ["missoes", "🏆", "1 missão feita", 1, "missionsDone"],
+      ["missoes", "🏆", "5 missões feitas", 5, "missionsDone"],
+      ["missoes", "🔒", "10 missões feitas", 10, "missionsDone"],
+      ["missoes", "🔒", "25 missões feitas", 25, "missionsDone"],
+      ["missoes", "🔒", "50 missões feitas", 50, "missionsDone"],
+      ["missoes", "🔒", "100 missões feitas", 100, "missionsDone"],
+      ["missoes", "🔒", "250 missões feitas", 250, "missionsDone"],
+      ["missoes", "🔒", "500 missões feitas", 500, "missionsDone"],
+      ["perfeito", "⭐", "1 dia perfeito", 1, "perfectDays"],
+      ["perfeito", "⭐", "3 dias perfeitos", 3, "perfectDays"],
+      ["perfeito", "🔒", "7 dias perfeitos", 7, "perfectDays"],
+      ["perfeito", "🔒", "15 dias perfeitos", 15, "perfectDays"],
+      ["perfeito", "🔒", "30 dias perfeitos", 30, "perfectDays"],
+      ["perfeito", "🔒", "60 dias perfeitos", 60, "perfectDays"],
+      ["perfeito", "🔒", "100 dias perfeitos", 100, "perfectDays"],
+      ["pets", "🐾", "1 em Pets", 1, "petsDone"],
+      ["pets", "🐾", "5 em Pets", 5, "petsDone"],
+      ["pets", "🔒", "10 em Pets", 10, "petsDone"],
+      ["pets", "🔒", "25 em Pets", 25, "petsDone"],
+      ["pets", "🔒", "50 em Pets", 50, "petsDone"],
+      ["pets", "🔒", "100 em Pets", 100, "petsDone"],
+      ["casa", "🏠", "1 em Casa", 1, "casaDone"],
+      ["casa", "🏠", "5 em Casa", 5, "casaDone"],
+      ["casa", "🔒", "10 em Casa", 10, "casaDone"],
+      ["casa", "🔒", "25 em Casa", 25, "casaDone"],
+      ["financeiro", "💰", "1 em Financeiro", 1, "financeiroDone"],
+      ["financeiro", "🔒", "5 em Financeiro", 5, "financeiroDone"],
+      ["relacionamento", "💞", "1 em Relacionamento", 1, "relacionamentoDone"],
+      ["saude", "🌿", "1 em Saúde", 1, "saudeDone"],
+      ["tempo", "⏱️", "10 min economizados", 10, "minutesDone"],
+      ["tempo", "🔒", "60 min economizados", 60, "minutesDone"],
+      ["cofrinho", "🐷", "R$ 10 guardados", 10, "moneySaved"],
+      ["cofrinho", "🔒", "R$ 100 guardados", 100, "moneySaved"]
+    ];
 
     const state = {
       app: null,
       auth: null,
       db: null,
-      uid: null,
-      roomId: null,
-      room: null,
       unsubscribe: null,
-      activeTab: "hoje",
-      ready: false
+      uid: getOrCreateLocalUid(),
+      cloudReady: false,
+      signedIn: false,
+      roomId: localStorage.getItem(STORAGE.room) || "",
+      page: "missoes",
+      missionTab: "base",
+      hallFilter: "todas",
+      data: null
     };
 
-    const $ = (selector) => document.querySelector(selector);
-    const TODAY = () => dateToKey(new Date());
+    const appEl = document.getElementById("app");
+    const navEl = document.getElementById("bottomNav");
+    const modalRoot = document.getElementById("modalRoot");
+    const toastEl = document.getElementById("toast");
 
-    function hasFirebaseConfig() {
-      return firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("COLE_") && firebaseConfig.projectId !== "SEU_PROJETO";
+    function getOrCreateLocalUid() {
+      const saved = localStorage.getItem(STORAGE.uid);
+      if (saved) return saved;
+
+      const uid = crypto.randomUUID ? crypto.randomUUID() : `local-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(STORAGE.uid, uid);
+      return uid;
     }
 
     function escapeHTML(value = "") {
@@ -846,49 +1114,87 @@
         .replaceAll("'", "&#039;");
     }
 
-    function normalizeHex(value, fallback) {
-      return /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback;
+    function clamp(value, min, max) {
+      const number = Number(value);
+      if (Number.isNaN(number)) return min;
+      return Math.max(min, Math.min(max, number));
     }
 
-    function dateToKey(date) {
-      const local = new Date(date);
-      local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
-      return local.toISOString().slice(0, 10);
-    }
-
-    function keyToDate(key) {
-      const [year, month, day] = key.split("-").map(Number);
-      return new Date(year, month - 1, day, 12, 0, 0);
-    }
-
-    function addDaysKey(days) {
-      const date = new Date();
-      date.setDate(date.getDate() + days);
-      return dateToKey(date);
-    }
-
-    function formatDate(key) {
-      return keyToDate(key).toLocaleDateString("pt-BR", {
-        weekday: "long",
-        day: "2-digit",
-        month: "short"
+    function money(value) {
+      return Number(value || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
       });
     }
 
-    function startOfWeek(date = new Date()) {
-      const copy = new Date(date);
-      const day = (copy.getDay() + 6) % 7;
-      copy.setHours(0, 0, 0, 0);
-      copy.setDate(copy.getDate() - day);
-      return copy;
+    function todayKey(offset = 0) {
+      const date = new Date();
+      date.setDate(date.getDate() + offset);
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date.toISOString().slice(0, 10);
     }
 
-    function isCurrentWeek(key) {
-      const date = keyToDate(key);
-      const start = startOfWeek();
-      const end = new Date(start);
-      end.setDate(start.getDate() + 7);
-      return date >= start && date < end;
+    function dateKey(date) {
+      const copy = new Date(date);
+      copy.setMinutes(copy.getMinutes() - copy.getTimezoneOffset());
+      return copy.toISOString().slice(0, 10);
+    }
+
+    function fromKey(key) {
+      const [year, month, day] = String(key).split("-").map(Number);
+      return new Date(year, month - 1, day, 12);
+    }
+
+    function formatDate(key) {
+      return fromKey(key).toLocaleDateString("pt-BR", {
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit"
+      });
+    }
+
+    function formatLongDate(key) {
+      return fromKey(key).toLocaleDateString("pt-BR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit"
+      });
+    }
+
+    function startOfWeekMonday() {
+      const now = new Date();
+      const day = now.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      now.setDate(now.getDate() + diff);
+      now.setHours(12, 0, 0, 0);
+      return now;
+    }
+
+    function getProfile() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE.profile)) || {};
+        return {
+          uid: state.uid,
+          name: saved.name || "Mu",
+          avatar: saved.avatar || "👤",
+          color: saved.color || "#b77aff"
+        };
+      } catch {
+        return {
+          uid: state.uid,
+          name: "Mu",
+          avatar: "👤",
+          color: "#b77aff"
+        };
+      }
+    }
+
+    function saveProfile(profile) {
+      localStorage.setItem(STORAGE.profile, JSON.stringify({
+        name: profile.name,
+        avatar: profile.avatar,
+        color: profile.color
+      }));
     }
 
     function randomRoomCode() {
@@ -901,951 +1207,1932 @@
     }
 
     function makeId(prefix) {
-      const random = crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      return `${prefix}_${random}`;
+      return `${prefix}_${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(16).slice(2)}`}`;
     }
 
-    function showToast(message, type = "ok") {
-      const toast = $("#toast");
-      toast.textContent = message;
-      toast.className = `toast show ${type === "error" ? "error" : ""}`;
-      window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => {
-        toast.className = "toast";
-      }, 3200);
+    function categoryOf(key) {
+      return CATEGORIES[key] || CATEGORIES.casa;
     }
 
-    function setStatus(text) {
-      $("#connectionStatus").textContent = text;
+    function createMission(partial = {}) {
+      const frequency = partial.frequency || "daily";
+
+      return {
+        id: partial.id || makeId("mission"),
+        title: partial.title || "Nova missão",
+        description: partial.description || "",
+        category: partial.category || "casa",
+        frequency,
+        days: Array.isArray(partial.days) ? partial.days : [new Date().getDay()],
+        monthDay: Number(partial.monthDay || new Date().getDate()),
+        date: partial.date || todayKey(),
+        xp: clamp(partial.xp || 10, 1, 200),
+        energy: clamp(partial.energy || 1, 1, 5),
+        minutes: clamp(partial.minutes || 5, 1, 600),
+        assigned: partial.assigned || "any",
+        createdAt: partial.createdAt || Date.now(),
+        done: partial.done || {}
+      };
     }
 
-    function loadProfile() {
+    function defaultData(roomId = "LOCAL") {
+      const profile = getProfile();
+
+      return {
+        version: 2,
+        roomId,
+        baseName: "Base da Família",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        settings: {
+          theme: "familia",
+          custom: null
+        },
+        members: {
+          [profile.uid]: {
+            ...profile,
+            joinedAt: Date.now()
+          }
+        },
+        systems: {
+          pets: {
+            health: 0,
+            mood: "precisa de atenção",
+            lastCare: null
+          },
+          casa: {
+            health: 0,
+            mood: "precisa de atenção",
+            lastCare: null
+          }
+        },
+        wallet: {
+          goals: [],
+          deposits: []
+        },
+        missions: [
+          createMission({
+            title: "Areia",
+            description: "Cuidar dos pets e manter o ambiente limpo.",
+            category: "pets",
+            frequency: "daily",
+            xp: 11,
+            energy: 1,
+            minutes: 8,
+            assigned: "any"
+          }),
+          createMission({
+            title: "varrer a casa",
+            description: "Uma passada rápida para manter a Base em ordem.",
+            category: "casa",
+            frequency: "daily",
+            xp: 38,
+            energy: 4,
+            minutes: 40,
+            assigned: "any"
+          }),
+          createMission({
+            title: "LIXO NA RUA",
+            description: "Colocar o lixo na rua no dia certo.",
+            category: "casa",
+            frequency: "weekly",
+            days: [6],
+            xp: 19,
+            energy: 2,
+            minutes: 5,
+            assigned: "any"
+          }),
+          createMission({
+            title: "Check-in carinhoso",
+            description: "Perguntar como o outro está ou mandar uma mensagem boa.",
+            category: "relacionamento",
+            frequency: "daily",
+            xp: 12,
+            energy: 1,
+            minutes: 3,
+            assigned: "both"
+          })
+        ],
+        history: []
+      };
+    }
+
+    function ensureDataShape(input) {
+      const fallback = defaultData(input?.roomId || state.roomId || "LOCAL");
+
+      const data = {
+        ...fallback,
+        ...(input || {}),
+        settings: {
+          ...fallback.settings,
+          ...(input?.settings || {})
+        },
+        systems: {
+          pets: {
+            ...fallback.systems.pets,
+            ...(input?.systems?.pets || input?.pets || {})
+          },
+          casa: {
+            ...fallback.systems.casa,
+            ...(input?.systems?.casa || {})
+          }
+        },
+        wallet: {
+          goals: Array.isArray(input?.wallet?.goals) ? input.wallet.goals : [],
+          deposits: Array.isArray(input?.wallet?.deposits) ? input.wallet.deposits : []
+        },
+        members: input?.members || fallback.members,
+        missions: Array.isArray(input?.missions) ? input.missions.map((mission) => ({
+          ...createMission({}),
+          ...mission,
+          days: Array.isArray(mission.days) ? mission.days.map(Number) : [],
+          done: mission.done || {}
+        })) : fallback.missions,
+        history: Array.isArray(input?.history) ? input.history : []
+      };
+
+      if (!data.members[state.uid]) {
+        data.members[state.uid] = {
+          ...getProfile(),
+          uid: state.uid,
+          joinedAt: Date.now()
+        };
+      }
+
+      return data;
+    }
+
+    function loadLocalData() {
       try {
-        return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {};
+        const saved = JSON.parse(localStorage.getItem(STORAGE.localData));
+        state.data = ensureDataShape(saved || defaultData());
       } catch {
-        return {};
+        state.data = defaultData();
       }
+
+      applyTheme();
+      render();
     }
 
-    function saveProfile(profile) {
-      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    function saveLocalData() {
+      localStorage.setItem(STORAGE.localData, JSON.stringify(state.data));
     }
 
-    function getProfileFromForm() {
-      const name = $("#displayName").value.trim().slice(0, 32) || "Pessoa";
-      const avatar = $("#avatar").value.trim().slice(0, 4) || "💛";
-      const color = $("#memberColor").value || "#ff6b9a";
-      const profile = { uid: state.uid, name, avatar, color };
-      saveProfile(profile);
-      return profile;
-    }
+    async function updateData(mutator) {
+      if (state.cloudReady && state.roomId) {
+        const ref = doc(state.db, COLLECTION, state.roomId);
 
-    function hydrateProfileForm() {
-      const profile = loadProfile();
-      $("#displayName").value = profile.name || "";
-      $("#avatar").value = profile.avatar || "💛";
-      $("#memberColor").value = normalizeHex(profile.color, "#ff6b9a");
+        await runTransaction(state.db, async (transaction) => {
+          const snapshot = await transaction.get(ref);
+          const current = ensureDataShape(snapshot.exists() ? snapshot.data() : defaultData(state.roomId));
 
-      const roomFromUrl = new URLSearchParams(location.search).get("room");
-      if (roomFromUrl) {
-        $("#roomCodeInput").value = roomFromUrl.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
-      }
-    }
+          mutator(current);
+          current.updatedAt = Date.now();
 
-    function defaultHabits() {
-      return [
-        {
-          id: makeId("habit"),
-          title: "Beber água e cuidar do corpo",
-          kind: "Autocuidado",
-          points: 10,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        },
-        {
-          id: makeId("habit"),
-          title: "Movimento de 15 minutos",
-          kind: "Saúde",
-          points: 15,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        },
-        {
-          id: makeId("habit"),
-          title: "Planejar uma pequena prioridade do dia",
-          kind: "Desenvolvimento",
-          points: 10,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        },
-        {
-          id: makeId("habit"),
-          title: "Mandar uma mensagem carinhosa",
-          kind: "Relação",
-          points: 10,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        }
-      ];
-    }
+          transaction.set(ref, current);
+        });
 
-    function defaultChallenges() {
-      return [
-        {
-          id: makeId("challenge"),
-          title: "7 dias de check-in emocional",
-          kind: "Desafio da dupla",
-          points: 20,
-          startDate: TODAY(),
-          endDate: addDaysKey(7),
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        }
-      ];
-    }
-
-    async function createRoom() {
-      if (!state.uid) {
-        showToast("Autenticação ainda não terminou.", "error");
         return;
       }
 
-      const profile = {
-        ...getProfileFromForm(),
-        joinedAt: Date.now()
-      };
+      mutator(state.data);
+      state.data.updatedAt = Date.now();
+      saveLocalData();
+      applyTheme();
+      render();
+    }
 
-      const roomId = randomRoomCode();
-      const roomRef = doc(state.db, COLLECTION, roomId);
-      const theme = THEMES.aurora;
+    function applyTheme() {
+      const settings = state.data?.settings || {};
+      const theme = settings.custom || THEMES[settings.theme] || THEMES.familia;
+      const root = document.documentElement;
 
-      await setDoc(roomRef, {
-        roomId,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        members: {
-          [state.uid]: profile
-        },
-        settings: {
-          themeName: "aurora",
-          ...theme
-        },
-        daily: {},
-        habits: defaultHabits(),
-        challenges: defaultChallenges()
+      root.style.setProperty("--bg", theme.bg);
+      root.style.setProperty("--bg-2", theme.bg2 || "#302b3d");
+      root.style.setProperty("--panel", theme.panel);
+      root.style.setProperty("--primary", theme.primary);
+      root.style.setProperty("--primary-2", theme.primary2);
+      root.style.setProperty("--accent", theme.accent);
+      root.style.setProperty("--text", theme.text);
+    }
+
+    async function initFirebase() {
+      renderLoading();
+
+      state.app = initializeApp(firebaseConfig);
+      state.auth = getAuth(state.app);
+      state.db = getFirestore(state.app);
+
+      onAuthStateChanged(state.auth, async (user) => {
+        if (!user) return;
+
+        state.uid = user.uid;
+        state.signedIn = true;
+        localStorage.setItem(STORAGE.uid, user.uid);
+
+        const urlRoom = new URLSearchParams(location.search).get("room");
+        const cleanUrlRoom = normalizeRoomCode(urlRoom);
+
+        if (cleanUrlRoom) {
+          await joinRoom(cleanUrlRoom, true);
+          return;
+        }
+
+        const savedRoom = normalizeRoomCode(localStorage.getItem(STORAGE.room));
+
+        if (savedRoom) {
+          state.roomId = savedRoom;
+          subscribeRoom(savedRoom);
+          return;
+        }
+
+        await createRoom(true);
       });
 
-      localStorage.setItem(ROOM_KEY, roomId);
-      subscribeToRoom(roomId);
-      showToast("Sala criada! Compartilhe o código com seu par.");
+      await signInAnonymously(state.auth);
     }
 
-    async function joinRoom() {
-      if (!state.uid) {
-        showToast("Autenticação ainda não terminou.", "error");
-        return;
-      }
+    function normalizeRoomCode(value) {
+      return String(value || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+    }
 
-      const roomId = $("#roomCodeInput").value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
-      if (roomId.length !== 6) {
-        showToast("Digite um código de sala com 6 caracteres.", "error");
+    async function createRoom(silent = false) {
+      const roomId = randomRoomCode();
+      const profile = {
+        ...getProfile(),
+        uid: state.uid,
+        joinedAt: Date.now()
+      };
+
+      const data = defaultData(roomId);
+      data.members = {
+        [state.uid]: profile
+      };
+
+      await setDoc(doc(state.db, COLLECTION, roomId), data);
+
+      state.roomId = roomId;
+      state.cloudReady = true;
+      localStorage.setItem(STORAGE.room, roomId);
+      subscribeRoom(roomId);
+
+      if (!silent) {
+        toast(`Sala ${roomId} criada.`);
+      }
+    }
+
+    async function joinRoom(roomId, silent = false) {
+      const code = normalizeRoomCode(roomId);
+
+      if (code.length !== 6) {
+        toast("Código inválido.");
         return;
       }
 
       const profile = {
-        ...getProfileFromForm(),
+        ...getProfile(),
+        uid: state.uid,
         joinedAt: Date.now()
       };
 
-      const roomRef = doc(state.db, COLLECTION, roomId);
-
-      await setDoc(roomRef, {
+      await setDoc(doc(state.db, COLLECTION, code), {
+        roomId: code,
         members: {
           [state.uid]: profile
         },
-        updatedAt: serverTimestamp()
+        updatedAt: Date.now()
       }, { merge: true });
 
-      localStorage.setItem(ROOM_KEY, roomId);
-      subscribeToRoom(roomId);
-      showToast("Você entrou na sala!");
+      state.roomId = code;
+      state.cloudReady = true;
+      localStorage.setItem(STORAGE.room, code);
+      subscribeRoom(code);
+
+      if (!silent) {
+        toast(`Entrou na sala ${code}.`);
+      }
     }
 
-    function subscribeToRoom(roomId) {
+    function subscribeRoom(roomId) {
       if (state.unsubscribe) {
         state.unsubscribe();
       }
 
+      state.cloudReady = true;
       state.roomId = roomId;
-      setStatus(`🟢 Sala ${roomId}`);
 
-      const roomRef = doc(state.db, COLLECTION, roomId);
       state.unsubscribe = onSnapshot(
-        roomRef,
+        doc(state.db, COLLECTION, roomId),
         (snapshot) => {
           if (!snapshot.exists()) {
-            leaveRoom(false);
-            showToast("Sala não encontrada.", "error");
+            toast("Sala não encontrada. Criando uma nova base local.");
+            state.cloudReady = false;
+            localStorage.removeItem(STORAGE.room);
+            loadLocalData();
             return;
           }
 
-          state.room = snapshot.data();
-          applyTheme(state.room.settings);
-          renderApp();
+          state.data = ensureDataShape(snapshot.data());
+          applyTheme();
+          render();
         },
         (error) => {
           console.error(error);
-          leaveRoom(false);
-          showToast("Não foi possível acessar a sala. Confira o código ou as regras do Firestore.", "error");
+          toast("Erro ao sincronizar. Confira as Rules do Firestore.");
+          loadLocalData();
         }
       );
     }
 
-    async function updateRoom(mutator) {
-      if (!state.roomId) {
-        throw new Error("Nenhuma sala ativa.");
+    function members() {
+      return Object.values(state.data?.members || {});
+    }
+
+    function me() {
+      return state.data?.members?.[state.uid] || getProfile();
+    }
+
+    function missionStartKey(mission) {
+      return dateKey(new Date(mission.createdAt || Date.now()));
+    }
+
+    function isDueOn(mission, key) {
+      if (key < missionStartKey(mission)) return false;
+
+      const date = fromKey(key);
+      const day = date.getDay();
+
+      if (mission.frequency === "daily") return true;
+      if (mission.frequency === "weekly") return (mission.days || []).map(Number).includes(day);
+      if (mission.frequency === "monthly") return date.getDate() === Number(mission.monthDay || 1);
+      return mission.date === key;
+    }
+
+    function doneMap(mission, key) {
+      return mission.done?.[key] || {};
+    }
+
+    function doneByMe(mission, key = todayKey()) {
+      return Boolean(doneMap(mission, key)[state.uid]);
+    }
+
+    function doneMembers(mission, key = todayKey()) {
+      const map = doneMap(mission, key);
+      return members().filter((person) => map[person.uid]);
+    }
+
+    function baseComplete(mission, key = todayKey()) {
+      const map = doneMap(mission, key);
+
+      if (mission.assigned === "both" && members().length > 1) {
+        return members().every((person) => Boolean(map[person.uid]));
       }
 
-      const roomRef = doc(state.db, COLLECTION, state.roomId);
+      return Object.values(map).some(Boolean);
+    }
 
-      await runTransaction(state.db, async (transaction) => {
-        const snapshot = await transaction.get(roomRef);
-        if (!snapshot.exists()) {
-          throw new Error("Sala não encontrada.");
+    function dueDatesForMission(mission, back = 45, forward = 0) {
+      const dates = [];
+
+      for (let offset = -back; offset <= forward; offset += 1) {
+        const key = todayKey(offset);
+
+        if (isDueOn(mission, key)) {
+          dates.push(key);
         }
-
-        const data = snapshot.data();
-        mutator(data);
-        data.updatedAt = serverTimestamp();
-        transaction.set(roomRef, data);
-      });
-    }
-
-    function leaveRoom(showMessage = true) {
-      if (state.unsubscribe) {
-        state.unsubscribe();
       }
 
-      state.unsubscribe = null;
-      state.roomId = null;
-      state.room = null;
-      localStorage.removeItem(ROOM_KEY);
-
-      $("#setupView").hidden = false;
-      $("#appView").hidden = true;
-      setStatus(state.ready ? "🟢 Conectado" : "🔄 Inicializando");
-
-      if (showMessage) {
-        showToast("Você saiu da sala.");
-      }
+      return dates;
     }
 
-    function members(room = state.room) {
-      return Object.values(room?.members || {});
+    function missionsDueToday() {
+      return state.data.missions.filter((mission) => isDueOn(mission, todayKey()));
     }
 
-    function getMember(uid) {
-      return state.room?.members?.[uid] || { name: "Pessoa", avatar: "💛", color: "#ff6b9a" };
+    function missionsByFrequency(frequency) {
+      return state.data.missions.filter((mission) => mission.frequency === frequency);
     }
 
-    function isDone(item, uid, date = TODAY()) {
-      return Boolean(item?.done?.[date]?.[uid]);
-    }
+    function overdueItems() {
+      const items = [];
 
-    function completedBy(item, date = TODAY()) {
-      return Object.entries(item?.done?.[date] || {})
-        .filter(([, value]) => Boolean(value))
-        .map(([uid]) => getMember(uid));
-    }
-
-    function computeScore(uid, mode = "week") {
-      const room = state.room;
-      if (!room) return 0;
-
-      const dateFilter = (key) => {
-        if (mode === "today") return key === TODAY();
-        if (mode === "week") return isCurrentWeek(key);
-        return true;
-      };
-
-      let score = 0;
-
-      Object.entries(room.daily || {}).forEach(([date, day]) => {
-        if (dateFilter(date) && day?.checkins?.[uid]) {
-          score += 5;
-        }
-      });
-
-      [...(room.habits || []), ...(room.challenges || [])].forEach((item) => {
-        Object.entries(item.done || {}).forEach(([date, doneMap]) => {
-          if (dateFilter(date) && doneMap?.[uid]) {
-            score += Number(item.points || 0);
+      for (const mission of state.data.missions) {
+        for (const key of dueDatesForMission(mission, 45, -1)) {
+          if (!baseComplete(mission, key)) {
+            items.push({ mission, key });
           }
-        });
-      });
+        }
+      }
 
-      return score;
+      return items.sort((a, b) => a.key.localeCompare(b.key));
     }
 
-    function countTodayDone(uid) {
-      const list = [...(state.room?.habits || []), ...(state.room?.challenges || [])];
-      const tasks = list.filter((item) => isDone(item, uid, TODAY())).length;
-      const checkin = state.room?.daily?.[TODAY()]?.checkins?.[uid] ? 1 : 0;
-      return tasks + checkin;
+    function nextMission() {
+      const today = todayKey();
+      const pendingToday = missionsDueToday().find((mission) => !baseComplete(mission, today));
+
+      if (pendingToday) {
+        return { mission: pendingToday, key: today };
+      }
+
+      for (let offset = 1; offset <= 31; offset += 1) {
+        const key = todayKey(offset);
+        const found = state.data.missions.find((mission) => isDueOn(mission, key));
+
+        if (found) {
+          return { mission: found, key };
+        }
+      }
+
+      return null;
     }
 
-    function computeDuoStreak() {
-      const people = members();
-      if (people.length < 2) return 0;
+    function completedEvents() {
+      const events = [];
 
+      for (const mission of state.data.missions) {
+        for (const [key, map] of Object.entries(mission.done || {})) {
+          for (const [uid, value] of Object.entries(map || {})) {
+            if (value) {
+              events.push({
+                type: "mission",
+                mission,
+                key,
+                uid,
+                at: typeof value === "number" ? value : Date.now()
+              });
+            }
+          }
+        }
+      }
+
+      return events;
+    }
+
+    function scoreFor(uid) {
+      return completedEvents()
+        .filter((event) => event.uid === uid)
+        .reduce((sum, event) => sum + Number(event.mission.xp || 0), 0);
+    }
+
+    function categoryDoneCount(category) {
+      return completedEvents().filter((event) => event.mission.category === category).length;
+    }
+
+    function minutesDone() {
+      return completedEvents().reduce((sum, event) => sum + Number(event.mission.minutes || 0), 0);
+    }
+
+    function walletSaved() {
+      return (state.data.wallet.goals || []).reduce((sum, goal) => sum + Number(goal.saved || 0), 0);
+    }
+
+    function walletTarget() {
+      return (state.data.wallet.goals || []).reduce((sum, goal) => sum + Number(goal.target || 0), 0);
+    }
+
+    function perfectDayCount() {
+      let count = 0;
+
+      for (let offset = 0; offset >= -120; offset -= 1) {
+        const key = todayKey(offset);
+        const due = state.data.missions.filter((mission) => isDueOn(mission, key));
+
+        if (due.length && due.every((mission) => baseComplete(mission, key))) {
+          count += 1;
+        }
+      }
+
+      return count;
+    }
+
+    function currentStreak() {
       let streak = 0;
-      const date = new Date();
 
-      for (let i = 0; i < 60; i += 1) {
-        const key = dateToKey(date);
-        const checkins = state.room?.daily?.[key]?.checkins || {};
-        const allChecked = people.every((person) => Boolean(checkins[person.uid]));
+      for (let offset = 0; offset >= -90; offset -= 1) {
+        const key = todayKey(offset);
+        const due = state.data.missions.filter((mission) => isDueOn(mission, key));
 
-        if (!allChecked) break;
+        if (!due.length || !due.every((mission) => baseComplete(mission, key))) {
+          break;
+        }
 
         streak += 1;
-        date.setDate(date.getDate() - 1);
       }
 
       return streak;
     }
 
-    function applyTheme(settings = THEMES.aurora) {
-      const theme = { ...THEMES.aurora, ...settings };
-      const root = document.documentElement;
+    function metrics() {
+      const events = completedEvents();
 
-      root.style.setProperty("--primary", theme.primary);
-      root.style.setProperty("--accent", theme.accent);
-      root.style.setProperty("--bg", theme.bg);
-      root.style.setProperty("--text", theme.text);
-      root.style.setProperty("--card", theme.card || "rgba(255, 255, 255, 0.10)");
+      return {
+        missionsDone: events.length,
+        perfectDays: perfectDayCount(),
+        petsDone: categoryDoneCount("pets"),
+        casaDone: categoryDoneCount("casa"),
+        financeiroDone: categoryDoneCount("financeiro"),
+        relacionamentoDone: categoryDoneCount("relacionamento"),
+        saudeDone: categoryDoneCount("saude"),
+        minutesDone: minutesDone(),
+        moneySaved: walletSaved()
+      };
     }
 
-    function renderApp() {
-      const room = state.room;
-      const people = members(room);
-      const weekScores = people.map((person) => ({
-        ...person,
-        weekScore: computeScore(person.uid, "week"),
-        todayScore: computeScore(person.uid, "today"),
-        todayDone: countTodayDone(person.uid)
-      }));
+    function unlockedCount() {
+      const m = metrics();
+      return ACHIEVEMENTS.filter((achievement) => m[achievement[4]] >= achievement[3]).length;
+    }
 
-      const totalWeek = weekScores.reduce((sum, person) => sum + person.weekScore, 0);
-      const top = [...weekScores].sort((a, b) => b.weekScore - a.weekScore)[0];
-      const active = state.activeTab;
+    function dayPerfectRemaining() {
+      return missionsDueToday().filter((mission) => !baseComplete(mission, todayKey())).length;
+    }
 
-      $("#setupView").hidden = true;
-      $("#appView").hidden = false;
+    function systemHealth(category) {
+      if (category === "pets") return state.data.systems.pets.health || 0;
+      if (category === "casa") return state.data.systems.casa.health || 0;
+      return 0;
+    }
 
-      $("#appView").innerHTML = `
-        <div class="app-layout">
-          <aside class="card sidebar">
-            <div class="room-code">
-              <span>Código da sala</span>
-              <strong>${escapeHTML(room.roomId)}</strong>
-              <button class="btn small" data-action="copy-invite" type="button">🔗 Copiar convite</button>
-            </div>
-
-            <nav class="nav" aria-label="Navegação principal">
-              ${navButton("hoje", "🌤️ Hoje", active)}
-              ${navButton("rotina", "✅ Rotina", active)}
-              ${navButton("desafios", "🏆 Desafios", active)}
-              ${navButton("tema", "🎨 Tema", active)}
-            </nav>
-
-            <div class="member-list">
-              ${people.map(renderMemberCard).join("")}
-              ${people.length < 2 ? `<div class="empty">Compartilhe o código para seu par entrar.</div>` : ""}
-            </div>
-
-            <div class="actions">
-              <button class="btn small" data-action="sync-profile" type="button">👤 Atualizar perfil</button>
-              <button class="btn small danger" data-action="leave-room" type="button">Sair da sala</button>
-            </div>
-          </aside>
-
-          <section class="main">
-            <div class="stats-grid">
-              <div class="stat">
-                <span>Pontos da dupla na semana</span>
-                <strong>${totalWeek}</strong>
-              </div>
-              <div class="stat">
-                <span>Sequência da dupla</span>
-                <strong>${computeDuoStreak()}d</strong>
-              </div>
-              <div class="stat">
-                <span>Liderança saudável</span>
-                <strong>${top ? escapeHTML(top.avatar) : "💛"} ${top ? escapeHTML(top.weekScore) : 0}</strong>
-              </div>
-              <div class="stat">
-                <span>Hoje</span>
-                <strong>${formatDate(TODAY())}</strong>
+    function renderLoading() {
+      appEl.innerHTML = `
+        <header class="top-card">
+          <div class="brand">
+            <div class="logo">🏠</div>
+            <div>
+              <h1>Base da Família</h1>
+              <div class="status-line">
+                <span class="dot"></span>
+                <span>conectando...</span>
               </div>
             </div>
+          </div>
+        </header>
+      `;
 
-            ${renderPanel(active, weekScores)}
-          </section>
-        </div>
+      navEl.innerHTML = "";
+    }
+
+    function render() {
+      if (!state.data) return;
+
+      renderHeader();
+      renderPage();
+      renderBottomNav();
+    }
+
+    function renderHeader() {
+      const person = me();
+      const room = state.cloudReady && state.roomId ? state.roomId : "local";
+      const syncLabel = state.cloudReady ? "sincronizado" : "modo local";
+
+      appEl.innerHTML = `
+        <header class="top-card">
+          <div class="brand">
+            <div class="logo">${escapeHTML(person.avatar || "🏠")}</div>
+            <div>
+              <h1>${escapeHTML(state.data.baseName || "Base da Família")}</h1>
+              <div class="status-line">
+                <span class="dot"></span>
+                <span>${escapeHTML(syncLabel)}</span>
+                <span class="pill strong">${escapeHTML(person.avatar)} ${escapeHTML(person.name)}</span>
+                <span class="pill">sala ${escapeHTML(room)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="top-actions">
+            <button class="btn small" data-action="open-profile">👤 Perfil</button>
+            <button class="btn small" data-action="open-notices">🔔 Avisos</button>
+            <button class="btn small" data-action="open-theme">☀️ Tema</button>
+          </div>
+        </header>
+
+        <main id="page" class="main-stack"></main>
       `;
     }
 
-    function navButton(tab, label, active) {
+    function renderPage() {
+      const page = document.getElementById("page");
+
+      if (state.page === "missoes") page.innerHTML = renderMissionsPage();
+      if (state.page === "base") page.innerHTML = renderBasePage();
+      if (state.page === "cofrinho") page.innerHTML = renderWalletPage();
+      if (state.page === "hall") page.innerHTML = renderHallPage();
+      if (state.page === "historico") page.innerHTML = renderHistoryPage();
+    }
+
+    function renderBottomNav() {
+      const items = [
+        ["missoes", "⚡", "Missões"],
+        ["base", "📊", "Base"],
+        ["cofrinho", "🐷", "Cofrinho"],
+        ["hall", "🏆", "Hall"],
+        ["historico", "🧾", "Histórico"]
+      ];
+
+      navEl.innerHTML = items.map(([page, icon, label]) => `
+        <button class="nav-btn ${state.page === page ? "active" : ""}" data-page="${page}" type="button">
+          <span class="nav-icon">${icon}</span>
+          <span>${label}</span>
+        </button>
+      `).join("");
+    }
+
+    function renderMissionsPage() {
       return `
-        <button class="btn ${active === tab ? "active" : ""}" data-tab="${tab}" type="button">
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Missões</h2>
+            </div>
+            <span class="pill strong">${escapeHTML(formatLongDate(todayKey()))}</span>
+          </div>
+
+          <div class="mission-tabs">
+            ${renderMissionTab("base", "Base")}
+            ${renderMissionTab("daily", "Diárias")}
+            ${renderMissionTab("weekly", "Semanais")}
+            ${renderMissionTab("monthly", "Mensais")}
+          </div>
+        </section>
+
+        ${renderNotices()}
+
+        ${state.missionTab === "base" ? renderMissionBaseTab() : ""}
+        ${state.missionTab === "daily" ? renderMissionFrequencyTab("daily", "Diárias", "+ Nova diária") : ""}
+        ${state.missionTab === "weekly" ? renderWeeklyTab() : ""}
+        ${state.missionTab === "monthly" ? renderMissionFrequencyTab("monthly", "Mensais", "+ Nova mensal") : ""}
+      `;
+    }
+
+    function renderMissionTab(tab, label) {
+      return `
+        <button class="mission-tab ${state.missionTab === tab ? "active" : ""}" data-mission-tab="${tab}" type="button">
           ${label}
         </button>
       `;
     }
 
-    function renderMemberCard(person) {
+    function renderNotices() {
+      const overdue = overdueItems();
+      const next = nextMission();
+      const remaining = dayPerfectRemaining();
+
       return `
-        <div class="member-card">
-          <div class="avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}">
-            ${escapeHTML(person.avatar || "💛")}
-          </div>
+        <article class="notice profile">
+          <div class="icon">👤</div>
           <div>
-            <strong>${escapeHTML(person.name || "Pessoa")}</strong>
-            <span>${person.uid === state.uid ? "Você" : "Par"} · ${computeScore(person.uid, "week")} pts semana</span>
+            <strong>Perfil ativo: ${escapeHTML(me().name)}</strong>
+            <p>XP e provocações estão personalizados para este aparelho.</p>
+          </div>
+        </article>
+
+        <article class="notice danger">
+          <div class="icon">⚠️</div>
+          <div>
+            <strong>${overdue.length} atrasada(s)</strong>
+            <p>Comece por: ${next ? escapeHTML(next.mission.title) : "uma missão pequena"}.</p>
+          </div>
+        </article>
+
+        <article class="notice suggestion">
+          <div class="icon">🧠</div>
+          <div>
+            <strong>Sugestão da Base</strong>
+            <p>${next ? `${escapeHTML(next.mission.title)} • ${next.mission.minutes} min • ${next.mission.xp} XP.` : "Nenhuma missão pendente agora."}</p>
+          </div>
+        </article>
+
+        <article class="notice danger">
+          <div class="icon">🐾</div>
+          <div>
+            <strong>Pets precisa de atenção</strong>
+            <p>Saúde do sistema em ${systemHealth("pets")}%. </p>
+          </div>
+        </article>
+
+        <article class="notice danger">
+          <div class="icon">🏠</div>
+          <div>
+            <strong>Casa precisa de atenção</strong>
+            <p>Saúde do sistema em ${systemHealth("casa")}%. </p>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderMissionBaseTab() {
+      const next = nextMission();
+      const overdue = overdueItems();
+
+      return `
+        <section class="grid-2">
+          <div class="panel">
+            <div class="section-title">
+              <div>
+                <h2>Próxima</h2>
+              </div>
+            </div>
+            ${next ? renderMissionCard(next.mission, next.key) : `<div class="empty">Nada pendente.</div>`}
+          </div>
+
+          <div class="panel">
+            <div class="section-title">
+              <div>
+                <h2>Base hoje</h2>
+              </div>
+            </div>
+            ${renderTodayStats()}
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="grid-3">
+            ${renderCompactFrequency("daily", "☀️ Diária")}
+            ${renderCompactFrequency("weekly", "📅 Semanal")}
+            ${renderCompactFrequency("monthly", "🗓️ Mensal")}
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Atrasadas</h2>
+            </div>
+            <span class="pill strong">${overdue.length}</span>
+          </div>
+
+          <div class="list">
+            ${overdue.slice(0, 14).map(({ mission, key }) => renderMissionCard(mission, key, true)).join("") || `<div class="empty">Nada atrasado.</div>`}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderTodayStats() {
+      const due = missionsDueToday();
+      const done = due.filter((mission) => baseComplete(mission, todayKey())).length;
+      const percent = due.length ? Math.round((done / due.length) * 100) : 100;
+      const perfect = due.length && done === due.length ? "⭐" : "—";
+
+      return `
+        <div class="stats">
+          <div class="stat">
+            <strong>${done}/${due.length}</strong>
+            <span>feitas</span>
+          </div>
+          <div class="stat">
+            <strong>${percent}%</strong>
+            <span>progresso</span>
+          </div>
+          <div class="stat">
+            <strong>${perfect}</strong>
+            <span>dia perfeito</span>
           </div>
         </div>
       `;
     }
 
-    function renderPanel(active, weekScores) {
-      if (active === "rotina") return renderRoutinePanel();
-      if (active === "desafios") return renderChallengesPanel();
-      if (active === "tema") return renderThemePanel();
-      return renderTodayPanel(weekScores);
+    function renderCompactFrequency(frequency, title) {
+      const key = todayKey();
+      const list = missionsByFrequency(frequency)
+        .filter((mission) => frequency === "monthly" ? isDueOn(mission, key) : true)
+        .slice(0, 2);
+
+      return `
+        <div>
+          <p class="pill">${title}</p>
+          <div style="height: 10px"></div>
+          <div class="list">
+            ${list.map((mission) => renderMissionCard(mission, nextKeyForMission(mission), true)).join("") || `<div class="empty">Nada pendente.</div>`}
+          </div>
+        </div>
+      `;
     }
 
-    function renderTodayPanel(weekScores) {
-      const room = state.room;
-      const today = TODAY();
-      const checkin = room.daily?.[today]?.checkins?.[state.uid] || {};
-      const activeItems = [
-        ...(room.habits || []),
-        ...(room.challenges || []).filter((item) => !item.endDate || item.endDate >= today || isDone(item, state.uid, today))
+    function nextKeyForMission(mission) {
+      for (let offset = 0; offset <= 40; offset += 1) {
+        const key = todayKey(offset);
+        if (isDueOn(mission, key)) return key;
+      }
+
+      return mission.date || todayKey();
+    }
+
+    function renderMissionFrequencyTab(frequency, title, buttonLabel) {
+      const list = missionsByFrequency(frequency);
+      const defaultAction = frequency === "daily" ? "open-daily-form" : frequency === "monthly" ? "open-monthly-form" : "open-mission-form";
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>${title}</h2>
+            </div>
+            <button class="btn small primary" data-action="${defaultAction}" type="button">${buttonLabel}</button>
+          </div>
+
+          <div class="list">
+            ${list.map((mission) => renderMissionCard(mission, nextKeyForMission(mission))).join("") || `<div class="empty">Nenhuma missão cadastrada.</div>`}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderWeeklyTab() {
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Semanais</h2>
+            </div>
+            <button class="btn small primary" data-action="open-weekly-form" type="button">+ Nova semanal</button>
+          </div>
+
+          ${renderWeekBoard()}
+        </section>
+      `;
+    }
+
+    function renderWeekBoard() {
+      const start = startOfWeekMonday();
+
+      const columns = WEEK_ORDER.map((dayIndex, orderIndex) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + orderIndex);
+        const key = dateKey(date);
+        const missions = state.data.missions.filter((mission) => mission.frequency === "weekly" && isDueOn(mission, key));
+
+        return `
+          <div class="week-day">
+            <h3>${DAY_NAMES[dayIndex]}</h3>
+            <div class="week-list">
+              ${missions.length ? missions.map((mission) => renderWeekMiniCard(mission, key)).join("") : `<div class="empty">—</div>`}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      return `<div class="week-board">${columns}</div>`;
+    }
+
+    function renderWeekMiniCard(mission, key) {
+      const cat = categoryOf(mission.category);
+
+      return `
+        <article class="week-mini">
+          <strong>${cat.icon}<br>${escapeHTML(mission.title)}</strong>
+          <div class="badges">
+            <span class="pill">${mission.minutes} min</span>
+            <span class="pill">${mission.xp} XP</span>
+            <span class="pill">${mission.energy} energia</span>
+          </div>
+          <button class="btn small good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
+            ${doneByMe(mission, key) ? "Feita" : "Fazer"}
+          </button>
+          <button class="btn small" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
+        </article>
+      `;
+    }
+
+    function renderMissionCard(mission, key = todayKey(), compact = false) {
+      const cat = categoryOf(mission.category);
+      const done = doneByMe(mission, key);
+      const people = doneMembers(mission, key);
+      const isOverdue = key < todayKey() && !baseComplete(mission, key);
+
+      return `
+        <article class="mission-card">
+          <div class="mission-main">
+            <div class="mission-title">
+              <strong>${cat.icon} ${escapeHTML(mission.title)}</strong>
+              <div class="badges">
+                <span class="pill">${cat.icon} ${cat.label}</span>
+                <span class="pill">${mission.assigned === "both" ? "Os dois fazem" : "Qualquer um pode fazer"}</span>
+                <span class="pill">${mission.minutes} min</span>
+                <span class="pill">${mission.xp} XP</span>
+                <span class="pill">${mission.energy} energia</span>
+                <span class="pill">${isOverdue ? "Atrasada" : formatDate(key)}</span>
+              </div>
+              ${!compact && mission.description ? `<small>${escapeHTML(mission.description)}</small>` : ""}
+            </div>
+
+            <div class="mission-actions">
+              <button class="btn small good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
+                ${done ? "Feita" : "Feita"}
+              </button>
+              <button class="btn small" data-action="view-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Ver</button>
+              <button class="btn small" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
+            </div>
+          </div>
+
+          <div class="done-row">
+            ${people.length ? "Feita por:" : "Ainda não feita por ninguém."}
+            ${people.map((person) => `
+              <span class="mini-avatar" style="--c:${escapeHTML(person.color || "#b77aff")}">${escapeHTML(person.avatar || "👤")}</span>
+            `).join("")}
+          </div>
+        </article>
+      `;
+    }
+
+    function renderBasePage() {
+      const m = metrics();
+      const people = members();
+      const maxScore = Math.max(1, ...people.map((person) => scoreFor(person.uid)));
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>📊 Base</h2>
+              <p>XP individual, moral da Base, rotina e competição saudável.</p>
+            </div>
+            <button class="btn small primary" data-action="open-mission-form" type="button">+ Missão</button>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>${m.missionsDone}</strong>
+              <span>missões feitas</span>
+            </div>
+            <div class="stat">
+              <strong>${currentStreak()}</strong>
+              <span>dias perfeitos em sequência</span>
+            </div>
+            <div class="stat">
+              <strong>${unlockedCount()}</strong>
+              <span>conquistas</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Dupla</h2>
+              <p>Inspiração, não cobrança. Cada um pontua e a Base cresce junto.</p>
+            </div>
+          </div>
+
+          <div class="member-grid">
+            ${people.map((person) => {
+              const xp = scoreFor(person.uid);
+              return `
+                <article class="member-card">
+                  <div class="avatar" style="--c:${escapeHTML(person.color || "#b77aff")}">${escapeHTML(person.avatar || "👤")}</div>
+                  <div style="width:100%">
+                    <strong>${escapeHTML(person.name)} ${person.uid === state.uid ? "(você)" : ""}</strong>
+                    <span>${xp} XP total</span>
+                    <div style="height:8px"></div>
+                    <div class="progress"><span style="--w:${Math.round((xp / maxScore) * 100)}%"></span></div>
+                  </div>
+                </article>
+              `;
+            }).join("")}
+
+            ${people.length < 2 ? `<div class="empty">Compartilhe a sala para seu par entrar.</div>` : ""}
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <div class="panel">
+            <div class="section-title">
+              <div>
+                <h2>🐾 Pets</h2>
+                <p>Saúde do sistema dos pets.</p>
+              </div>
+            </div>
+
+            <div class="stat">
+              <strong>${systemHealth("pets")}%</strong>
+              <span>${escapeHTML(state.data.systems.pets.mood || "precisa de atenção")}</span>
+            </div>
+
+            <div style="height:12px"></div>
+            <div class="progress"><span style="--w:${systemHealth("pets")}%"></span></div>
+            <div style="height:12px"></div>
+
+            <button class="btn good" data-action="care-system" data-system="pets" type="button">Cuidar dos pets</button>
+          </div>
+
+          <div class="panel">
+            <div class="section-title">
+              <div>
+                <h2>🏠 Casa</h2>
+                <p>Saúde do sistema da casa.</p>
+              </div>
+            </div>
+
+            <div class="stat">
+              <strong>${systemHealth("casa")}%</strong>
+              <span>${escapeHTML(state.data.systems.casa.mood || "precisa de atenção")}</span>
+            </div>
+
+            <div style="height:12px"></div>
+            <div class="progress"><span style="--w:${systemHealth("casa")}%"></span></div>
+            <div style="height:12px"></div>
+
+            <button class="btn good" data-action="care-system" data-system="casa" type="button">Arrumar a casa</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderWalletPage() {
+      const goals = state.data.wallet.goals || [];
+      const saved = walletSaved();
+      const target = walletTarget();
+      const remaining = Math.max(0, target - saved);
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>🐷 Cofrinho</h2>
+            </div>
+            <button class="btn small primary" data-action="open-goal-form" type="button">+ Meta</button>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>${money(saved)}</strong>
+              <span>guardado</span>
+            </div>
+            <div class="stat">
+              <strong>${money(remaining)}</strong>
+              <span>faltando</span>
+            </div>
+            <div class="stat">
+              <strong>${goals.length}</strong>
+              <span>metas</span>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="list">
+            ${goals.map(renderGoalCard).join("") || `<div class="empty">Nenhuma meta.</div>`}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderGoalCard(goal) {
+      const percent = Math.min(100, Math.round((Number(goal.saved || 0) / Math.max(1, Number(goal.target || 1))) * 100));
+
+      return `
+        <article class="mission-card">
+          <div class="mission-main">
+            <div class="mission-title">
+              <strong>🐷 ${escapeHTML(goal.title)}</strong>
+              <div class="badges">
+                <span class="pill">${money(goal.saved)} guardado</span>
+                <span class="pill">${money(goal.target)} meta</span>
+                <span class="pill">${percent}%</span>
+              </div>
+            </div>
+
+            <div class="mission-actions">
+              <button class="btn small good" data-action="open-deposit-form" data-id="${escapeHTML(goal.id)}" type="button">Depositar</button>
+              <button class="btn small" data-action="edit-goal" data-id="${escapeHTML(goal.id)}" type="button">Editar</button>
+            </div>
+          </div>
+
+          <div class="progress"><span style="--w:${percent}%"></span></div>
+        </article>
+      `;
+    }
+
+    function renderHallPage() {
+      const m = metrics();
+      const filters = [
+        ["todas", "Todas"],
+        ["pets", "Pets"],
+        ["casa", "Casa"],
+        ["financeiro", "Financeiro"],
+        ["relacionamento", "Relacionamento"],
+        ["saude", "Saúde"],
+        ["perfeito", "Dia Perfeito"],
+        ["tempo", "Tempo"],
+        ["cofrinho", "Cofrinho"]
       ];
 
+      const list = ACHIEVEMENTS.filter((achievement) => state.hallFilter === "todas" || achievement[0] === state.hallFilter);
+
       return `
-        <section class="card panel-card">
+        <section class="panel">
           <div class="section-title">
             <div>
-              <h3>Missão de hoje</h3>
-              <p class="hint">Faça seu check-in, conclua hábitos e marque pontos sem transformar cuidado em cobrança.</p>
+              <h2>🏆 Hall</h2>
             </div>
-            <span class="pill">+5 pts por check-in</span>
+            <span class="pill strong">${unlockedCount()} desbloqueadas</span>
           </div>
 
-          <div class="grid-2">
-            <form id="checkinForm" class="form-grid">
-              <div class="field">
-                <label for="mood">Como você está?</label>
-                <select id="mood" name="mood">
-                  ${option("leve", "🌿 Leve", checkin.mood)}
-                  ${option("focado", "🎯 Focado(a)", checkin.mood)}
-                  ${option("cansado", "🫠 Cansado(a)", checkin.mood)}
-                  ${option("ansioso", "🌧️ Ansioso(a)", checkin.mood)}
-                  ${option("feliz", "☀️ Feliz", checkin.mood)}
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="energy">Energia de 1 a 5</label>
-                <select id="energy" name="energy">
-                  ${[1, 2, 3, 4, 5].map((n) => option(String(n), `${"⚡".repeat(n)} ${n}`, String(checkin.energy || "3"))).join("")}
-                </select>
-              </div>
-
-              <div class="check-row">
-                ${checkBox("water", "💧 Água", checkin.water)}
-                ${checkBox("sleep", "😴 Sono", checkin.sleep)}
-                ${checkBox("movement", "🚶 Movimento", checkin.movement)}
-              </div>
-
-              <div class="field">
-                <label for="gratitude">Gratidão ou pequena vitória</label>
-                <textarea id="gratitude" name="gratitude" placeholder="Hoje eu valorizo...">${escapeHTML(checkin.gratitude || "")}</textarea>
-              </div>
-
-              <button class="btn primary" type="submit">Salvar check-in</button>
-            </form>
-
-            <div>
-              <h3>Placar da semana</h3>
-              <p class="hint">${healthyMessage(weekScores)}</p>
-              <div class="leaderboard">
-                ${renderLeaderboard(weekScores)}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="card panel-card">
-          <div class="section-title">
-            <div>
-              <h3>Tarefas de hoje</h3>
-              <p class="hint">Cada conclusão marca pontos individuais e fortalece a consistência do casal.</p>
-            </div>
-          </div>
-
-          <div class="task-list">
-            ${activeItems.length ? activeItems.map((item) => renderTaskCard(item, item.endDate ? "challenge" : "habit")).join("") : `<div class="empty">Nenhuma tarefa cadastrada ainda.</div>`}
-          </div>
-        </section>
-      `;
-    }
-
-    function option(value, label, current) {
-      return `<option value="${escapeHTML(value)}" ${String(current || "") === value ? "selected" : ""}>${escapeHTML(label)}</option>`;
-    }
-
-    function checkBox(name, label, checked) {
-      return `
-        <label class="check">
-          <input type="checkbox" name="${escapeHTML(name)}" ${checked ? "checked" : ""} />
-          ${escapeHTML(label)}
-        </label>
-      `;
-    }
-
-    function healthyMessage(scores) {
-      if (scores.length < 2) {
-        return "Quando seu par entrar, o placar vira uma disputa leve entre vocês.";
-      }
-
-      const sorted = [...scores].sort((a, b) => b.weekScore - a.weekScore);
-      const diff = Math.abs(sorted[0].weekScore - sorted[1].weekScore);
-
-      if (diff <= 15) {
-        return "Placar bem equilibrado. Ótimo sinal: vocês estão caminhando juntos.";
-      }
-
-      return `${sorted[0].name} está puxando o ritmo. A ideia é inspirar, não cobrar.`;
-    }
-
-    function renderLeaderboard(scores) {
-      const max = Math.max(1, ...scores.map((person) => person.weekScore));
-
-      return scores
-        .sort((a, b) => b.weekScore - a.weekScore)
-        .map((person) => `
-          <div class="score-row">
-            <div>
-              <strong>${escapeHTML(person.avatar)} ${escapeHTML(person.name)}</strong>
-              <div class="progress">
-                <span style="--w: ${(person.weekScore / max) * 100}%"></span>
-              </div>
-              <span class="hint">${person.todayDone} ações hoje</span>
-            </div>
-            <strong>${person.weekScore} pts</strong>
-          </div>
-        `)
-        .join("");
-    }
-
-    function renderTaskCard(item, type) {
-      const today = TODAY();
-      const done = isDone(item, state.uid, today);
-      const donePeople = completedBy(item, today);
-      const expired = item.endDate && item.endDate < today;
-
-      return `
-        <article class="task-card">
-          <div class="task-head">
-            <div class="task-title">
-              <strong>${escapeHTML(item.title)}</strong>
-              <div class="badges">
-                <span class="badge">${escapeHTML(item.kind || "Rotina")}</span>
-                <span class="badge">+${Number(item.points || 0)} pts</span>
-                ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""}
-                ${expired ? `<span class="badge">Encerrado</span>` : ""}
-              </div>
-            </div>
-
-            <button
-              class="btn small ${done ? "success" : ""}"
-              data-action="toggle-item"
-              data-type="${type}"
-              data-id="${escapeHTML(item.id)}"
-              type="button"
-              ${expired && !done ? "disabled" : ""}
-            >
-              ${done ? "✔️ Feito" : `+${Number(item.points || 0)} pts`}
-            </button>
-          </div>
-
-          <div class="task-foot">
-            <div class="done-avatars">
-              ${donePeople.length ? donePeople.map((person) => `
-                <span class="mini-avatar" style="--member-color: ${escapeHTML(person.color || "#ff6b9a")}">${escapeHTML(person.avatar || "💛")}</span>
-              `).join("") : "Ninguém marcou ainda"}
-            </div>
-          </div>
-        </article>
-      `;
-    }
-
-    function renderRoutinePanel() {
-      const habits = state.room.habits || [];
-
-      return `
-        <section class="card panel-card">
-          <div class="section-title">
-            <div>
-              <h3>Construção de rotina</h3>
-              <p class="hint">Cadastrem hábitos pequenos, repetíveis e com pontuação justa.</p>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <form id="habitForm" class="form-grid">
-              <div class="field">
-                <label for="habitTitle">Novo hábito</label>
-                <input id="habitTitle" name="title" maxlength="80" placeholder="Ex: Ler 10 páginas" required />
-              </div>
-
-              <div class="two-cols">
-                <div class="field">
-                  <label for="habitKind">Categoria</label>
-                  <select id="habitKind" name="kind">
-                    <option>Autocuidado</option>
-                    <option>Saúde</option>
-                    <option>Desenvolvimento</option>
-                    <option>Relação</option>
-                    <option>Casa</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="habitPoints">Pontos</label>
-                  <input id="habitPoints" name="points" type="number" min="1" max="50" value="10" required />
-                </div>
-              </div>
-
-              <button class="btn primary" type="submit">Adicionar hábito</button>
-            </form>
-
-            <div class="task-list">
-              ${habits.length ? habits.map((habit) => renderManageItem(habit, "habit")).join("") : `<div class="empty">Nenhum hábito cadastrado.</div>`}
-            </div>
-          </div>
-        </section>
-      `;
-    }
-
-    function renderChallengesPanel() {
-      const challenges = state.room.challenges || [];
-
-      return `
-        <section class="card panel-card">
-          <div class="section-title">
-            <div>
-              <h3>Desafios saudáveis</h3>
-              <p class="hint">Criem missões com prazo para dar energia ao jogo sem virar pressão.</p>
-            </div>
-          </div>
-
-          <div class="grid-2">
-            <form id="challengeForm" class="form-grid">
-              <div class="field">
-                <label for="challengeTitle">Novo desafio</label>
-                <input id="challengeTitle" name="title" maxlength="90" placeholder="Ex: Caminhar juntos 3x na semana" required />
-              </div>
-
-              <div class="two-cols">
-                <div class="field">
-                  <label for="challengeEnd">Termina em</label>
-                  <input id="challengeEnd" name="endDate" type="date" value="${addDaysKey(7)}" required />
-                </div>
-
-                <div class="field">
-                  <label for="challengePoints">Pontos</label>
-                  <input id="challengePoints" name="points" type="number" min="5" max="100" value="20" required />
-                </div>
-              </div>
-
-              <button class="btn primary" type="submit">Criar desafio</button>
-            </form>
-
-            <div class="task-list">
-              ${challenges.length ? challenges.map((challenge) => renderManageItem(challenge, "challenge")).join("") : `<div class="empty">Nenhum desafio criado.</div>`}
-            </div>
-          </div>
-        </section>
-      `;
-    }
-
-    function renderManageItem(item, type) {
-      return `
-        <article class="task-card">
-          <div class="task-head">
-            <div class="task-title">
-              <strong>${escapeHTML(item.title)}</strong>
-              <div class="badges">
-                <span class="badge">${escapeHTML(item.kind || (type === "challenge" ? "Desafio" : "Rotina"))}</span>
-                <span class="badge">+${Number(item.points || 0)} pts</span>
-                ${item.endDate ? `<span class="badge">Até ${escapeHTML(formatDate(item.endDate))}</span>` : ""}
-              </div>
-            </div>
-
-            <button class="btn small danger" data-action="remove-item" data-type="${type}" data-id="${escapeHTML(item.id)}" type="button">
-              Remover
-            </button>
-          </div>
-        </article>
-      `;
-    }
-
-    function renderThemePanel() {
-      const settings = state.room.settings || THEMES.aurora;
-
-      return `
-        <section class="card panel-card">
-          <div class="section-title">
-            <div>
-              <h3>Tema sincronizado</h3>
-              <p class="hint">Quando uma pessoa muda as cores, a outra recebe a mudança em tempo real.</p>
-            </div>
-          </div>
-
-          <div class="theme-grid">
-            ${Object.entries(THEMES).map(([key, theme]) => `
-              <button
-                class="theme-option"
-                data-action="set-theme"
-                data-theme="${key}"
-                style="--a: ${theme.primary}; --b: ${theme.accent};"
-                type="button"
-              >
-                <strong>${escapeHTML(theme.name)}</strong>
-                ${settings.themeName === key ? "✔️ Em uso" : "Aplicar"}
-              </button>
+          <div class="achievement-tabs">
+            ${filters.map(([key, label]) => `
+              <button class="ach-tab ${state.hallFilter === key ? "active" : ""}" data-hall-filter="${key}" type="button">${label}</button>
             `).join("")}
           </div>
 
-          <div class="divider"></div>
-
-          <form id="customThemeForm" class="form-grid">
-            <div class="grid-2">
-              <div class="field">
-                <label for="primaryColor">Cor principal</label>
-                <input id="primaryColor" name="primary" type="color" value="${normalizeHex(settings.primary, "#ff6b9a")}" />
-              </div>
-
-              <div class="field">
-                <label for="accentColor">Cor secundária</label>
-                <input id="accentColor" name="accent" type="color" value="${normalizeHex(settings.accent, "#7c3aed")}" />
-              </div>
-
-              <div class="field">
-                <label for="bgColor">Fundo</label>
-                <input id="bgColor" name="bg" type="color" value="${normalizeHex(settings.bg, "#100f24")}" />
-              </div>
-
-              <div class="field">
-                <label for="textColor">Texto</label>
-                <input id="textColor" name="text" type="color" value="${normalizeHex(settings.text, "#fff7fb")}" />
-              </div>
-            </div>
-
-            <button class="btn primary" type="submit">Salvar tema personalizado</button>
-          </form>
+          <div class="achievement-grid">
+            ${list.map(([category, icon, label, needed, metric]) => {
+              const unlocked = m[metric] >= needed;
+              return `
+                <article class="achievement ${unlocked ? "unlocked" : ""}">
+                  <div class="big">${unlocked ? icon.replace("🔒", "🏆") : "🔒"}</div>
+                  <strong>${escapeHTML(label)}</strong>
+                </article>
+              `;
+            }).join("")}
+          </div>
         </section>
       `;
     }
 
-    async function submitCheckin(form) {
-      const formData = new FormData(form);
-      const today = TODAY();
+    function renderHistoryPage() {
+      const missionEvents = completedEvents().map((event) => {
+        const person = state.data.members[event.uid] || { name: "Pessoa", avatar: "👤" };
 
-      await updateRoom((data) => {
-        data.daily ||= {};
-        data.daily[today] ||= { checkins: {} };
-        data.daily[today].checkins ||= {};
-        data.daily[today].checkins[state.uid] = {
-          mood: formData.get("mood"),
-          energy: Number(formData.get("energy")),
-          water: Boolean(formData.get("water")),
-          sleep: Boolean(formData.get("sleep")),
-          movement: Boolean(formData.get("movement")),
-          gratitude: String(formData.get("gratitude") || "").trim().slice(0, 400),
-          updatedAt: Date.now()
+        return {
+          at: event.at,
+          html: `
+            <div class="history-item">
+              <div>
+                ${categoryOf(event.mission.category).icon} ${escapeHTML(event.mission.title)}
+                <br>
+                <span>${escapeHTML(person.avatar)} ${escapeHTML(person.name)} • ${formatDate(event.key)}</span>
+              </div>
+              <strong>+${event.mission.xp} XP</strong>
+            </div>
+          `
         };
       });
 
-      showToast("Check-in salvo. +5 pts!");
+      const walletEvents = (state.data.wallet.deposits || []).map((deposit) => ({
+        at: deposit.createdAt || Date.now(),
+        html: `
+          <div class="history-item">
+            <div>
+              🐷 ${escapeHTML(deposit.description || "Depósito")}
+              <br>
+              <span>${escapeHTML(deposit.byName || "Pessoa")} • ${formatDate(deposit.date || todayKey())}</span>
+            </div>
+            <strong>${money(deposit.amount)}</strong>
+          </div>
+        `
+      }));
+
+      const history = [...missionEvents, ...walletEvents]
+        .sort((a, b) => b.at - a.at)
+        .slice(0, 90);
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>🧾 Histórico</h2>
+              <p>Tudo que a Base já movimentou.</p>
+            </div>
+          </div>
+
+          <div class="history-list">
+            ${history.map((item) => item.html).join("") || `<div class="empty">Nada no histórico ainda.</div>`}
+          </div>
+        </section>
+      `;
     }
 
-    async function addHabit(form) {
-      const formData = new FormData(form);
-      const title = String(formData.get("title") || "").trim().slice(0, 80);
-      const points = Math.max(1, Math.min(50, Number(formData.get("points") || 10)));
-
-      if (!title) {
-        showToast("Digite o nome do hábito.", "error");
-        return;
-      }
-
-      await updateRoom((data) => {
-        data.habits ||= [];
-        data.habits.push({
-          id: makeId("habit"),
-          title,
-          kind: String(formData.get("kind") || "Rotina"),
-          points,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        });
-      });
-
-      form.reset();
-      showToast("Hábito adicionado.");
+    function openModal(title, subtitle, body) {
+      modalRoot.hidden = false;
+      modalRoot.className = "modal-backdrop";
+      modalRoot.innerHTML = `
+        <section class="modal">
+          <div class="modal-head">
+            <div>
+              <h2>${title}</h2>
+              ${subtitle ? `<p>${subtitle}</p>` : ""}
+            </div>
+            <button class="btn small" data-action="close-modal" type="button">✕</button>
+          </div>
+          ${body}
+        </section>
+      `;
     }
 
-    async function addChallenge(form) {
-      const formData = new FormData(form);
-      const title = String(formData.get("title") || "").trim().slice(0, 90);
-      const points = Math.max(5, Math.min(100, Number(formData.get("points") || 20)));
-      const endDate = String(formData.get("endDate") || addDaysKey(7));
-
-      if (!title) {
-        showToast("Digite o nome do desafio.", "error");
-        return;
-      }
-
-      await updateRoom((data) => {
-        data.challenges ||= [];
-        data.challenges.push({
-          id: makeId("challenge"),
-          title,
-          kind: "Desafio",
-          points,
-          startDate: TODAY(),
-          endDate,
-          createdAt: Date.now(),
-          createdBy: state.uid,
-          done: {}
-        });
-      });
-
-      form.reset();
-      showToast("Desafio criado.");
+    function closeModal() {
+      modalRoot.hidden = true;
+      modalRoot.className = "";
+      modalRoot.innerHTML = "";
     }
 
-    async function toggleItem(type, id) {
-      const listName = type === "challenge" ? "challenges" : "habits";
-      const today = TODAY();
+    function openProfileModal() {
+      const person = me();
 
-      await updateRoom((data) => {
-        data[listName] ||= [];
-        const item = data[listName].find((entry) => entry.id === id);
-        if (!item) return;
+      openModal("Perfil e sala", "Perfil local + sala sincronizada para o casal.", `
+        <form id="profileForm" class="form-grid">
+          <div class="form-2">
+            <div class="field">
+              <label>Seu nome</label>
+              <input name="name" maxlength="32" value="${escapeHTML(person.name)}" required>
+            </div>
 
-        item.done ||= {};
-        item.done[today] ||= {};
+            <div class="field">
+              <label>Emoji</label>
+              <input name="avatar" maxlength="4" value="${escapeHTML(person.avatar)}" required>
+            </div>
+          </div>
 
-        if (item.done[today][state.uid]) {
-          delete item.done[today][state.uid];
+          <div class="form-2">
+            <div class="field">
+              <label>Sua cor</label>
+              <input name="color" type="color" value="${escapeHTML(person.color || "#b77aff")}">
+            </div>
+
+            <div class="field">
+              <label>Nome da Base</label>
+              <input name="baseName" maxlength="40" value="${escapeHTML(state.data.baseName || "Base da Família")}">
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit">Salvar perfil</button>
+        </form>
+
+        <div style="height:18px"></div>
+
+        <section class="panel" style="box-shadow:none">
+          <div class="section-title">
+            <div>
+              <h3>Sincronização</h3>
+              <p>Sala atual: ${escapeHTML(state.roomId || "local")}</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <button class="btn good" data-action="create-room" type="button">Criar nova sala sincronizada</button>
+
+            <div class="form-2">
+              <div class="field">
+                <label>Código da sala</label>
+                <input id="joinCodeInput" maxlength="6" placeholder="ABC123">
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn primary" data-action="join-room" type="button">Entrar</button>
+              </div>
+            </div>
+
+            <button class="btn" data-action="copy-room" type="button">Copiar convite</button>
+          </div>
+        </section>
+      `);
+    }
+
+    function openThemeModal() {
+      const current = state.data.settings.theme || "familia";
+
+      openModal("Tema", "Quando uma pessoa muda, sincroniza para os dois.", `
+        <div class="grid-3">
+          ${Object.entries(THEMES).map(([key, theme]) => `
+            <button
+              class="mission-card"
+              style="min-height:92px; color:white; background:linear-gradient(135deg, ${theme.primary}, ${theme.primary2});"
+              data-action="set-theme"
+              data-theme="${key}"
+              type="button"
+            >
+              <strong>${escapeHTML(theme.name)}</strong>
+              <span>${current === key ? "✔️ Em uso" : "Aplicar"}</span>
+            </button>
+          `).join("")}
+        </div>
+
+        <div style="height:18px"></div>
+
+        <form id="customThemeForm" class="form-grid">
+          <div class="form-2">
+            <div class="field">
+              <label>Fundo</label>
+              <input name="bg" type="color" value="#171425">
+            </div>
+
+            <div class="field">
+              <label>Fundo 2</label>
+              <input name="bg2" type="color" value="#302b3d">
+            </div>
+
+            <div class="field">
+              <label>Painel</label>
+              <input name="panelColor" type="color" value="#1f1a2f">
+            </div>
+
+            <div class="field">
+              <label>Principal</label>
+              <input name="primary" type="color" value="#b77aff">
+            </div>
+
+            <div class="field">
+              <label>Secundária</label>
+              <input name="primary2" type="color" value="#f47bca">
+            </div>
+
+            <div class="field">
+              <label>Destaque</label>
+              <input name="accent" type="color" value="#ffc247">
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit">Salvar tema personalizado</button>
+        </form>
+      `);
+    }
+
+    function openNoticesModal() {
+      openModal("Avisos da Base", "Resumo rápido para agir sem culpa.", `
+        <div class="history-list">
+          <div class="history-item">
+            <div>
+              ⚠️ Atrasadas
+              <br>
+              <span>${overdueItems().length} item(ns). Comece por uma missão pequena.</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              ⭐ Dia Perfeito
+              <br>
+              <span>${dayPerfectRemaining()} missão(ões) faltando hoje.</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              🐾 Pets
+              <br>
+              <span>Saúde atual em ${systemHealth("pets")}%. </span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              🏠 Casa
+              <br>
+              <span>Saúde atual em ${systemHealth("casa")}%. </span>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function openMissionForm(defaultFrequency = "daily", missionId = "") {
+      const mission = state.data.missions.find((item) => item.id === missionId) || null;
+      const frequency = mission?.frequency || defaultFrequency;
+      const selectedDays = new Set(mission?.days?.length ? mission.days.map(Number) : [new Date().getDay()]);
+
+      openModal(mission ? "Editar missão" : "Nova missão", "Missões pequenas, claras e possíveis funcionam melhor.", `
+        <form id="missionForm" class="form-grid" data-id="${mission ? escapeHTML(mission.id) : ""}">
+          <div class="field">
+            <label>Título</label>
+            <input name="title" maxlength="70" value="${escapeHTML(mission?.title || "")}" placeholder="Ex: LIXO NA RUA" required>
+          </div>
+
+          <div class="field">
+            <label>Descrição</label>
+            <textarea name="description" maxlength="260" placeholder="Detalhe rápido da missão">${escapeHTML(mission?.description || "")}</textarea>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Categoria</label>
+              <select name="category">
+                ${Object.entries(CATEGORIES).map(([key, cat]) => `
+                  <option value="${key}" ${mission?.category === key ? "selected" : ""}>${cat.icon} ${cat.label}</option>
+                `).join("")}
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Frequência</label>
+              <select name="frequency">
+                ${[
+                  ["daily", "Diária"],
+                  ["weekly", "Semanal"],
+                  ["monthly", "Mensal"],
+                  ["once", "Uma vez"]
+                ].map(([key, label]) => `
+                  <option value="${key}" ${frequency === key ? "selected" : ""}>${label}</option>
+                `).join("")}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Dias da semana, para missão semanal</label>
+            <div class="day-checks">
+              ${DAY_SHORT.map((day, index) => `
+                <label>
+                  <input type="checkbox" name="days" value="${index}" ${selectedDays.has(index) ? "checked" : ""}>
+                  ${day}
+                </label>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Data, para missão única</label>
+              <input name="date" type="date" value="${escapeHTML(mission?.date || todayKey())}">
+            </div>
+
+            <div class="field">
+              <label>Dia do mês, para mensal</label>
+              <input name="monthDay" type="number" min="1" max="31" value="${escapeHTML(mission?.monthDay || new Date().getDate())}">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Quem faz?</label>
+            <select name="assigned">
+              <option value="any" ${mission?.assigned !== "both" ? "selected" : ""}>Qualquer um pode fazer</option>
+              <option value="both" ${mission?.assigned === "both" ? "selected" : ""}>Os dois fazem</option>
+            </select>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Minutos</label>
+              <input name="minutes" type="number" min="1" max="600" value="${escapeHTML(mission?.minutes || 5)}">
+            </div>
+
+            <div class="field">
+              <label>XP</label>
+              <input name="xp" type="number" min="1" max="200" value="${escapeHTML(mission?.xp || 10)}">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Energia</label>
+            <input name="energy" type="number" min="1" max="5" value="${escapeHTML(mission?.energy || 1)}">
+          </div>
+
+          <button class="btn primary" type="submit">${mission ? "Salvar missão" : "Criar missão"}</button>
+          ${mission ? `<button class="btn bad" type="button" data-action="delete-mission" data-id="${escapeHTML(mission.id)}">Excluir missão</button>` : ""}
+        </form>
+      `);
+    }
+
+    function openMissionView(missionId, key) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      const cat = categoryOf(mission.category);
+      const people = doneMembers(mission, key);
+
+      openModal(`${cat.icon} ${escapeHTML(mission.title)}`, formatLongDate(key), `
+        <div class="history-list">
+          <div class="history-item">
+            <div>
+              Categoria
+              <br>
+              <span>${cat.icon} ${cat.label}</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Recompensa
+              <br>
+              <span>${mission.minutes} min • ${mission.xp} XP • ${mission.energy} energia</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Feita por
+              <br>
+              <span>${people.length ? people.map((p) => `${p.avatar} ${p.name}`).join(", ") : "ninguém ainda"}</span>
+            </div>
+          </div>
+
+          <div class="history-item">
+            <div>
+              Descrição
+              <br>
+              <span>${escapeHTML(mission.description || "Sem descrição.")}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
+          ${doneByMe(mission, key) ? "Desmarcar" : "Marcar como feita"}
+        </button>
+      `);
+    }
+
+    function openGoalForm(goalId = "") {
+      const goal = state.data.wallet.goals.find((item) => item.id === goalId) || null;
+
+      openModal(goal ? "Editar meta" : "Nova meta", "Cofrinho para planos, reservas, viagens e mimos.", `
+        <form id="goalForm" class="form-grid" data-id="${goal ? escapeHTML(goal.id) : ""}">
+          <div class="field">
+            <label>Nome da meta</label>
+            <input name="title" maxlength="70" value="${escapeHTML(goal?.title || "")}" placeholder="Ex: Viagem, reserva, jantar..." required>
+          </div>
+
+          <div class="form-2">
+            <div class="field">
+              <label>Valor da meta</label>
+              <input name="target" type="number" min="1" step="0.01" value="${escapeHTML(goal?.target || 300)}" required>
+            </div>
+
+            <div class="field">
+              <label>Já guardado</label>
+              <input name="saved" type="number" min="0" step="0.01" value="${escapeHTML(goal?.saved || 0)}">
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit">${goal ? "Salvar meta" : "Criar meta"}</button>
+          ${goal ? `<button class="btn bad" data-action="delete-goal" data-id="${escapeHTML(goal.id)}" type="button">Excluir meta</button>` : ""}
+        </form>
+      `);
+    }
+
+    function openDepositForm(goalId) {
+      const goal = state.data.wallet.goals.find((item) => item.id === goalId);
+      if (!goal) return;
+
+      openModal("Depositar", `Meta: ${escapeHTML(goal.title)}`, `
+        <form id="depositForm" class="form-grid" data-id="${escapeHTML(goal.id)}">
+          <div class="field">
+            <label>Valor</label>
+            <input name="amount" type="number" min="0.01" step="0.01" placeholder="25.00" required>
+          </div>
+
+          <div class="field">
+            <label>Descrição</label>
+            <input name="description" maxlength="70" placeholder="Ex: economizei no lanche" required>
+          </div>
+
+          <button class="btn primary" type="submit">Adicionar ao cofrinho</button>
+        </form>
+      `);
+    }
+
+    async function toggleDone(missionId, key) {
+      await updateData((data) => {
+        const mission = data.missions.find((item) => item.id === missionId);
+        if (!mission) return;
+
+        mission.done ||= {};
+        mission.done[key] ||= {};
+
+        const wasDone = Boolean(mission.done[key][state.uid]);
+
+        if (wasDone) {
+          delete mission.done[key][state.uid];
         } else {
-          item.done[today][state.uid] = true;
+          mission.done[key][state.uid] = Date.now();
+
+          data.history ||= [];
+          data.history.push({
+            type: "mission",
+            missionId,
+            title: mission.title,
+            category: mission.category,
+            uid: state.uid,
+            byName: me().name,
+            date: key,
+            xp: mission.xp,
+            createdAt: Date.now()
+          });
+
+          if (mission.category === "pets") {
+            data.systems.pets.health = clamp((data.systems.pets.health || 0) + 12, 0, 100);
+            data.systems.pets.mood = data.systems.pets.health >= 70 ? "feliz" : "melhorando";
+            data.systems.pets.lastCare = Date.now();
+          }
+
+          if (mission.category === "casa") {
+            data.systems.casa.health = clamp((data.systems.casa.health || 0) + 10, 0, 100);
+            data.systems.casa.mood = data.systems.casa.health >= 70 ? "em ordem" : "melhorando";
+            data.systems.casa.lastCare = Date.now();
+          }
         }
 
-        if (Object.keys(item.done[today]).length === 0) {
-          delete item.done[today];
+        if (Object.keys(mission.done[key]).length === 0) {
+          delete mission.done[key];
         }
       });
+
+      closeModal();
+      toast("Base atualizada.");
     }
 
-    async function removeItem(type, id) {
-      const confirmed = window.confirm("Remover este item para o casal?");
-      if (!confirmed) return;
-
-      const listName = type === "challenge" ? "challenges" : "habits";
-
-      await updateRoom((data) => {
-        data[listName] = (data[listName] || []).filter((entry) => entry.id !== id);
-      });
-
-      showToast("Item removido.");
-    }
-
-    async function setTheme(themeName) {
-      const theme = THEMES[themeName];
-      if (!theme) return;
-
-      await updateRoom((data) => {
-        data.settings = {
-          themeName,
-          ...theme
-        };
-      });
-
-      showToast("Tema sincronizado.");
-    }
-
-    async function setCustomTheme(form) {
+    async function saveMission(form) {
       const formData = new FormData(form);
+      const id = form.dataset.id;
+      const days = formData.getAll("days").map(Number);
 
-      await updateRoom((data) => {
-        data.settings = {
-          themeName: "custom",
-          name: "Personalizado",
-          primary: normalizeHex(formData.get("primary"), "#ff6b9a"),
-          accent: normalizeHex(formData.get("accent"), "#7c3aed"),
-          bg: normalizeHex(formData.get("bg"), "#100f24"),
-          text: normalizeHex(formData.get("text"), "#fff7fb"),
-          card: "rgba(255, 255, 255, 0.11)"
-        };
-      });
-
-      showToast("Tema personalizado salvo para os dois.");
-    }
-
-    async function syncProfile() {
-      const profile = {
-        ...getProfileFromForm(),
-        updatedAt: Date.now()
+      const payload = {
+        title: String(formData.get("title") || "").trim().slice(0, 70),
+        description: String(formData.get("description") || "").trim().slice(0, 260),
+        category: String(formData.get("category") || "casa"),
+        frequency: String(formData.get("frequency") || "daily"),
+        days: days.length ? days : [new Date().getDay()],
+        monthDay: clamp(formData.get("monthDay"), 1, 31),
+        date: String(formData.get("date") || todayKey()),
+        assigned: String(formData.get("assigned") || "any"),
+        minutes: clamp(formData.get("minutes"), 1, 600),
+        xp: clamp(formData.get("xp"), 1, 200),
+        energy: clamp(formData.get("energy"), 1, 5)
       };
 
-      await updateRoom((data) => {
+      if (!payload.title) {
+        toast("Dê um título para a missão.");
+        return;
+      }
+
+      await updateData((data) => {
+        if (id) {
+          const mission = data.missions.find((item) => item.id === id);
+          if (!mission) return;
+          Object.assign(mission, payload);
+        } else {
+          data.missions.push(createMission(payload));
+        }
+      });
+
+      closeModal();
+      toast(id ? "Missão atualizada." : "Missão criada.");
+    }
+
+    async function deleteMission(id) {
+      const ok = confirm("Excluir essa missão da Base?");
+      if (!ok) return;
+
+      await updateData((data) => {
+        data.missions = data.missions.filter((mission) => mission.id !== id);
+      });
+
+      closeModal();
+      toast("Missão excluída.");
+    }
+
+    async function saveProfileForm(form) {
+      const formData = new FormData(form);
+
+      const profile = {
+        uid: state.uid,
+        name: String(formData.get("name") || "Mu").trim().slice(0, 32),
+        avatar: String(formData.get("avatar") || "👤").trim().slice(0, 4),
+        color: String(formData.get("color") || "#b77aff")
+      };
+
+      const baseName = String(formData.get("baseName") || "Base da Família").trim().slice(0, 40);
+
+      saveProfile(profile);
+
+      await updateData((data) => {
+        data.baseName = baseName;
         data.members ||= {};
-        const existing = data.members[state.uid] || {};
         data.members[state.uid] = {
-          ...existing,
+          ...(data.members[state.uid] || {}),
           ...profile,
           uid: state.uid,
-          joinedAt: existing.joinedAt || Date.now()
+          joinedAt: data.members[state.uid]?.joinedAt || Date.now()
         };
       });
 
-      showToast("Perfil atualizado na sala.");
+      closeModal();
+      toast("Perfil salvo.");
     }
 
-    async function copyInvite() {
-      const roomId = state.roomId;
-      const url = `${location.origin}${location.pathname}?room=${roomId}`;
+    function hexToPanel(hex) {
+      const clean = String(hex || "#1f1a2f").replace("#", "");
+      const r = parseInt(clean.slice(0, 2), 16);
+      const g = parseInt(clean.slice(2, 4), 16);
+      const b = parseInt(clean.slice(4, 6), 16);
+      return `rgba(${r}, ${g}, ${b}, 0.94)`;
+    }
+
+    async function saveCustomTheme(form) {
+      const formData = new FormData(form);
+
+      await updateData((data) => {
+        data.settings.theme = "custom";
+        data.settings.custom = {
+          name: "Personalizado",
+          bg: String(formData.get("bg")),
+          bg2: String(formData.get("bg2")),
+          panel: hexToPanel(formData.get("panelColor")),
+          primary: String(formData.get("primary")),
+          primary2: String(formData.get("primary2")),
+          accent: String(formData.get("accent")),
+          text: "#f7efff"
+        };
+      });
+
+      closeModal();
+      toast("Tema salvo para a Base.");
+    }
+
+    async function setTheme(theme) {
+      await updateData((data) => {
+        data.settings.theme = theme;
+        data.settings.custom = null;
+      });
+
+      closeModal();
+      toast("Tema sincronizado.");
+    }
+
+    async function saveGoal(form) {
+      const formData = new FormData(form);
+      const id = form.dataset.id;
+      const title = String(formData.get("title") || "").trim().slice(0, 70);
+      const target = clamp(formData.get("target"), 1, 9999999);
+      const saved = clamp(formData.get("saved"), 0, 9999999);
+
+      if (!title) {
+        toast("Dê um nome para a meta.");
+        return;
+      }
+
+      await updateData((data) => {
+        data.wallet.goals ||= [];
+
+        if (id) {
+          const goal = data.wallet.goals.find((item) => item.id === id);
+          if (!goal) return;
+
+          goal.title = title;
+          goal.target = target;
+          goal.saved = saved;
+        } else {
+          data.wallet.goals.push({
+            id: makeId("goal"),
+            title,
+            target,
+            saved,
+            createdAt: Date.now(),
+            createdBy: state.uid
+          });
+        }
+      });
+
+      closeModal();
+      toast(id ? "Meta atualizada." : "Meta criada.");
+    }
+
+    async function deleteGoal(id) {
+      const ok = confirm("Excluir essa meta?");
+      if (!ok) return;
+
+      await updateData((data) => {
+        data.wallet.goals = (data.wallet.goals || []).filter((goal) => goal.id !== id);
+        data.wallet.deposits = (data.wallet.deposits || []).filter((deposit) => deposit.goalId !== id);
+      });
+
+      closeModal();
+      toast("Meta excluída.");
+    }
+
+    async function saveDeposit(form) {
+      const goalId = form.dataset.id;
+      const formData = new FormData(form);
+      const amount = clamp(formData.get("amount"), 0.01, 9999999);
+      const description = String(formData.get("description") || "Depósito").trim().slice(0, 70);
+
+      await updateData((data) => {
+        const goal = data.wallet.goals.find((item) => item.id === goalId);
+        if (!goal) return;
+
+        goal.saved = Number(goal.saved || 0) + amount;
+
+        data.wallet.deposits ||= [];
+        data.wallet.deposits.push({
+          id: makeId("deposit"),
+          goalId,
+          amount,
+          description,
+          uid: state.uid,
+          byName: me().name,
+          date: todayKey(),
+          createdAt: Date.now()
+        });
+      });
+
+      closeModal();
+      toast("Cofrinho atualizado.");
+    }
+
+    async function careSystem(system) {
+      await updateData((data) => {
+        if (!data.systems[system]) return;
+
+        data.systems[system].health = clamp((data.systems[system].health || 0) + 15, 0, 100);
+        data.systems[system].mood = data.systems[system].health >= 70 ? "em ordem" : "melhorando";
+        data.systems[system].lastCare = Date.now();
+      });
+
+      toast(system === "pets" ? "Pets receberam atenção. 🐾" : "Casa recebeu atenção. 🏠");
+    }
+
+    async function copyRoom() {
+      const url = `${location.origin}${location.pathname}?room=${state.roomId}`;
 
       try {
         await navigator.clipboard.writeText(url);
-        showToast("Convite copiado.");
+        toast("Convite copiado.");
       } catch {
-        showToast(`Código da sala: ${roomId}`);
+        toast(`Código da sala: ${state.roomId}`);
       }
     }
+
+    function toast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 2800);
+    }
+
+    document.addEventListener("click", async (event) => {
+      const pageBtn = event.target.closest("[data-page]");
+      const tabBtn = event.target.closest("[data-mission-tab]");
+      const hallBtn = event.target.closest("[data-hall-filter]");
+      const actionBtn = event.target.closest("[data-action]");
+
+      try {
+        if (pageBtn) {
+          state.page = pageBtn.dataset.page;
+          render();
+          return;
+        }
+
+        if (tabBtn) {
+          state.missionTab = tabBtn.dataset.missionTab;
+          render();
+          return;
+        }
+
+        if (hallBtn) {
+          state.hallFilter = hallBtn.dataset.hallFilter;
+          render();
+          return;
+        }
+
+        if (!actionBtn) return;
+
+        const action = actionBtn.dataset.action;
+
+        if (action === "close-modal") closeModal();
+        if (action === "open-profile") openProfileModal();
+        if (action === "open-theme") openThemeModal();
+        if (action === "open-notices") openNoticesModal();
+
+        if (action === "open-mission-form") openMissionForm("daily");
+        if (action === "open-daily-form") openMissionForm("daily");
+        if (action === "open-weekly-form") openMissionForm("weekly");
+        if (action === "open-monthly-form") openMissionForm("monthly");
+
+        if (action === "edit-mission") openMissionForm("daily", actionBtn.dataset.id);
+        if (action === "view-mission") openMissionView(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "toggle-done") await toggleDone(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "delete-mission") await deleteMission(actionBtn.dataset.id);
+
+        if (action === "set-theme") await setTheme(actionBtn.dataset.theme);
+        if (action === "care-system") await careSystem(actionBtn.dataset.system);
+
+        if (action === "open-goal-form") openGoalForm();
+        if (action === "edit-goal") openGoalForm(actionBtn.dataset.id);
+        if (action === "open-deposit-form") openDepositForm(actionBtn.dataset.id);
+        if (action === "delete-goal") await deleteGoal(actionBtn.dataset.id);
+
+        if (action === "copy-room") await copyRoom();
+
+        if (action === "create-room") {
+          await createRoom(false);
+          closeModal();
+        }
+
+        if (action === "join-room") {
+          const code = document.getElementById("joinCodeInput")?.value || "";
+          await joinRoom(code, false);
+          closeModal();
+        }
+      } catch (error) {
+        console.error(error);
+        toast(error.message || "Não foi possível concluir.");
+      }
+    });
 
     document.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -1853,104 +3140,21 @@
       try {
         const form = event.target;
 
-        if (form.id === "profileForm") {
-          getProfileFromForm();
-          if (state.roomId) await syncProfile();
-          showToast("Perfil salvo.");
-        }
-
-        if (form.id === "checkinForm") await submitCheckin(form);
-        if (form.id === "habitForm") await addHabit(form);
-        if (form.id === "challengeForm") await addChallenge(form);
-        if (form.id === "customThemeForm") await setCustomTheme(form);
+        if (form.id === "profileForm") await saveProfileForm(form);
+        if (form.id === "missionForm") await saveMission(form);
+        if (form.id === "customThemeForm") await saveCustomTheme(form);
+        if (form.id === "goalForm") await saveGoal(form);
+        if (form.id === "depositForm") await saveDeposit(form);
       } catch (error) {
         console.error(error);
-        showToast(error.message || "Algo deu errado.", "error");
+        toast(error.message || "Erro ao salvar.");
       }
     });
 
-    document.addEventListener("click", async (event) => {
-      const tabButton = event.target.closest("[data-tab]");
-      const actionButton = event.target.closest("[data-action]");
-
-      try {
-        if (tabButton) {
-          state.activeTab = tabButton.dataset.tab;
-          renderApp();
-          return;
-        }
-
-        if (!actionButton) return;
-
-        const action = actionButton.dataset.action;
-
-        if (action === "copy-invite") await copyInvite();
-        if (action === "leave-room") leaveRoom(true);
-        if (action === "sync-profile") await syncProfile();
-        if (action === "set-theme") await setTheme(actionButton.dataset.theme);
-        if (action === "toggle-item") await toggleItem(actionButton.dataset.type, actionButton.dataset.id);
-        if (action === "remove-item") await removeItem(actionButton.dataset.type, actionButton.dataset.id);
-      } catch (error) {
-        console.error(error);
-        showToast(error.message || "Não foi possível concluir a ação.", "error");
-      }
-    });
-
-    $("#createRoomButton").addEventListener("click", async () => {
-      try {
-        await createRoom();
-      } catch (error) {
-        console.error(error);
-        showToast("Não foi possível criar a sala.", "error");
-      }
-    });
-
-    $("#joinRoomButton").addEventListener("click", async () => {
-      try {
-        await joinRoom();
-      } catch (error) {
-        console.error(error);
-        showToast("Não foi possível entrar. Código inválido, sala cheia ou regras do Firestore bloqueando.", "error");
-      }
-    });
-
-    async function init() {
-      hydrateProfileForm();
-
-      if (!hasFirebaseConfig()) {
-        $("#setupWarning").hidden = false;
-        $("#setupWarning").textContent =
-          "Antes de usar a sincronização, cole seu firebaseConfig no código e publique as regras do Firestore.";
-        $("#createRoomButton").disabled = true;
-        $("#joinRoomButton").disabled = true;
-        setStatus("⚠️ Configure o Firebase");
-        return;
-      }
-
-      state.app = initializeApp(firebaseConfig);
-      state.auth = getAuth(state.app);
-      state.db = getFirestore(state.app);
-
-      onAuthStateChanged(state.auth, (user) => {
-        if (!user) return;
-
-        state.uid = user.uid;
-        state.ready = true;
-        setStatus("🟢 Conectado");
-
-        const savedRoomId = localStorage.getItem(ROOM_KEY);
-        if (savedRoomId) {
-          subscribeToRoom(savedRoomId);
-        }
-      });
-
-      await signInAnonymously(state.auth);
-    }
-
-    init().catch((error) => {
+    initFirebase().catch((error) => {
       console.error(error);
-      setStatus("🔴 Erro");
-      showToast("Falha ao inicializar o app.", "error");
+      toast("Firebase falhou. Rodando em modo local.");
+      loadLocalData();
     });
   </script>
 </body>
