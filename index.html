@@ -12,7 +12,6 @@
       --bg-2: #302b3d;
       --panel: rgba(31, 26, 47, 0.94);
       --card: rgba(255, 255, 255, 0.055);
-      --card-2: rgba(255, 255, 255, 0.078);
       --text: #f7efff;
       --muted: rgba(247, 239, 255, 0.64);
       --border: rgba(255, 255, 255, 0.115);
@@ -22,11 +21,8 @@
       --good: #5de38f;
       --bad: #ff557b;
       --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
-      --radius-xl: 30px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --max: 1040px;
       --nav-h: 76px;
+      --max: 1040px;
       color-scheme: dark;
     }
 
@@ -48,13 +44,10 @@
       min-height: 100vh;
       padding-bottom: calc(var(--nav-h) + 46px + env(safe-area-inset-bottom));
       color: var(--text);
-      font-family:
-        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 13% 12%, color-mix(in srgb, var(--primary-2) 28%, transparent), transparent 29%),
         radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--primary) 28%, transparent), transparent 31%),
-        radial-gradient(circle at 50% 110%, rgba(255, 255, 255, 0.06), transparent 36%),
         linear-gradient(135deg, var(--bg), var(--bg-2) 76%);
       overflow-x: hidden;
     }
@@ -82,8 +75,8 @@
 
     .top-card,
     .panel,
-    .notice,
-    .modal {
+    .modal,
+    .notice {
       border: 1px solid var(--border);
       background: var(--panel);
       box-shadow: var(--shadow);
@@ -96,10 +89,7 @@
       justify-content: space-between;
       gap: 18px;
       padding: 18px;
-      border-radius: var(--radius-xl);
-      background:
-        linear-gradient(90deg, rgba(27, 23, 41, 0.96), rgba(29, 24, 43, 0.88)),
-        var(--panel);
+      border-radius: 30px;
     }
 
     .brand {
@@ -121,22 +111,12 @@
     }
 
     .logo {
-      position: relative;
       width: 54px;
       height: 54px;
       flex: 0 0 54px;
       border-radius: 21px;
-      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.04);
       font-size: 1.35rem;
-    }
-
-    .logo::after {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: 999px;
-      border: 2px solid rgba(255, 255, 255, 0.28);
-      pointer-events: none;
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.04);
     }
 
     .logo img,
@@ -174,11 +154,21 @@
       box-shadow: 0 0 18px var(--good);
     }
 
-    .top-actions {
+    .top-actions,
+    .hero-actions,
+    .reaction-row,
+    .quick-comments,
+    .quick-money,
+    .badges,
+    .done-row {
       display: flex;
       flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .top-actions {
       justify-content: flex-end;
-      gap: 9px;
     }
 
     .btn {
@@ -194,13 +184,7 @@
       color: var(--text);
       font-weight: 1000;
       text-decoration: none;
-      transition: transform 0.18s ease, filter 0.18s ease;
       white-space: nowrap;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
     }
 
     .btn.primary {
@@ -264,7 +248,7 @@
 
     .panel {
       padding: 16px;
-      border-radius: var(--radius-xl);
+      border-radius: 30px;
     }
 
     .section-title {
@@ -318,12 +302,6 @@
       line-height: 1.45;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
     .notice {
       min-height: 62px;
       display: flex;
@@ -364,12 +342,7 @@
       gap: 14px;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
+    .grid-3,
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -447,29 +420,10 @@
       justify-content: flex-end;
     }
 
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 7px;
-    }
-
     .done-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 7px;
       color: var(--muted);
       font-size: 0.78rem;
       font-weight: 1000;
-    }
-
-    .mini-avatar {
-      width: 25px;
-      height: 25px;
-      border-radius: 9px;
-      font-size: 0.86rem;
-      background: var(--c, var(--primary));
     }
 
     .avatar {
@@ -480,6 +434,14 @@
       background: var(--c, var(--primary));
       font-size: 1.35rem;
       box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+    }
+
+    .mini-avatar {
+      width: 25px;
+      height: 25px;
+      border-radius: 9px;
+      font-size: 0.86rem;
+      background: var(--c, var(--primary));
     }
 
     .empty {
@@ -517,15 +479,17 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
     }
 
-    .story-rail {
+    .story-rail,
+    .mode-rail {
       display: flex;
       gap: 10px;
       overflow-x: auto;
-      padding: 3px 0 8px;
+      padding: 3px 0 12px;
       scrollbar-width: none;
     }
 
-    .story-rail::-webkit-scrollbar {
+    .story-rail::-webkit-scrollbar,
+    .mode-rail::-webkit-scrollbar {
       display: none;
     }
 
@@ -569,14 +533,9 @@
       box-shadow: none;
     }
 
-    .story-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .story-filter {
+    .mode-chip,
+    .story-filter,
+    .ach-tab {
       min-height: 34px;
       padding: 8px 12px;
       border-radius: 999px;
@@ -585,12 +544,91 @@
       color: var(--muted);
       font-size: 0.8rem;
       font-weight: 1000;
+      flex: 0 0 auto;
     }
 
-    .story-filter.active {
+    .mode-chip.active,
+    .story-filter.active,
+    .ach-tab.active {
       border-color: transparent;
       color: #2d2140;
       background: var(--accent);
+    }
+
+    .story-filters,
+    .achievement-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .story-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-head strong {
+      display: block;
+    }
+
+    .story-head span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .story-photo-placeholder {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
+      font-weight: 1000;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .story-photo {
+      width: 100%;
+      max-height: 620px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .story-caption {
+      margin: 0;
+      color: var(--text);
+      font-weight: 900;
+      line-height: 1.5;
+    }
+
+    .reaction-btn,
+    .quick-comment-btn {
+      min-height: 34px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+      font-weight: 1000;
+    }
+
+    .reaction-btn.active {
+      background: var(--accent);
+      color: #2d2140;
+      border-color: transparent;
+    }
+
+    .quick-comment-btn {
+      color: var(--muted);
+      font-size: 0.77rem;
     }
 
     .week-board {
@@ -681,106 +719,26 @@
       background: linear-gradient(90deg, var(--primary), var(--primary-2));
     }
 
-    .story-head {
-      display: flex;
-      align-items: center;
+    .history-list {
+      display: grid;
       gap: 10px;
     }
 
-    .story-head strong {
-      display: block;
-    }
-
-    .story-head span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 900;
-    }
-
-    .story-photo-placeholder {
-      min-height: 180px;
-      display: grid;
-      place-items: center;
-      border: 1px dashed var(--border);
-      border-radius: 18px;
-      background:
-        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-2) 15%, transparent), transparent 36%),
-        rgba(255, 255, 255, 0.035);
-      color: var(--muted);
-      font-weight: 1000;
-      text-align: center;
-      padding: 16px;
-    }
-
-    .story-photo {
-      width: 100%;
-      max-height: 620px;
-      object-fit: cover;
-      border-radius: 18px;
-      display: block;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .story-caption {
-      margin: 0;
-      color: var(--text);
-      font-weight: 900;
-      line-height: 1.5;
-    }
-
-    .reaction-row,
-    .quick-comments {
+    .history-item {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      justify-content: space-between;
       align-items: center;
-    }
-
-    .reaction-btn,
-    .quick-comment-btn {
-      min-height: 34px;
-      padding: 7px 10px;
-      border-radius: 999px;
+      gap: 12px;
+      padding: 13px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.055);
-      color: var(--text);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.045);
       font-weight: 1000;
     }
 
-    .reaction-btn.active {
-      background: var(--accent);
-      color: #2d2140;
-      border-color: transparent;
-    }
-
-    .quick-comment-btn {
+    .history-item span {
       color: var(--muted);
-      font-size: 0.77rem;
-    }
-
-    .achievement-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .ach-tab {
-      min-height: 34px;
-      padding: 8px 12px;
-      border-radius: 13px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.055);
-      color: var(--text);
       font-size: 0.82rem;
-      font-weight: 1000;
-    }
-
-    .ach-tab.active {
-      border-color: transparent;
-      color: #2d2140;
-      background: var(--accent);
     }
 
     .achievement-grid {
@@ -818,34 +776,6 @@
       filter: none;
     }
 
-    .history-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .history-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      background: rgba(255, 255, 255, 0.045);
-      font-weight: 1000;
-    }
-
-    .history-item span {
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .quick-money {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
     .more-card {
       min-height: 92px;
       display: grid;
@@ -867,6 +797,51 @@
       color: var(--muted);
       font-size: 0.82rem;
       font-weight: 900;
+    }
+
+    .template-section {
+      display: grid;
+      gap: 10px;
+    }
+
+    .template-title {
+      margin: 12px 0 2px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .template-card {
+      min-height: 118px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+      text-align: left;
+    }
+
+    .template-card strong {
+      font-size: 0.98rem;
+      line-height: 1.14;
+    }
+
+    .template-card span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+      line-height: 1.3;
     }
 
     .bottom-nav {
@@ -1002,9 +977,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
       border-radius: 18px;
-      background:
-        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-2) 18%, transparent), transparent 35%),
-        rgba(255, 255, 255, 0.035);
+      background: rgba(255, 255, 255, 0.035);
       color: var(--muted);
       font-weight: 1000;
       text-align: center;
@@ -1094,7 +1067,7 @@
     .login-card {
       width: min(560px, 100%);
       padding: 24px;
-      border-radius: var(--radius-xl);
+      border-radius: 30px;
       border: 1px solid var(--border);
       background: var(--panel);
       box-shadow: var(--shadow);
@@ -1199,7 +1172,8 @@
       }
 
       .stats,
-      .form-2 {
+      .form-2,
+      .template-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1275,15 +1249,14 @@
       deleteDoc
     } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-   const firebaseConfig = {
-  apiKey: "AIzaSyD-pG1xZyQoLqByrizu3jYlrMtSkO9yZr0",
-  authDomain: "casinha-4d078.firebaseapp.com",
-  projectId: "casinha-4d078",
-  storageBucket: "casinha-4d078.firebasestorage.app",
-  messagingSenderId: "120575493435",
-  appId: "1:120575493435:web:e355019986f48e79f5631e"
-};
-
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-pG1xZyQoLqByrizu3jYlrMtSkO9yZr0",
+      authDomain: "casinha-4d078.firebaseapp.com",
+      projectId: "casinha-4d078",
+      storageBucket: "casinha-4d078.firebasestorage.app",
+      messagingSenderId: "120575493435",
+      appId: "1:120575493435:web:e355019986f48e79f5631e"
+    };
 
     const COLLECTION = "familyBases";
 
@@ -1322,6 +1295,246 @@
       "Eu faço a próxima",
       "Ficou perfeito",
       "A Casinha agradece 🏠"
+    ];
+
+    const SMART_MODES = [
+      ["normal", "⚡ Hoje", "Tudo"],
+      ["rapido", "⏱️ 5 min", "Rápidas"],
+      ["leve", "🌙 Cansado", "Leves"],
+      ["ajuda", "🤝 Ajudar", "Base"],
+      ["perfeito", "⭐ Perfeito", "Faltantes"],
+      ["pets", "🐾 Pets", "Pets"],
+      ["casa", "🏠 Casa", "Casa"]
+    ];
+
+    const MISSION_TEMPLATES = [
+      {
+        group: "Casa",
+        icon: "🏠",
+        items: [
+          {
+            id: "tpl_louca",
+            title: "Lavar louça",
+            description: "Tirar a louça acumulada e deixar a pia respirando.",
+            category: "casa",
+            frequency: "daily",
+            minutes: 12,
+            energy: 2,
+            assigned: "any"
+          },
+          {
+            id: "tpl_lixo",
+            title: "Lixo na rua",
+            description: "Separar e colocar o lixo para fora.",
+            category: "casa",
+            frequency: "weekly",
+            days: [6],
+            minutes: 5,
+            energy: 2,
+            assigned: "any"
+          },
+          {
+            id: "tpl_varrer",
+            title: "Varrer casa",
+            description: "Passada rápida para a Base ficar mais leve.",
+            category: "casa",
+            frequency: "daily",
+            minutes: 20,
+            energy: 3,
+            assigned: "any"
+          },
+          {
+            id: "tpl_roupa",
+            title: "Roupa",
+            description: "Colocar, estender ou recolher roupa.",
+            category: "casa",
+            frequency: "weekly",
+            days: [2, 5],
+            minutes: 25,
+            energy: 3,
+            assigned: "any"
+          }
+        ]
+      },
+      {
+        group: "Pets",
+        icon: "🐾",
+        items: [
+          {
+            id: "tpl_areia",
+            title: "Areia",
+            description: "Limpar a areia e deixar os pets confortáveis.",
+            category: "pets",
+            frequency: "daily",
+            minutes: 8,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_agua_pet",
+            title: "Água dos pets",
+            description: "Trocar ou completar a água.",
+            category: "pets",
+            frequency: "daily",
+            minutes: 3,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_racao",
+            title: "Ração",
+            description: "Conferir comida dos pets.",
+            category: "pets",
+            frequency: "daily",
+            minutes: 3,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_remedio_pet",
+            title: "Remédio pet",
+            description: "Dar remédio ou cuidado especial.",
+            category: "pets",
+            frequency: "once",
+            minutes: 5,
+            energy: 2,
+            assigned: "any"
+          }
+        ]
+      },
+      {
+        group: "Relacionamento",
+        icon: "💞",
+        items: [
+          {
+            id: "tpl_checkin",
+            title: "Check-in carinhoso",
+            description: "Perguntar como o outro está de verdade.",
+            category: "relacionamento",
+            frequency: "daily",
+            minutes: 3,
+            energy: 1,
+            assigned: "both"
+          },
+          {
+            id: "tpl_elogio",
+            title: "Elogio do dia",
+            description: "Mandar um elogio sincero.",
+            category: "relacionamento",
+            frequency: "daily",
+            minutes: 2,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_conversa",
+            title: "Conversa sem celular",
+            description: "10 minutos de presença real.",
+            category: "relacionamento",
+            frequency: "weekly",
+            days: [0],
+            minutes: 10,
+            energy: 1,
+            assigned: "both"
+          },
+          {
+            id: "tpl_date",
+            title: "Date da Casinha",
+            description: "Planejar ou fazer um momento só de vocês.",
+            category: "relacionamento",
+            frequency: "weekly",
+            days: [5],
+            minutes: 60,
+            energy: 3,
+            assigned: "both"
+          }
+        ]
+      },
+      {
+        group: "Financeiro",
+        icon: "💰",
+        items: [
+          {
+            id: "tpl_guardar_10",
+            title: "Guardar R$10",
+            description: "Depósito simbólico para fortalecer o cofrinho.",
+            category: "financeiro",
+            frequency: "weekly",
+            days: [5],
+            minutes: 2,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_conferir_contas",
+            title: "Conferir contas",
+            description: "Olhar vencimentos e próximos gastos.",
+            category: "financeiro",
+            frequency: "weekly",
+            days: [1],
+            minutes: 15,
+            energy: 2,
+            assigned: "both"
+          },
+          {
+            id: "tpl_planejar_compra",
+            title: "Planejar compra",
+            description: "Evitar compra no impulso e combinar prioridades.",
+            category: "financeiro",
+            frequency: "once",
+            minutes: 12,
+            energy: 2,
+            assigned: "both"
+          }
+        ]
+      },
+      {
+        group: "Saúde",
+        icon: "🌿",
+        items: [
+          {
+            id: "tpl_agua",
+            title: "Beber água",
+            description: "Pausa rápida para cuidar do corpo.",
+            category: "saude",
+            frequency: "daily",
+            minutes: 1,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_caminhada",
+            title: "Caminhada",
+            description: "Movimento leve para destravar o dia.",
+            category: "saude",
+            frequency: "weekly",
+            days: [1, 3, 5],
+            minutes: 20,
+            energy: 2,
+            assigned: "any"
+          },
+          {
+            id: "tpl_remedio",
+            title: "Remédio",
+            description: "Lembrete de cuidado pessoal.",
+            category: "saude",
+            frequency: "daily",
+            minutes: 1,
+            energy: 1,
+            assigned: "any"
+          },
+          {
+            id: "tpl_sono",
+            title: "Preparar sono",
+            description: "Desacelerar e cuidar do descanso.",
+            category: "saude",
+            frequency: "daily",
+            minutes: 10,
+            energy: 1,
+            assigned: "any"
+          }
+        ]
+      }
     ];
 
     const THEMES = {
@@ -1426,6 +1639,7 @@
       page: "hoje",
       rotinaTab: "daily",
       storyFilter: "todos",
+      todayMode: "normal",
       moreView: "menu",
       hallFilter: "todas",
       data: null
@@ -1645,7 +1859,7 @@
       const profile = googleProfileFromUser();
 
       return {
-        version: 6,
+        version: 7,
         roomId,
         baseName: "Casinha",
         createdAt: Date.now(),
@@ -2270,12 +2484,9 @@
         }
       }
 
-      return items.sort((a, b) => {
-        const energy = Number(a.mission.energy || 1) - Number(b.mission.energy || 1);
-        if (energy !== 0) return energy;
-        const minutes = Number(a.mission.minutes || 5) - Number(b.mission.minutes || 5);
-        if (minutes !== 0) return minutes;
-        return a.key.localeCompare(b.key);
+      return smartSortedMissions(items.map((item) => item.mission)).map((mission) => {
+        const found = items.find((item) => item.mission.id === mission.id);
+        return found;
       });
     }
 
@@ -2296,22 +2507,22 @@
       }
 
       const today = todayKey();
-      const todayPending = missionsDueToday()
-        .filter((mission) => !baseComplete(mission, today))
-        .sort((a, b) => {
-          const systemA = systemPriority(a.category);
-          const systemB = systemPriority(b.category);
-          if (systemA !== systemB) return systemB - systemA;
-          const energy = Number(a.energy || 1) - Number(b.energy || 1);
-          if (energy !== 0) return energy;
-          return Number(a.minutes || 5) - Number(b.minutes || 5);
-        })[0];
+      const todayPending = visibleTodayMissions().sort((a, b) => {
+        const systemA = systemPriority(a.category);
+        const systemB = systemPriority(b.category);
+        if (systemA !== systemB) return systemB - systemA;
+
+        const energy = Number(a.energy || 1) - Number(b.energy || 1);
+        if (energy !== 0) return energy;
+
+        return Number(a.minutes || 5) - Number(b.minutes || 5);
+      })[0];
 
       if (todayPending) {
         return {
           mission: todayPending,
           key: today,
-          reason: "Essa ajuda a Casinha hoje."
+          reason: `Modo ${smartModeLabel()}: essa ajuda a Casinha agora.`
         };
       }
 
@@ -2484,6 +2695,124 @@
         .sort((a, b) => b.createdAt - a.createdAt);
     }
 
+    function allMissionTemplates() {
+      return MISSION_TEMPLATES.flatMap((group) =>
+        group.items.map((item) => ({
+          ...item,
+          group: group.group,
+          groupIcon: group.icon
+        }))
+      );
+    }
+
+    function findMissionTemplate(templateId) {
+      return allMissionTemplates().find((template) => template.id === templateId) || null;
+    }
+
+    function smartModeLabel() {
+      return SMART_MODES.find(([key]) => key === state.todayMode)?.[2] || "Tudo";
+    }
+
+    function smartSortedMissions(list) {
+      return [...list].sort((a, b) => {
+        const energy = Number(a.energy || 1) - Number(b.energy || 1);
+        if (energy !== 0) return energy;
+
+        const minutes = Number(a.minutes || 5) - Number(b.minutes || 5);
+        if (minutes !== 0) return minutes;
+
+        return String(a.title).localeCompare(String(b.title), "pt-BR");
+      });
+    }
+
+    function visibleTodayMissions() {
+      const today = todayKey();
+      const baseList = missionsDueToday().filter((mission) => !baseComplete(mission, today));
+      let filtered = baseList;
+
+      if (state.todayMode === "rapido") {
+        filtered = baseList.filter((mission) => Number(mission.minutes || 5) <= 10);
+      }
+
+      if (state.todayMode === "leve") {
+        filtered = baseList.filter((mission) => Number(mission.energy || 1) <= 2);
+      }
+
+      if (state.todayMode === "ajuda") {
+        filtered = baseList.filter((mission) =>
+          mission.assigned === "both" ||
+          missingPeople(mission, today).length > 0 ||
+          mission.category === "relacionamento"
+        );
+      }
+
+      if (state.todayMode === "perfeito") {
+        filtered = baseList;
+      }
+
+      if (state.todayMode === "pets") {
+        filtered = baseList.filter((mission) => mission.category === "pets");
+      }
+
+      if (state.todayMode === "casa") {
+        filtered = baseList.filter((mission) => mission.category === "casa");
+      }
+
+      return smartSortedMissions(filtered);
+    }
+
+    function renderSmartModes() {
+      return `
+        <div class="mode-rail">
+          ${SMART_MODES.map(([key, label]) => `
+            <button class="mode-chip ${state.todayMode === key ? "active" : ""}" data-smart-mode="${key}" type="button">
+              ${label}
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    async function createMissionFromTemplate(templateId) {
+      const template = findMissionTemplate(templateId);
+
+      if (!template) {
+        toast("Template não encontrado.");
+        return;
+      }
+
+      const mission = createMission({
+        title: template.title,
+        description: template.description,
+        category: template.category,
+        frequency: template.frequency,
+        days: Array.isArray(template.days) ? template.days : [new Date().getDay()],
+        date: todayKey(),
+        minutes: template.minutes,
+        xp: xpByMinutes(template.minutes),
+        energy: template.energy,
+        assigned: template.assigned
+      });
+
+      await updateData((data) => {
+        data.missions.push(mission);
+
+        data.history ||= [];
+        data.history.push({
+          type: "templateMission",
+          missionId: mission.id,
+          title: mission.title,
+          uid: state.uid,
+          byName: me().name,
+          templateId,
+          createdAt: Date.now()
+        });
+      });
+
+      closeModal();
+      toast(`Missão criada: ${template.title}`);
+    }
+
     function renderLoading() {
       navEl.hidden = true;
       appEl.innerHTML = `
@@ -2636,7 +2965,7 @@
       const suggestion = suggestedMission();
       const overdue = overdueItems();
       const today = missionsDueToday();
-      const todayPending = today.filter((mission) => !baseComplete(mission, todayKey()));
+      const todayPending = visibleTodayMissions();
       const recentStories = activeStories().slice(0, 3);
       const remaining = dayPerfectRemaining();
 
@@ -2651,6 +2980,7 @@
           </div>
 
           ${renderStoryRail()}
+          ${renderSmartModes()}
 
           ${suggestion ? renderHeroMission(suggestion.mission, suggestion.key, suggestion.reason) : `
             <div class="hero-mission">
@@ -2678,13 +3008,13 @@
           <div class="section-title">
             <div>
               <h2>Missões de hoje</h2>
-              <p>Toque em Feita. Story é opcional.</p>
+              <p>Modo: ${escapeHTML(smartModeLabel())}. Toque em Feita. Story é opcional.</p>
             </div>
             <button class="btn small primary" data-action="open-quick-mission" type="button">+ Rápida</button>
           </div>
 
           <div class="list">
-            ${todayPending.map((mission) => renderMissionCard(mission, todayKey(), true)).join("") || `<div class="empty">Nenhuma missão pendente hoje.</div>`}
+            ${todayPending.map((mission) => renderMissionCard(mission, todayKey(), true)).join("") || `<div class="empty">Nada nesse modo agora.</div>`}
           </div>
         </section>
 
@@ -2806,8 +3136,8 @@
           <div class="notice suggestion">
             <div class="icon">💡</div>
             <div>
-              <strong>Stories 2.0</strong>
-              <p>Agora tem bolinhas, filtros, comentários rápidos e memórias.</p>
+              <strong>Stories privados</strong>
+              <p>Fotos comprimidas no Firestore, sem Storage e sem pagar.</p>
             </div>
           </div>
         </section>
@@ -2856,7 +3186,6 @@
           <div class="badges">
             <span class="pill">${cat.icon} ${cat.label}</span>
             ${story.savedToMemories ? `<span class="pill strong">💾 memória</span>` : ""}
-            ${story.expiresAt <= Date.now() && !story.savedToMemories ? `<span class="pill">expirado</span>` : ""}
             ${story.photoSize ? `<span class="pill">${Math.round(story.photoSize / 1024)} KB</span>` : ""}
           </div>
 
@@ -2916,9 +3245,9 @@
           <div class="section-title">
             <div>
               <h2>Rotina</h2>
-              <p>Crie rápido. Ajuste detalhes só quando precisar.</p>
+              <p>Crie rápido com templates ou ajuste detalhes quando precisar.</p>
             </div>
-            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Missão rápida</button>
+            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Missão</button>
           </div>
 
           <div class="segmented">
@@ -3054,7 +3383,7 @@
             </div>
             <div class="stat">
               <strong>${currentStreak()}</strong>
-              <span>dias perfeitos em sequência</span>
+              <span>sequência perfeita</span>
             </div>
             <div class="stat">
               <strong>${unlockedCount()}</strong>
@@ -3417,40 +3746,64 @@
     }
 
     function openQuickMissionModal() {
-      openModal("Missão rápida", "3 campos e pronto. O app calcula XP e energia.", `
-        <form id="quickMissionForm" class="form-grid">
-          <div class="field">
-            <label>Nome</label>
-            <input name="title" maxlength="70" placeholder="Ex: Lavar louça" required>
-          </div>
+      openModal("Nova missão", "Escolha um modelo pronto ou crie manualmente.", `
+        <div class="template-section">
+          ${MISSION_TEMPLATES.map((group) => `
+            <div>
+              <div class="template-title">${group.icon} ${escapeHTML(group.group)}</div>
 
-          <div class="form-2">
+              <div class="template-grid">
+                ${group.items.map((template) => `
+                  <button class="template-card" data-action="use-template" data-template-id="${escapeHTML(template.id)}" type="button">
+                    <strong>${escapeHTML(template.title)}</strong>
+                    <span>${escapeHTML(template.description)}</span>
+                    <div class="badges">
+                      <span class="pill">${template.minutes} min</span>
+                      <span class="pill">${energyLabel(template.energy)}</span>
+                      <span class="pill">${template.assigned === "both" ? "os dois" : "qualquer um"}</span>
+                    </div>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+
+        <div style="height:18px"></div>
+
+        <details class="advanced">
+          <summary>Criar missão manualmente</summary>
+          <div style="height:12px"></div>
+
+          <form id="quickMissionForm" class="form-grid">
             <div class="field">
-              <label>Quando</label>
-              <select name="frequency">
-                <option value="daily">Diária</option>
-                <option value="weekly">Semanal</option>
-                <option value="monthly">Mensal</option>
-                <option value="once">Hoje / uma vez</option>
-              </select>
+              <label>Nome</label>
+              <input name="title" maxlength="70" placeholder="Ex: Lavar louça" required>
             </div>
 
-            <div class="field">
-              <label>Tempo</label>
-              <select name="minutes">
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-                <option value="15">15 min</option>
-                <option value="30">30 min</option>
-                <option value="45">45 min</option>
-                <option value="60">60 min</option>
-              </select>
-            </div>
-          </div>
+            <div class="form-2">
+              <div class="field">
+                <label>Quando</label>
+                <select name="frequency">
+                  <option value="daily">Diária</option>
+                  <option value="weekly">Semanal</option>
+                  <option value="monthly">Mensal</option>
+                  <option value="once">Hoje / uma vez</option>
+                </select>
+              </div>
 
-          <details class="advanced">
-            <summary>Ajustar detalhes</summary>
-            <div style="height:12px"></div>
+              <div class="field">
+                <label>Tempo</label>
+                <select name="minutes">
+                  <option value="5">5 min</option>
+                  <option value="10">10 min</option>
+                  <option value="15">15 min</option>
+                  <option value="30">30 min</option>
+                  <option value="45">45 min</option>
+                  <option value="60">60 min</option>
+                </select>
+              </div>
+            </div>
 
             <div class="form-grid">
               <div class="form-2">
@@ -3491,10 +3844,10 @@
                 </div>
               </div>
             </div>
-          </details>
 
-          <button class="btn primary" type="submit">Criar missão</button>
-        </form>
+            <button class="btn primary" type="submit">Criar missão manual</button>
+          </form>
+        </details>
       `);
     }
 
@@ -3599,59 +3952,6 @@
           <button class="btn primary" type="submit">Salvar missão</button>
           <button class="btn bad" type="button" data-action="delete-mission" data-id="${escapeHTML(mission.id)}">Excluir missão</button>
         </form>
-      `);
-    }
-
-    function openMissionView(missionId, key) {
-      const mission = state.data.missions.find((item) => item.id === missionId);
-      if (!mission) return;
-
-      const cat = categoryOf(mission.category);
-      const people = doneMembers(mission, key);
-      const missing = missingPeople(mission, key);
-
-      openModal(`${cat.icon} ${escapeHTML(mission.title)}`, formatLongDate(key), `
-        <div class="history-list">
-          <div class="history-item">
-            <div>
-              Categoria
-              <br>
-              <span>${cat.icon} ${cat.label}</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Recompensa
-              <br>
-              <span>${mission.minutes} min • ${mission.xp} XP • energia ${energyLabel(mission.energy)}</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Casinha
-              <br>
-              <span>${people.length ? `Já fez: ${people.map((p) => p.name).join(", ")}` : "ninguém ainda"}${missing.length ? " • falta alguém da Casinha" : ""}</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              Descrição
-              <br>
-              <span>${escapeHTML(mission.description || "Sem descrição.")}</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:14px"></div>
-
-        <div class="hero-actions">
-          <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Feita</button>
-          <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">📷 Foto</button>
-          <button class="btn" data-action="postpone-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Fazer depois</button>
-        </div>
       `);
     }
 
@@ -4209,18 +4509,6 @@
           minutes: mission.minutes,
           assigned: mission.assigned
         }));
-
-        data.history ||= [];
-        data.history.push({
-          type: "reschedule",
-          missionId,
-          title: mission.title,
-          uid: state.uid,
-          byName: me().name,
-          date: oldKey,
-          newDate,
-          createdAt: Date.now()
-        });
       });
 
       closeModal();
@@ -4355,7 +4643,7 @@
       toast(file ? "Story com foto postado." : "Story postado.");
     }
 
-    async function postMissionTextStory(missionId, key) {
+    async function postMissionTextStory(missionId) {
       const mission = state.data.missions.find((item) => item.id === missionId);
       if (!mission) return;
 
@@ -4733,6 +5021,7 @@
       const pageBtn = event.target.closest("[data-page]");
       const routineBtn = event.target.closest("[data-routine-tab]");
       const storyFilterBtn = event.target.closest("[data-story-filter]");
+      const smartModeBtn = event.target.closest("[data-smart-mode]");
       const moreBtn = event.target.closest("[data-more-view]");
       const hallBtn = event.target.closest("[data-hall-filter]");
       const actionBtn = event.target.closest("[data-action]");
@@ -4753,6 +5042,12 @@
 
         if (storyFilterBtn) {
           state.storyFilter = storyFilterBtn.dataset.storyFilter;
+          render();
+          return;
+        }
+
+        if (smartModeBtn) {
+          state.todayMode = smartModeBtn.dataset.smartMode;
           render();
           return;
         }
@@ -4781,6 +5076,7 @@
         if (action === "open-theme") openThemeModal();
         if (action === "open-notices") openNoticesModal();
         if (action === "open-quick-mission") openQuickMissionModal();
+        if (action === "use-template") await createMissionFromTemplate(actionBtn.dataset.templateId);
 
         if (action === "open-free-story") openFreeStoryModal();
         if (action === "open-mission-story") openMissionStoryModal(actionBtn.dataset.id, actionBtn.dataset.date);
@@ -4792,7 +5088,6 @@
         if (action === "delete-story") await deleteStory(actionBtn.dataset.id);
 
         if (action === "edit-mission") openMissionForm(actionBtn.dataset.id);
-        if (action === "view-mission") openMissionView(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "mission-menu") openMissionMenu(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "toggle-done") await toggleDone(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "skip-day") await skipDay(actionBtn.dataset.id, actionBtn.dataset.date);
