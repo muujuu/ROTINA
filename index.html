@@ -333,14 +333,6 @@
       box-shadow: none;
     }
 
-    .notice.profile {
-      border-color: color-mix(in srgb, var(--primary) 42%, transparent);
-    }
-
-    .notice.danger {
-      border-color: color-mix(in srgb, var(--bad) 48%, transparent);
-    }
-
     .notice.suggestion {
       border-color: color-mix(in srgb, var(--accent) 38%, transparent);
     }
@@ -643,6 +635,15 @@
       padding: 16px;
     }
 
+    .story-photo {
+      width: 100%;
+      max-height: 620px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
     .story-caption {
       margin: 0;
       color: var(--text);
@@ -891,6 +892,60 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
     }
 
+    .file-upload-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .file-upload-card input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+    }
+
+    .image-preview {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-2) 18%, transparent), transparent 35%),
+        rgba(255, 255, 255, 0.035);
+      color: var(--muted);
+      font-weight: 1000;
+      text-align: center;
+      padding: 14px;
+    }
+
+    .image-preview.avatar-preview {
+      width: 148px;
+      min-height: 148px;
+      border-radius: 36px;
+      margin: 0 auto;
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .upload-hint {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1123,10 +1178,16 @@
     } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
     import {
       doc,
+      collection,
       getFirestore,
+      limit,
       onSnapshot,
+      orderBy,
+      query,
       runTransaction,
-      setDoc
+      setDoc,
+      updateDoc,
+      deleteDoc
     } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1251,6 +1312,8 @@
       auth: null,
       db: null,
       unsubscribe: null,
+      unsubscribeStories: null,
+      stories: [],
       user: null,
       uid: "",
       cloudReady: false,
@@ -1353,6 +1416,7 @@
         email: user.email || "",
         photoURL: user.photoURL || "",
         googlePhotoURL: user.photoURL || "",
+        customPhotoData: "",
         avatarMode: user.photoURL ? "google" : "emoji",
         emoji: "👤",
         color: "#b77aff",
@@ -1363,7 +1427,14 @@
 
     function imageHTML(person, className = "avatar") {
       const mode = person?.avatarMode || "google";
-      const photo = mode === "google" ? person?.googlePhotoURL || person?.photoURL : person?.customPhotoURL;
+
+      let photo = "";
+
+      if (mode === "upload") {
+        photo = person?.customPhotoData || person?.customPhotoURL || "";
+      } else if (mode === "google") {
+        photo = person?.googlePhotoURL || person?.photoURL || "";
+      }
 
       if (photo) {
         return `<div class="${className}" style="--c:${escapeHTML(person.color || "#b77aff")}"><img src="${escapeHTML(photo)}" alt=""></div>`;
@@ -1442,7 +1513,7 @@
 
       return {
         id: partial.id || makeId("story"),
-        roomId: state.roomId,
+        roomId: partial.roomId || state.roomId,
         authorUid: partial.authorUid || state.uid,
         authorName: partial.authorName || me().name,
         authorPhotoURL: partial.authorPhotoURL || me().googlePhotoURL || me().photoURL || "",
@@ -1453,8 +1524,10 @@
         missionTitle: partial.missionTitle || "",
         category: partial.category || "momento",
         caption: partial.caption || "",
-        photoURL: partial.photoURL || "",
-        thumbnailURL: partial.thumbnailURL || "",
+        photoData: partial.photoData || "",
+        photoWidth: partial.photoWidth || 0,
+        photoHeight: partial.photoHeight || 0,
+        photoSize: partial.photoSize || 0,
         createdAt,
         expiresAt: partial.expiresAt || createdAt + 24 * 60 * 60 * 1000,
         savedToMemories: Boolean(partial.savedToMemories),
@@ -1467,7 +1540,7 @@
       const profile = googleProfileFromUser();
 
       return {
-        version: 4,
+        version: 5,
         roomId,
         baseName: "Casinha",
         createdAt: Date.now(),
@@ -1578,7 +1651,7 @@
           done: mission.done || {},
           skipped: mission.skipped || {}
         })) : fallback.missions,
-        stories: Array.isArray(input?.stories) ? input.stories.map((story) => createStory(story)) : [],
+        stories: [],
         history: Array.isArray(input?.history) ? input.history : []
       };
 
@@ -1601,6 +1674,191 @@
       }
 
       return data;
+    }
+
+    function getSelectedFile(form, name = "photo") {
+      const input = form.querySelector(`input[name="${name}"][type="file"]`);
+      return input?.files?.[0] || null;
+    }
+
+    function assertImageFile(file) {
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Escolha uma imagem válida.");
+      }
+
+      const maxOriginalSize = 12 * 1024 * 1024;
+
+      if (file.size > maxOriginalSize) {
+        throw new Error("A imagem está muito pesada. Use uma foto de até 12 MB.");
+      }
+    }
+
+    function loadImageFromFile(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const image = new Image();
+
+        image.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(image);
+        };
+
+        image.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error("Não foi possível ler a imagem."));
+        };
+
+        image.src = url;
+      });
+    }
+
+    function estimateDataUrlBytes(dataUrl) {
+      const base64 = String(dataUrl).split(",")[1] || "";
+      return Math.round((base64.length * 3) / 4);
+    }
+
+    async function compressImageToDataUrl(file, options = {}) {
+      assertImageFile(file);
+
+      const {
+        maxSide = 850,
+        quality = 0.66,
+        square = false,
+        maxChars = 720000
+      } = options;
+
+      const image = await loadImageFromFile(file);
+
+      let currentMaxSide = maxSide;
+      let currentQuality = quality;
+
+      for (let attempt = 0; attempt < 10; attempt += 1) {
+        let sourceX = 0;
+        let sourceY = 0;
+        let sourceWidth = image.naturalWidth || image.width;
+        let sourceHeight = image.naturalHeight || image.height;
+
+        if (square) {
+          const side = Math.min(sourceWidth, sourceHeight);
+          sourceX = Math.floor((sourceWidth - side) / 2);
+          sourceY = Math.floor((sourceHeight - side) / 2);
+          sourceWidth = side;
+          sourceHeight = side;
+        }
+
+        const scale = Math.min(1, currentMaxSide / Math.max(sourceWidth, sourceHeight));
+        const outputWidth = Math.max(1, Math.round(sourceWidth * scale));
+        const outputHeight = Math.max(1, Math.round(sourceHeight * scale));
+
+        const canvas = document.createElement("canvas");
+        canvas.width = outputWidth;
+        canvas.height = outputHeight;
+
+        const context = canvas.getContext("2d", { alpha: false });
+        context.fillStyle = "#111";
+        context.fillRect(0, 0, outputWidth, outputHeight);
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = "high";
+        context.drawImage(
+          image,
+          sourceX,
+          sourceY,
+          sourceWidth,
+          sourceHeight,
+          0,
+          0,
+          outputWidth,
+          outputHeight
+        );
+
+        const dataUrl = canvas.toDataURL("image/jpeg", currentQuality);
+
+        if (dataUrl.length <= maxChars) {
+          return {
+            dataUrl,
+            width: outputWidth,
+            height: outputHeight,
+            bytes: estimateDataUrlBytes(dataUrl)
+          };
+        }
+
+        currentMaxSide = Math.max(420, Math.floor(currentMaxSide * 0.86));
+        currentQuality = Math.max(0.42, currentQuality - 0.06);
+      }
+
+      throw new Error("Não consegui comprimir a foto o suficiente. Tente uma imagem menor.");
+    }
+
+    async function compressProfilePhoto(file) {
+      return compressImageToDataUrl(file, {
+        maxSide: 320,
+        quality: 0.72,
+        square: true,
+        maxChars: 190000
+      });
+    }
+
+    async function compressStoryPhoto(file) {
+      return compressImageToDataUrl(file, {
+        maxSide: 850,
+        quality: 0.66,
+        square: false,
+        maxChars: 720000
+      });
+    }
+
+    function storyDocRef(storyId) {
+      return doc(state.db, COLLECTION, state.roomId, "stories", storyId);
+    }
+
+    function subscribeStories(roomId) {
+      if (state.unsubscribeStories) {
+        state.unsubscribeStories();
+        state.unsubscribeStories = null;
+      }
+
+      const storiesQuery = query(
+        collection(state.db, COLLECTION, roomId, "stories"),
+        orderBy("createdAt", "desc"),
+        limit(30)
+      );
+
+      state.unsubscribeStories = onSnapshot(
+        storiesQuery,
+        (snapshot) => {
+          state.stories = snapshot.docs.map((item) => createStory({
+            id: item.id,
+            ...item.data()
+          }));
+
+          render();
+        },
+        (error) => {
+          console.error(error);
+          toast("Erro ao carregar Stories.");
+        }
+      );
+    }
+
+    function renderLocalImagePreview(input) {
+      const previewId = input.dataset.preview;
+      const preview = document.getElementById(previewId);
+      const file = input.files?.[0];
+
+      if (!preview || !file) return;
+
+      if (!file.type.startsWith("image/")) {
+        preview.innerHTML = "Escolha uma imagem válida.";
+        return;
+      }
+
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" alt="">`;
+
+      const img = preview.querySelector("img");
+      img.onload = () => URL.revokeObjectURL(url);
     }
 
     async function updateData(mutator) {
@@ -1648,10 +1906,16 @@
           state.uid = "";
           state.cloudReady = false;
           state.data = null;
+          state.stories = [];
 
           if (state.unsubscribe) {
             state.unsubscribe();
             state.unsubscribe = null;
+          }
+
+          if (state.unsubscribeStories) {
+            state.unsubscribeStories();
+            state.unsubscribeStories = null;
           }
 
           renderLogin();
@@ -1693,6 +1957,12 @@
         state.unsubscribe = null;
       }
 
+      if (state.unsubscribeStories) {
+        state.unsubscribeStories();
+        state.unsubscribeStories = null;
+      }
+
+      state.stories = [];
       localStorage.removeItem(STORAGE.room);
       await signOut(state.auth);
       toast("Você saiu da Casinha.");
@@ -1777,6 +2047,7 @@
 
           state.data = ensureDataShape(snapshot.data());
           applyTheme();
+          subscribeStories(roomId);
           render();
         },
         async (error) => {
@@ -2001,11 +2272,11 @@
     }
 
     function storiesPosted() {
-      return (state.data.stories || []).length;
+      return state.stories.length;
     }
 
     function memoriesSaved() {
-      return (state.data.stories || []).filter((story) => story.savedToMemories).length;
+      return state.stories.filter((story) => story.savedToMemories).length;
     }
 
     function perfectDayCount() {
@@ -2074,7 +2345,7 @@
     }
 
     function activeStories() {
-      return (state.data.stories || [])
+      return state.stories
         .filter((story) => story.expiresAt > Date.now() || story.savedToMemories)
         .sort((a, b) => b.createdAt - a.createdAt);
     }
@@ -2346,10 +2617,10 @@
           </div>
 
           <div class="notice suggestion">
-            <div class="icon">📷</div>
+            <div class="icon">💡</div>
             <div>
-              <strong>Foto real entra na próxima fase</strong>
-              <p>Essa versão já salva stories, comentários, reações e memórias. O upload com Firebase Storage vem em seguida.</p>
+              <strong>Sem Firebase Storage e sem pagar</strong>
+              <p>As fotos são comprimidas e salvas no Firestore. Use fotos leves para manter o app rápido.</p>
             </div>
           </div>
         </section>
@@ -2397,14 +2668,15 @@
             <span class="pill">${cat.icon} ${cat.label}</span>
             ${story.savedToMemories ? `<span class="pill strong">💾 memória</span>` : ""}
             ${story.expiresAt <= Date.now() && !story.savedToMemories ? `<span class="pill">expirado</span>` : ""}
+            ${story.photoSize ? `<span class="pill">${Math.round(story.photoSize / 1024)} KB</span>` : ""}
           </div>
 
-          ${story.photoURL ? `
-            <img src="${escapeHTML(story.photoURL)}" alt="" style="width:100%; border-radius:18px; display:block;">
+          ${story.photoData ? `
+            <img class="story-photo" src="${escapeHTML(story.photoData)}" alt="">
           ` : `
             <div class="story-photo-placeholder">
-              📷 Espaço da foto<br>
-              <small>Upload real entra na próxima fase.</small>
+              📷 Story sem foto<br>
+              <small>Também vale registrar só com texto.</small>
             </div>
           `}
 
@@ -2846,7 +3118,7 @@
         `
       }));
 
-      const storyEvents = (state.data.stories || []).map((story) => ({
+      const storyEvents = state.stories.map((story) => ({
         at: story.createdAt || Date.now(),
         html: `
           <div class="history-item">
@@ -3177,7 +3449,7 @@
     }
 
     function openFreeStoryModal() {
-      openModal("Novo story", "Registre um momento da Casinha. Foto entra na próxima fase.", `
+      openModal("Novo story", "Registre um momento da Casinha.", `
         <form id="storyForm" class="form-grid" data-type="free">
           <div class="field">
             <label>Categoria</label>
@@ -3191,17 +3463,30 @@
             </select>
           </div>
 
+          <div class="file-upload-card">
+            <div class="field">
+              <label>Foto do story</label>
+              <input
+                name="photo"
+                type="file"
+                accept="image/*"
+                data-image-preview
+                data-preview="storyPhotoPreview"
+              >
+            </div>
+
+            <div id="storyPhotoPreview" class="image-preview">
+              📷 Escolha uma foto
+            </div>
+
+            <div class="upload-hint">
+              A foto será comprimida antes de salvar. Tudo fica no plano grátis.
+            </div>
+          </div>
+
           <div class="field">
             <label>Legenda</label>
             <textarea name="caption" maxlength="300" placeholder="O que aconteceu?"></textarea>
-          </div>
-
-          <div class="notice suggestion">
-            <div class="icon">📷</div>
-            <div>
-              <strong>Upload de foto na próxima etapa</strong>
-              <p>Agora o story salva texto, categoria, reações, comentários e memória.</p>
-            </div>
           </div>
 
           <button class="btn primary" type="submit">Postar story</button>
@@ -3215,17 +3500,30 @@
 
       openModal("Story da missão", `Registrar: ${escapeHTML(mission.title)}`, `
         <form id="storyForm" class="form-grid" data-type="mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}">
+          <div class="file-upload-card">
+            <div class="field">
+              <label>Foto da missão</label>
+              <input
+                name="photo"
+                type="file"
+                accept="image/*"
+                data-image-preview
+                data-preview="missionStoryPhotoPreview"
+              >
+            </div>
+
+            <div id="missionStoryPhotoPreview" class="image-preview">
+              📷 Escolha uma foto da missão
+            </div>
+
+            <div class="upload-hint">
+              Perfeito para antes/depois, pets, casa, cofrinho ou momentos da rotina.
+            </div>
+          </div>
+
           <div class="field">
             <label>Legenda</label>
             <textarea name="caption" maxlength="300" placeholder="Quer guardar algo sobre essa missão?"></textarea>
-          </div>
-
-          <div class="notice suggestion">
-            <div class="icon">📷</div>
-            <div>
-              <strong>Foto da missão vem na próxima fase</strong>
-              <p>A estrutura já está pronta para receber imagem pelo Firebase Storage.</p>
-            </div>
           </div>
 
           <button class="btn primary" type="submit">Postar story</button>
@@ -3243,7 +3541,7 @@
     }
 
     function openCommentStoryModal(storyId) {
-      const story = state.data.stories.find((item) => item.id === storyId);
+      const story = state.stories.find((item) => item.id === storyId);
       if (!story) return;
 
       openModal("Comentar story", "Comentário privado da Casinha.", `
@@ -3260,8 +3558,11 @@
 
     function openProfileModal() {
       const person = me();
+      const uploadPreview = person.customPhotoData
+        ? `<img src="${escapeHTML(person.customPhotoData)}" alt="">`
+        : `<span>📷 Foto enviada aparece aqui</span>`;
 
-      openModal("Perfil e sala", "Google + sala sincronizada para o casal.", `
+      openModal("Perfil e sala", "Google + foto personalizada grátis pelo Firestore.", `
         <form id="profileForm" class="form-grid">
           <div class="member-card">
             ${imageHTML(person, "avatar")}
@@ -3292,9 +3593,31 @@
             <div class="field">
               <label>Avatar</label>
               <select name="avatarMode">
-                <option value="google" ${person.avatarMode !== "emoji" ? "selected" : ""}>Foto do Google</option>
+                <option value="google" ${person.avatarMode === "google" ? "selected" : ""}>Foto do Google</option>
+                <option value="upload" ${person.avatarMode === "upload" ? "selected" : ""}>Foto enviada</option>
                 <option value="emoji" ${person.avatarMode === "emoji" ? "selected" : ""}>Emoji</option>
               </select>
+            </div>
+          </div>
+
+          <div class="file-upload-card">
+            <div class="field">
+              <label>Enviar foto personalizada</label>
+              <input
+                name="photo"
+                type="file"
+                accept="image/*"
+                data-image-preview
+                data-preview="profilePhotoPreview"
+              >
+            </div>
+
+            <div id="profilePhotoPreview" class="image-preview avatar-preview">
+              ${uploadPreview}
+            </div>
+
+            <div class="upload-hint">
+              A foto será reduzida para 300x300 e salva no Firestore. Não usa Storage e não precisa pagar.
             </div>
           </div>
 
@@ -3448,9 +3771,9 @@
 
           <div class="history-item">
             <div>
-              📷 Fotos
+              📷 Fotos sem pagar
               <br>
-              <span>Upload real entra na próxima fase com Firebase Storage protegido por regras.</span>
+              <span>As imagens são comprimidas e salvas no Firestore, sem Firebase Storage.</span>
             </div>
           </div>
         </div>
@@ -3725,44 +4048,69 @@
       const mission = state.data.missions.find((item) => item.id === missionId);
       const caption = String(formData.get("caption") || "").trim().slice(0, 300);
       const category = type === "mission" ? mission?.category || "momento" : String(formData.get("category") || "momento");
+      const file = getSelectedFile(form, "photo");
+      const storyId = makeId("story");
 
-      await updateData((data) => {
-        data.stories ||= [];
-        data.stories.push(createStory({
-          type,
-          missionId,
-          missionTitle: mission?.title || "",
-          category,
-          caption,
-          authorUid: state.uid,
-          authorName: me().name,
-          authorPhotoURL: me().googlePhotoURL || me().photoURL || "",
-          authorEmoji: me().emoji || "👤",
-          authorColor: me().color || "#b77aff"
-        }));
+      let photoPayload = {
+        photoData: "",
+        photoWidth: 0,
+        photoHeight: 0,
+        photoSize: 0
+      };
+
+      if (file) {
+        toast("Comprimindo foto do story...");
+        const compressed = await compressStoryPhoto(file);
+        photoPayload = {
+          photoData: compressed.dataUrl,
+          photoWidth: compressed.width,
+          photoHeight: compressed.height,
+          photoSize: compressed.bytes
+        };
+      }
+
+      const story = createStory({
+        id: storyId,
+        type,
+        missionId,
+        missionTitle: mission?.title || "",
+        category,
+        caption,
+        ...photoPayload,
+        authorUid: state.uid,
+        authorName: me().name,
+        authorPhotoURL: me().googlePhotoURL || me().photoURL || "",
+        authorEmoji: me().emoji || "👤",
+        authorColor: me().color || "#b77aff"
       });
 
+      await setDoc(storyDocRef(storyId), story);
+
       closeModal();
-      toast("Story postado.");
+      toast(file ? "Story com foto postado." : "Story postado.");
     }
 
     async function reactStory(storyId, emoji) {
-      await updateData((data) => {
-        const story = data.stories.find((item) => item.id === storyId);
-        if (!story) return;
+      const story = state.stories.find((item) => item.id === storyId);
+      if (!story) return;
 
-        story.reactions ||= {};
+      const reactions = {
+        ...(story.reactions || {})
+      };
 
-        if (story.reactions[state.uid]?.emoji === emoji) {
-          delete story.reactions[state.uid];
-        } else {
-          story.reactions[state.uid] = {
-            uid: state.uid,
-            name: me().name,
-            emoji,
-            at: Date.now()
-          };
-        }
+      if (reactions[state.uid]?.emoji === emoji) {
+        delete reactions[state.uid];
+      } else {
+        reactions[state.uid] = {
+          uid: state.uid,
+          name: me().name,
+          emoji,
+          at: Date.now()
+        };
+      }
+
+      await updateDoc(storyDocRef(storyId), {
+        reactions
       });
 
       toast("Reação salva.");
@@ -3770,27 +4118,33 @@
 
     async function commentStory(form) {
       const storyId = form.dataset.id;
+      const story = state.stories.find((item) => item.id === storyId);
       const formData = new FormData(form);
       const text = String(formData.get("text") || "").trim().slice(0, 180);
+
+      if (!story) return;
 
       if (!text) {
         toast("Escreva um comentário.");
         return;
       }
 
-      await updateData((data) => {
-        const story = data.stories.find((item) => item.id === storyId);
-        if (!story) return;
+      const comments = {
+        ...(story.comments || {})
+      };
 
-        story.comments ||= {};
-        const id = makeId("comment");
-        story.comments[id] = {
-          id,
-          uid: state.uid,
-          name: me().name,
-          text,
-          createdAt: Date.now()
-        };
+      const id = makeId("comment");
+
+      comments[id] = {
+        id,
+        uid: state.uid,
+        name: me().name,
+        text,
+        createdAt: Date.now()
+      };
+
+      await updateDoc(storyDocRef(storyId), {
+        comments
       });
 
       closeModal();
@@ -3798,18 +4152,15 @@
     }
 
     async function saveMemory(storyId) {
-      await updateData((data) => {
-        const story = data.stories.find((item) => item.id === storyId);
-        if (!story) return;
-
-        story.savedToMemories = true;
+      await updateDoc(storyDocRef(storyId), {
+        savedToMemories: true
       });
 
       toast("Salvo como memória.");
     }
 
     async function deleteStory(storyId) {
-      const story = state.data.stories.find((item) => item.id === storyId);
+      const story = state.stories.find((item) => item.id === storyId);
       if (!story) return;
 
       if (story.authorUid !== state.uid) {
@@ -3820,9 +4171,7 @@
       const ok = confirm("Apagar este story?");
       if (!ok) return;
 
-      await updateData((data) => {
-        data.stories = data.stories.filter((item) => item.id !== storyId);
-      });
+      await deleteDoc(storyDocRef(storyId));
 
       toast("Story apagado.");
     }
@@ -3830,6 +4179,17 @@
     async function saveProfileForm(form) {
       const formData = new FormData(form);
       const current = me();
+      const file = getSelectedFile(form, "photo");
+
+      let customPhotoData = current.customPhotoData || "";
+      let avatarMode = String(formData.get("avatarMode") || current.avatarMode || "google");
+
+      if (file) {
+        toast("Comprimindo foto de perfil...");
+        const compressed = await compressProfilePhoto(file);
+        customPhotoData = compressed.dataUrl;
+        avatarMode = "upload";
+      }
 
       const profile = {
         ...current,
@@ -3837,7 +4197,8 @@
         name: String(formData.get("name") || current.name || "Pessoa").trim().slice(0, 32),
         emoji: String(formData.get("emoji") || "👤").trim().slice(0, 4),
         color: String(formData.get("color") || "#b77aff"),
-        avatarMode: String(formData.get("avatarMode") || "google"),
+        avatarMode,
+        customPhotoData,
         email: state.user.email || current.email || "",
         googlePhotoURL: state.user.photoURL || current.googlePhotoURL || "",
         photoURL: state.user.photoURL || current.photoURL || "",
@@ -4169,6 +4530,13 @@
         console.error(error);
         toast(error.message || "Erro ao salvar.");
       }
+    });
+
+    document.addEventListener("change", (event) => {
+      const input = event.target.closest('input[type="file"][data-image-preview]');
+      if (!input) return;
+
+      renderLocalImagePreview(input);
     });
 
     initFirebase().catch((error) => {
