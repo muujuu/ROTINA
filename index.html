@@ -111,7 +111,8 @@
 
     .logo,
     .avatar,
-    .mini-avatar {
+    .mini-avatar,
+    .story-avatar {
       overflow: hidden;
       display: grid;
       place-items: center;
@@ -140,7 +141,8 @@
 
     .logo img,
     .avatar img,
-    .mini-avatar img {
+    .mini-avatar img,
+    .story-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -515,6 +517,82 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
     }
 
+    .story-rail {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 3px 0 8px;
+      scrollbar-width: none;
+    }
+
+    .story-rail::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-bubble {
+      min-width: 72px;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      color: var(--text);
+      background: transparent;
+      padding: 0;
+      border: 0;
+    }
+
+    .story-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 22px;
+      background: var(--c, linear-gradient(135deg, var(--primary), var(--primary-2)));
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.08),
+        0 0 0 5px color-mix(in srgb, var(--primary) 50%, transparent);
+      font-size: 1.45rem;
+    }
+
+    .story-bubble span {
+      width: 70px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 1000;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .story-bubble.add .story-avatar {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--accent);
+      border: 1px dashed var(--border);
+      box-shadow: none;
+    }
+
+    .story-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .story-filter {
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 1000;
+    }
+
+    .story-filter.active {
+      border-color: transparent;
+      color: #2d2140;
+      background: var(--accent);
+    }
+
     .week-board {
       display: grid;
       grid-template-columns: repeat(7, minmax(122px, 1fr));
@@ -651,14 +729,16 @@
       line-height: 1.5;
     }
 
-    .reaction-row {
+    .reaction-row,
+    .quick-comments {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
     }
 
-    .reaction-btn {
+    .reaction-btn,
+    .quick-comment-btn {
       min-height: 34px;
       padding: 7px 10px;
       border-radius: 999px;
@@ -672,6 +752,11 @@
       background: var(--accent);
       color: #2d2140;
       border-color: transparent;
+    }
+
+    .quick-comment-btn {
+      color: var(--muted);
+      font-size: 0.77rem;
     }
 
     .achievement-tabs {
@@ -1191,13 +1276,13 @@
     } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
-  apiKey: "AIzaSyD-pG1xZyQoLqByrizu3jYlrMtSkO9yZr0",
-  authDomain: "casinha-4d078.firebaseapp.com",
-  projectId: "casinha-4d078",
-  storageBucket: "casinha-4d078.firebasestorage.app",
-  messagingSenderId: "120575493435",
-  appId: "1:120575493435:web:e355019986f48e79f5631e"
-};
+      apiKey: "COLE_AQUI_A_API_KEY_QUE_JA_FUNCIONOU",
+      authDomain: "casinha-4d078.firebaseapp.com",
+      projectId: "casinha-4d078",
+      storageBucket: "casinha-4d078.firebasestorage.app",
+      messagingSenderId: "120575493435",
+      appId: "1:120575493435:web:e355019986f48e79f5631e"
+    };
 
     const COLLECTION = "familyBases";
 
@@ -1219,6 +1304,24 @@
       tempo: { label: "Tempo", icon: "⏱️" },
       momento: { label: "Momento", icon: "📸" }
     };
+
+    const STORY_FILTERS = [
+      ["todos", "Todos"],
+      ["missoes", "Missões"],
+      ["momentos", "Momentos"],
+      ["pets", "Pets"],
+      ["casa", "Casa"],
+      ["cofrinho", "Cofrinho"],
+      ["memorias", "Memórias"]
+    ];
+
+    const QUICK_COMMENTS = [
+      "Boa amor ❤️",
+      "Orgulho da Base",
+      "Eu faço a próxima",
+      "Ficou perfeito",
+      "A Casinha agradece 🏠"
+    ];
 
     const THEMES = {
       familia: {
@@ -1313,6 +1416,7 @@
       db: null,
       unsubscribe: null,
       unsubscribeStories: null,
+      storiesRoomId: "",
       stories: [],
       user: null,
       uid: "",
@@ -1320,6 +1424,7 @@
       roomId: localStorage.getItem(STORAGE.room) || "",
       page: "hoje",
       rotinaTab: "daily",
+      storyFilter: "todos",
       moreView: "menu",
       hallFilter: "todas",
       data: null
@@ -1427,7 +1532,6 @@
 
     function imageHTML(person, className = "avatar") {
       const mode = person?.avatarMode || "google";
-
       let photo = "";
 
       if (mode === "upload") {
@@ -1540,7 +1644,7 @@
       const profile = googleProfileFromUser();
 
       return {
-        version: 5,
+        version: 6,
         roomId,
         baseName: "Casinha",
         createdAt: Date.now(),
@@ -1814,15 +1918,21 @@
     }
 
     function subscribeStories(roomId) {
+      if (state.storiesRoomId === roomId && state.unsubscribeStories) {
+        return;
+      }
+
       if (state.unsubscribeStories) {
         state.unsubscribeStories();
         state.unsubscribeStories = null;
       }
 
+      state.storiesRoomId = roomId;
+
       const storiesQuery = query(
         collection(state.db, COLLECTION, roomId, "stories"),
         orderBy("createdAt", "desc"),
-        limit(30)
+        limit(40)
       );
 
       state.unsubscribeStories = onSnapshot(
@@ -1907,6 +2017,7 @@
           state.cloudReady = false;
           state.data = null;
           state.stories = [];
+          state.storiesRoomId = "";
 
           if (state.unsubscribe) {
             state.unsubscribe();
@@ -1963,6 +2074,7 @@
       }
 
       state.stories = [];
+      state.storiesRoomId = "";
       localStorage.removeItem(STORAGE.room);
       await signOut(state.auth);
       toast("Você saiu da Casinha.");
@@ -2350,6 +2462,27 @@
         .sort((a, b) => b.createdAt - a.createdAt);
     }
 
+    function filteredStories() {
+      const filter = state.storyFilter;
+      const list = activeStories();
+
+      if (filter === "todos") return list;
+      if (filter === "missoes") return list.filter((story) => story.type === "mission");
+      if (filter === "momentos") return list.filter((story) => story.type === "free" || story.category === "momento");
+      if (filter === "pets") return list.filter((story) => story.category === "pets");
+      if (filter === "casa") return list.filter((story) => story.category === "casa");
+      if (filter === "cofrinho") return list.filter((story) => story.category === "financeiro");
+      if (filter === "memorias") return list.filter((story) => story.savedToMemories);
+
+      return list;
+    }
+
+    function memoryStories() {
+      return state.stories
+        .filter((story) => story.savedToMemories)
+        .sort((a, b) => b.createdAt - a.createdAt);
+    }
+
     function renderLoading() {
       navEl.hidden = true;
       appEl.innerHTML = `
@@ -2459,6 +2592,45 @@
       `).join("");
     }
 
+    function renderStoryRail() {
+      const latestByAuthor = new Map();
+
+      for (const story of activeStories()) {
+        if (!latestByAuthor.has(story.authorUid)) {
+          latestByAuthor.set(story.authorUid, story);
+        }
+      }
+
+      const bubbles = Array.from(latestByAuthor.values()).slice(0, 8);
+
+      return `
+        <div class="story-rail">
+          <button class="story-bubble add" data-action="open-free-story" type="button">
+            <div class="story-avatar">+</div>
+            <span>Novo</span>
+          </button>
+
+          ${bubbles.map((story) => {
+            const author = state.data.members?.[story.authorUid] || {
+              name: story.authorName,
+              photoURL: story.authorPhotoURL,
+              googlePhotoURL: story.authorPhotoURL,
+              emoji: story.authorEmoji || "👤",
+              color: story.authorColor || "#b77aff",
+              avatarMode: story.authorPhotoURL ? "google" : "emoji"
+            };
+
+            return `
+              <button class="story-bubble" data-page="stories" type="button">
+                ${imageHTML(author, "story-avatar")}
+                <span>${escapeHTML(author.name || story.authorName || "Pessoa")}</span>
+              </button>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
     function renderTodayPage() {
       const suggestion = suggestedMission();
       const overdue = overdueItems();
@@ -2477,6 +2649,8 @@
             <span class="pill strong">${today.filter((mission) => baseComplete(mission, todayKey())).length}/${today.length} feitas</span>
           </div>
 
+          ${renderStoryRail()}
+
           ${suggestion ? renderHeroMission(suggestion.mission, suggestion.key, suggestion.reason) : `
             <div class="hero-mission">
               <h2>Casinha em ordem ⭐</h2>
@@ -2487,20 +2661,6 @@
               </div>
             </div>
           `}
-        </section>
-
-        <section class="panel">
-          <div class="section-title">
-            <div>
-              <h2>Stories recentes</h2>
-              <p>A linha do tempo privada da Casinha.</p>
-            </div>
-            <button class="btn small primary" data-action="open-free-story" type="button">+ Story</button>
-          </div>
-
-          <div class="list">
-            ${recentStories.map(renderStoryCard).join("") || `<div class="empty">Nenhum story ainda. Registre o primeiro momento.</div>`}
-          </div>
         </section>
 
         <section class="panel">
@@ -2517,13 +2677,27 @@
           <div class="section-title">
             <div>
               <h2>Missões de hoje</h2>
-              <p>Toque em Feita e acabou. Story é opcional.</p>
+              <p>Toque em Feita. Story é opcional.</p>
             </div>
             <button class="btn small primary" data-action="open-quick-mission" type="button">+ Rápida</button>
           </div>
 
           <div class="list">
             ${todayPending.map((mission) => renderMissionCard(mission, todayKey(), true)).join("") || `<div class="empty">Nenhuma missão pendente hoje.</div>`}
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Stories recentes</h2>
+              <p>A linha do tempo privada da Casinha.</p>
+            </div>
+            <button class="btn small primary" data-action="open-free-story" type="button">+ Story</button>
+          </div>
+
+          <div class="list">
+            ${recentStories.map(renderStoryCard).join("") || `<div class="empty">Nenhum story ainda. Registre o primeiro momento.</div>`}
           </div>
         </section>
 
@@ -2571,9 +2745,9 @@
 
           <div class="hero-actions">
             <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Feita</button>
-            <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje</button>
-            <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
-            <button class="btn" data-action="encourage" data-id="${escapeHTML(mission.id)}" type="button">Incentivar 💌</button>
+            <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">📷 Foto</button>
+            <button class="btn" data-action="postpone-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Fazer depois</button>
+            <button class="btn" data-action="ask-help" data-id="${escapeHTML(mission.id)}" type="button">Pedir ajuda</button>
           </div>
         </article>
       `;
@@ -2603,8 +2777,18 @@
       `;
     }
 
+    function renderStoryFilters() {
+      return `
+        <div class="story-filters">
+          ${STORY_FILTERS.map(([key, label]) => `
+            <button class="story-filter ${state.storyFilter === key ? "active" : ""}" data-story-filter="${key}" type="button">${label}</button>
+          `).join("")}
+        </div>
+      `;
+    }
+
     function renderStoriesPage() {
-      const stories = activeStories();
+      const stories = filteredStories();
 
       return `
         <section class="panel">
@@ -2616,11 +2800,13 @@
             <button class="btn small primary" data-action="open-free-story" type="button">+ Story</button>
           </div>
 
+          ${renderStoryRail()}
+
           <div class="notice suggestion">
             <div class="icon">💡</div>
             <div>
-              <strong>Sem Firebase Storage e sem pagar</strong>
-              <p>As fotos são comprimidas e salvas no Firestore. Use fotos leves para manter o app rápido.</p>
+              <strong>Stories 2.0</strong>
+              <p>Agora tem bolinhas, filtros, comentários rápidos e memórias.</p>
             </div>
           </div>
         </section>
@@ -2632,8 +2818,10 @@
             </div>
           </div>
 
+          ${renderStoryFilters()}
+
           <div class="list">
-            ${stories.map(renderStoryCard).join("") || `<div class="empty">Nenhum story ainda.</div>`}
+            ${stories.map(renderStoryCard).join("") || `<div class="empty">Nada nesse filtro ainda.</div>`}
           </div>
         </section>
       `;
@@ -2692,6 +2880,12 @@
 
           <div class="done-row">
             ${reactions.length ? `Reações: ${reactions.map((reaction) => reaction.emoji).join(" ")}` : "Sem reações ainda."}
+          </div>
+
+          <div class="quick-comments">
+            ${QUICK_COMMENTS.map((text) => `
+              <button class="quick-comment-btn" data-action="quick-comment-story" data-id="${escapeHTML(story.id)}" data-text="${escapeHTML(text)}" type="button">${escapeHTML(text)}</button>
+            `).join("")}
           </div>
 
           <div class="list">
@@ -2821,7 +3015,7 @@
               <button class="btn small good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">
                 ${done ? "Feita" : "Feita"}
               </button>
-              <button class="btn small" data-action="view-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Ver</button>
+              <button class="btn small primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Foto</button>
               <button class="btn small" data-action="mission-menu" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">⋯</button>
             </div>
           </div>
@@ -2871,7 +3065,31 @@
         <section class="panel">
           <div class="section-title">
             <div>
-              <h2>Dupla</h2>
+              <h2>Base viva</h2>
+              <p>Sinais rápidos da Casinha.</p>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>${systemHealth("casa")}%</strong>
+              <span>casa</span>
+            </div>
+            <div class="stat">
+              <strong>${systemHealth("pets")}%</strong>
+              <span>pets</span>
+            </div>
+            <div class="stat">
+              <strong>${activeStories().length}</strong>
+              <span>stories ativos</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Membros</h2>
               <p>Inspiração, não cobrança.</p>
             </div>
           </div>
@@ -2992,6 +3210,7 @@
     function renderMorePage() {
       if (state.moreView === "hall") return renderHallPage();
       if (state.moreView === "historico") return renderHistoryPage();
+      if (state.moreView === "memorias") return renderMemoriesPage();
 
       return `
         <section class="panel">
@@ -3003,6 +3222,11 @@
           </div>
 
           <div class="more-grid">
+            <button class="more-card" data-more-view="memorias" type="button">
+              <strong>💾 Memórias</strong>
+              <span>Álbum privado da Casinha</span>
+            </button>
+
             <button class="more-card" data-more-view="hall" type="button">
               <strong>🏆 Hall</strong>
               <span>Conquistas desbloqueadas</span>
@@ -3027,11 +3251,26 @@
               <strong>🔔 Avisos</strong>
               <span>Resumo da Casinha</span>
             </button>
+          </div>
+        </section>
+      `;
+    }
 
-            <button class="more-card" data-action="open-privacy" type="button">
-              <strong>🔒 Privacidade</strong>
-              <span>Stories e dados da Casinha</span>
-            </button>
+    function renderMemoriesPage() {
+      const memories = memoryStories();
+
+      return `
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>💾 Memórias da Casinha</h2>
+              <p>Momentos salvos para não sumirem depois de 24h.</p>
+            </div>
+            <button class="btn small" data-more-view="menu" type="button">Voltar</button>
+          </div>
+
+          <div class="list">
+            ${memories.map(renderStoryCard).join("") || `<div class="empty">Nenhuma memória salva ainda.</div>`}
           </div>
         </section>
       `;
@@ -3409,8 +3648,8 @@
 
         <div class="hero-actions">
           <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Feita</button>
-          <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje</button>
-          <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
+          <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">📷 Foto</button>
+          <button class="btn" data-action="postpone-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Fazer depois</button>
         </div>
       `);
     }
@@ -3422,9 +3661,11 @@
       openModal("Ações da missão", escapeHTML(mission.title), `
         <div class="list">
           <button class="btn good" data-action="toggle-done" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Marcar feita</button>
-          <button class="btn" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Adicionar story</button>
+          <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Adicionar foto/story</button>
+          <button class="btn" data-action="postpone-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Fazer depois</button>
           <button class="btn" data-action="skip-day" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Pular hoje sem culpa</button>
           <button class="btn" data-action="reschedule-mission" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Reagendar</button>
+          <button class="btn" data-action="ask-help" data-id="${escapeHTML(mission.id)}" type="button">Pedir ajuda</button>
           <button class="btn" data-action="encourage" data-id="${escapeHTML(mission.id)}" type="button">Mandar incentivo 💌</button>
           <button class="btn" data-action="edit-mission" data-id="${escapeHTML(mission.id)}" type="button">Editar</button>
           <button class="btn bad" data-action="delete-mission" data-id="${escapeHTML(mission.id)}" type="button">Excluir</button>
@@ -3470,6 +3711,7 @@
                 name="photo"
                 type="file"
                 accept="image/*"
+                capture="environment"
                 data-image-preview
                 data-preview="storyPhotoPreview"
               >
@@ -3507,6 +3749,7 @@
                 name="photo"
                 type="file"
                 accept="image/*"
+                capture="environment"
                 data-image-preview
                 data-preview="missionStoryPhotoPreview"
               >
@@ -3534,7 +3777,8 @@
     function openAfterDoneStoryPrompt(mission, key) {
       openModal("Missão concluída ✅", "Quer guardar esse momento nos Stories?", `
         <div class="hero-actions">
-          <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">Adicionar story</button>
+          <button class="btn primary" data-action="open-mission-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">📷 Tirar foto</button>
+          <button class="btn" data-action="post-mission-text-story" data-id="${escapeHTML(mission.id)}" data-date="${escapeHTML(key)}" type="button">📝 Story sem foto</button>
           <button class="btn" data-action="close-modal" type="button">Agora não</button>
         </div>
       `);
@@ -3746,34 +3990,12 @@
               <span>${activeStories().length} story/stories ativos ou salvos.</span>
             </div>
           </div>
-        </div>
-      `);
-    }
-
-    function openPrivacyModal() {
-      openModal("Privacidade da Casinha", "A Casinha é uma rede privada entre vocês.", `
-        <div class="history-list">
-          <div class="history-item">
-            <div>
-              🔒 Stories privados
-              <br>
-              <span>Só membros da sala veem stories, comentários e reações.</span>
-            </div>
-          </div>
 
           <div class="history-item">
             <div>
-              👤 Perfil Google
+              💾 Memórias
               <br>
-              <span>Nome, e-mail e foto aparecem apenas dentro da Casinha.</span>
-            </div>
-          </div>
-
-          <div class="history-item">
-            <div>
-              📷 Fotos sem pagar
-              <br>
-              <span>As imagens são comprimidas e salvas no Firestore, sem Firebase Storage.</span>
+              <span>${memoryStories().length} memória(s) salva(s).</span>
             </div>
           </div>
         </div>
@@ -3913,6 +4135,48 @@
 
       closeModal();
       toast("Pulado sem culpa. Recomeço liberado.");
+    }
+
+    async function postponeMission(missionId, key) {
+      await updateData((data) => {
+        const mission = data.missions.find((item) => item.id === missionId);
+        if (!mission) return;
+
+        mission.skipped ||= {};
+        mission.skipped[key] = {
+          by: state.uid,
+          byName: me().name,
+          at: Date.now(),
+          reason: "fazer depois"
+        };
+
+        data.missions.push(createMission({
+          title: mission.title,
+          description: mission.description,
+          category: mission.category,
+          frequency: "once",
+          date: todayKey(1),
+          xp: mission.xp,
+          energy: mission.energy,
+          minutes: mission.minutes,
+          assigned: mission.assigned
+        }));
+
+        data.history ||= [];
+        data.history.push({
+          type: "postpone",
+          missionId,
+          title: mission.title,
+          uid: state.uid,
+          byName: me().name,
+          date: key,
+          newDate: todayKey(1),
+          createdAt: Date.now()
+        });
+      });
+
+      closeModal();
+      toast("Combinado: ficou para amanhã.");
     }
 
     async function rescheduleMission(form) {
@@ -4090,6 +4354,32 @@
       toast(file ? "Story com foto postado." : "Story postado.");
     }
 
+    async function postMissionTextStory(missionId, key) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      if (!mission) return;
+
+      const storyId = makeId("story");
+
+      const story = createStory({
+        id: storyId,
+        type: "mission",
+        missionId,
+        missionTitle: mission.title,
+        category: mission.category,
+        caption: "Missão feita ✅",
+        authorUid: state.uid,
+        authorName: me().name,
+        authorPhotoURL: me().googlePhotoURL || me().photoURL || "",
+        authorEmoji: me().emoji || "👤",
+        authorColor: me().color || "#b77aff"
+      });
+
+      await setDoc(storyDocRef(storyId), story);
+
+      closeModal();
+      toast("Story sem foto postado.");
+    }
+
     async function reactStory(storyId, emoji) {
       const story = state.stories.find((item) => item.id === storyId);
       if (!story) return;
@@ -4116,15 +4406,13 @@
       toast("Reação salva.");
     }
 
-    async function commentStory(form) {
-      const storyId = form.dataset.id;
+    async function addStoryComment(storyId, text) {
       const story = state.stories.find((item) => item.id === storyId);
-      const formData = new FormData(form);
-      const text = String(formData.get("text") || "").trim().slice(0, 180);
-
       if (!story) return;
 
-      if (!text) {
+      const clean = String(text || "").trim().slice(0, 180);
+
+      if (!clean) {
         toast("Escreva um comentário.");
         return;
       }
@@ -4139,7 +4427,7 @@
         id,
         uid: state.uid,
         name: me().name,
-        text,
+        text: clean,
         createdAt: Date.now()
       };
 
@@ -4147,8 +4435,16 @@
         comments
       });
 
-      closeModal();
       toast("Comentário enviado.");
+    }
+
+    async function commentStory(form) {
+      const storyId = form.dataset.id;
+      const formData = new FormData(form);
+      const text = String(formData.get("text") || "").trim().slice(0, 180);
+
+      await addStoryComment(storyId, text);
+      closeModal();
     }
 
     async function saveMemory(storyId) {
@@ -4399,6 +4695,18 @@
       }
     }
 
+    async function askHelp(missionId) {
+      const mission = state.data.missions.find((item) => item.id === missionId);
+      const text = `Amor, consegue me ajudar com "${mission?.title || "essa missão"}" hoje? 🏠`;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Pedido de ajuda copiado.");
+      } catch {
+        toast(text);
+      }
+    }
+
     async function copyRoom() {
       const url = `${location.origin}${location.pathname}?room=${state.roomId}`;
 
@@ -4423,6 +4731,7 @@
     document.addEventListener("click", async (event) => {
       const pageBtn = event.target.closest("[data-page]");
       const routineBtn = event.target.closest("[data-routine-tab]");
+      const storyFilterBtn = event.target.closest("[data-story-filter]");
       const moreBtn = event.target.closest("[data-more-view]");
       const hallBtn = event.target.closest("[data-hall-filter]");
       const actionBtn = event.target.closest("[data-action]");
@@ -4437,6 +4746,12 @@
 
         if (routineBtn) {
           state.rotinaTab = routineBtn.dataset.routineTab;
+          render();
+          return;
+        }
+
+        if (storyFilterBtn) {
+          state.storyFilter = storyFilterBtn.dataset.storyFilter;
           render();
           return;
         }
@@ -4464,12 +4779,13 @@
         if (action === "open-profile") openProfileModal();
         if (action === "open-theme") openThemeModal();
         if (action === "open-notices") openNoticesModal();
-        if (action === "open-privacy") openPrivacyModal();
         if (action === "open-quick-mission") openQuickMissionModal();
 
         if (action === "open-free-story") openFreeStoryModal();
         if (action === "open-mission-story") openMissionStoryModal(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "post-mission-text-story") await postMissionTextStory(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "react-story") await reactStory(actionBtn.dataset.id, actionBtn.dataset.emoji);
+        if (action === "quick-comment-story") await addStoryComment(actionBtn.dataset.id, actionBtn.dataset.text);
         if (action === "comment-story") openCommentStoryModal(actionBtn.dataset.id);
         if (action === "save-memory") await saveMemory(actionBtn.dataset.id);
         if (action === "delete-story") await deleteStory(actionBtn.dataset.id);
@@ -4479,10 +4795,12 @@
         if (action === "mission-menu") openMissionMenu(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "toggle-done") await toggleDone(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "skip-day") await skipDay(actionBtn.dataset.id, actionBtn.dataset.date);
+        if (action === "postpone-mission") await postponeMission(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "reschedule-mission") openRescheduleModal(actionBtn.dataset.id, actionBtn.dataset.date);
         if (action === "delete-mission") await deleteMission(actionBtn.dataset.id);
         if (action === "solve-one-overdue") await solveOneOverdue();
         if (action === "encourage") await encourage(actionBtn.dataset.id);
+        if (action === "ask-help") await askHelp(actionBtn.dataset.id);
 
         if (action === "set-theme") await setTheme(actionBtn.dataset.theme);
         if (action === "care-system") await careSystem(actionBtn.dataset.system);
