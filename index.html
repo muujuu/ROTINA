@@ -122,7 +122,9 @@
     .logo img,
     .avatar img,
     .mini-avatar img,
-    .story-avatar img {
+    .story-avatar img,
+    .goal-cover img,
+    .image-preview img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -135,11 +137,21 @@
       letter-spacing: -0.065em;
     }
 
-    .status-line {
+    .status-line,
+    .top-actions,
+    .hero-actions,
+    .reaction-row,
+    .quick-comments,
+    .quick-money,
+    .badges,
+    .done-row {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       gap: 8px;
+      align-items: center;
+    }
+
+    .status-line {
       margin-top: 8px;
       color: var(--muted);
       font-weight: 900;
@@ -152,19 +164,6 @@
       border-radius: 999px;
       background: var(--good);
       box-shadow: 0 0 18px var(--good);
-    }
-
-    .top-actions,
-    .hero-actions,
-    .reaction-row,
-    .quick-comments,
-    .quick-money,
-    .badges,
-    .done-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
     }
 
     .top-actions {
@@ -376,7 +375,8 @@
     }
 
     .mission-card,
-    .story-card {
+    .story-card,
+    .goal-card {
       display: grid;
       gap: 11px;
       padding: 14px;
@@ -719,6 +719,80 @@
       background: linear-gradient(90deg, var(--primary), var(--primary-2));
     }
 
+    .milestone-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .milestone {
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 0.76rem;
+      font-weight: 1000;
+    }
+
+    .milestone.done {
+      color: #2d2140;
+      background: var(--accent);
+      border-color: transparent;
+    }
+
+    .goal-head {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .goal-cover {
+      width: 96px;
+      height: 96px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--primary-2) 25%, transparent), transparent 42%),
+        rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+      font-size: 2rem;
+      font-weight: 1000;
+    }
+
+    .deposit-list {
+      display: grid;
+      gap: 8px;
+      max-height: 240px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .deposit-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.035);
+      font-weight: 1000;
+    }
+
+    .deposit-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
     .history-list {
       display: grid;
       gap: 10px;
@@ -952,6 +1026,24 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
     }
 
+    .check-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-weight: 1000;
+    }
+
+    .check-card input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
     .file-upload-card {
       display: grid;
       gap: 10px;
@@ -989,12 +1081,6 @@
       min-height: 148px;
       border-radius: 36px;
       margin: 0 auto;
-    }
-
-    .image-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     .upload-hint {
@@ -1173,8 +1259,14 @@
 
       .stats,
       .form-2,
-      .template-grid {
+      .template-grid,
+      .goal-head {
         grid-template-columns: 1fr;
+      }
+
+      .goal-cover {
+        width: 100%;
+        height: 170px;
       }
 
       .segmented {
@@ -1605,10 +1697,12 @@
       ["casa", "🏠", "1 em Casa", 1, "casaDone"],
       ["casa", "🏠", "5 em Casa", 5, "casaDone"],
       ["financeiro", "💰", "1 em Financeiro", 1, "financeiroDone"],
+      ["financeiro", "🐷", "Meta concluída", 1, "goalsCompleted"],
       ["relacionamento", "💞", "1 em Relacionamento", 1, "relacionamentoDone"],
       ["saude", "🌿", "1 em Saúde", 1, "saudeDone"],
       ["tempo", "⏱️", "10 min economizados", 10, "minutesDone"],
       ["cofrinho", "🐷", "R$ 10 guardados", 10, "moneySaved"],
+      ["cofrinho", "🐷", "R$ 100 guardados", 100, "moneySaved"],
       ["stories", "📸", "1 story postado", 1, "storiesPosted"],
       ["stories", "📸", "5 stories postados", 5, "storiesPosted"],
       ["stories", "💾", "1 memória salva", 1, "memoriesSaved"]
@@ -1855,11 +1949,27 @@
       };
     }
 
+    function createGoal(partial = {}) {
+      return {
+        id: partial.id || makeId("goal"),
+        title: partial.title || "Nova meta",
+        target: Number(partial.target || 300),
+        saved: Number(partial.saved || 0),
+        coverData: partial.coverData || "",
+        coverWidth: partial.coverWidth || 0,
+        coverHeight: partial.coverHeight || 0,
+        coverSize: partial.coverSize || 0,
+        createdAt: partial.createdAt || Date.now(),
+        createdBy: partial.createdBy || state.uid,
+        completedAt: partial.completedAt || null
+      };
+    }
+
     function defaultData(roomId = "LOCAL") {
       const profile = googleProfileFromUser();
 
       return {
-        version: 7,
+        version: 8,
         roomId,
         baseName: "Casinha",
         createdAt: Date.now(),
@@ -1959,7 +2069,7 @@
           }
         },
         wallet: {
-          goals: Array.isArray(input?.wallet?.goals) ? input.wallet.goals : [],
+          goals: Array.isArray(input?.wallet?.goals) ? input.wallet.goals.map(createGoal) : [],
           deposits: Array.isArray(input?.wallet?.deposits) ? input.wallet.deposits : []
         },
         members: input?.members || fallback.members,
@@ -2125,6 +2235,15 @@
         quality: 0.66,
         square: false,
         maxChars: 720000
+      });
+    }
+
+    async function compressGoalCoverPhoto(file) {
+      return compressImageToDataUrl(file, {
+        maxSide: 720,
+        quality: 0.66,
+        square: false,
+        maxChars: 360000
       });
     }
 
@@ -2473,6 +2592,18 @@
       return state.data.missions.filter((mission) => mission.frequency === frequency);
     }
 
+    function smartSortedMissions(list) {
+      return [...list].sort((a, b) => {
+        const energy = Number(a.energy || 1) - Number(b.energy || 1);
+        if (energy !== 0) return energy;
+
+        const minutes = Number(a.minutes || 5) - Number(b.minutes || 5);
+        if (minutes !== 0) return minutes;
+
+        return String(a.title).localeCompare(String(b.title), "pt-BR");
+      });
+    }
+
     function overdueItems() {
       const items = [];
 
@@ -2484,9 +2615,14 @@
         }
       }
 
-      return smartSortedMissions(items.map((item) => item.mission)).map((mission) => {
-        const found = items.find((item) => item.mission.id === mission.id);
-        return found;
+      return items.sort((a, b) => {
+        const energy = Number(a.mission.energy || 1) - Number(b.mission.energy || 1);
+        if (energy !== 0) return energy;
+
+        const minutes = Number(a.mission.minutes || 5) - Number(b.mission.minutes || 5);
+        if (minutes !== 0) return minutes;
+
+        return a.key.localeCompare(b.key);
       });
     }
 
@@ -2595,6 +2731,10 @@
       return (state.data.wallet.goals || []).reduce((sum, goal) => sum + Number(goal.target || 0), 0);
     }
 
+    function completedGoalsCount() {
+      return (state.data.wallet.goals || []).filter((goal) => isGoalCompleted(goal)).length;
+    }
+
     function storiesPosted() {
       return state.stories.length;
     }
@@ -2648,6 +2788,7 @@
         saudeDone: categoryDoneCount("saude"),
         minutesDone: minutesDone(),
         moneySaved: walletSaved(),
+        goalsCompleted: completedGoalsCount(),
         storiesPosted: storiesPosted(),
         memoriesSaved: memoriesSaved()
       };
@@ -2713,18 +2854,6 @@
       return SMART_MODES.find(([key]) => key === state.todayMode)?.[2] || "Tudo";
     }
 
-    function smartSortedMissions(list) {
-      return [...list].sort((a, b) => {
-        const energy = Number(a.energy || 1) - Number(b.energy || 1);
-        if (energy !== 0) return energy;
-
-        const minutes = Number(a.minutes || 5) - Number(b.minutes || 5);
-        if (minutes !== 0) return minutes;
-
-        return String(a.title).localeCompare(String(b.title), "pt-BR");
-      });
-    }
-
     function visibleTodayMissions() {
       const today = todayKey();
       const baseList = missionsDueToday().filter((mission) => !baseComplete(mission, today));
@@ -2771,6 +2900,28 @@
           `).join("")}
         </div>
       `;
+    }
+
+    function isGoalCompleted(goal) {
+      return Number(goal.saved || 0) >= Number(goal.target || 1);
+    }
+
+    function goalPercent(goal) {
+      return Math.min(100, Math.round((Number(goal.saved || 0) / Math.max(1, Number(goal.target || 1))) * 100));
+    }
+
+    function goalDeposits(goalId) {
+      return (state.data.wallet.deposits || [])
+        .filter((deposit) => deposit.goalId === goalId)
+        .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+    }
+
+    function activeGoals() {
+      return (state.data.wallet.goals || []).filter((goal) => !isGoalCompleted(goal));
+    }
+
+    function completedGoals() {
+      return (state.data.wallet.goals || []).filter((goal) => isGoalCompleted(goal));
     }
 
     async function createMissionFromTemplate(templateId) {
@@ -2988,7 +3139,7 @@
               <p>Nada urgente agora. Pode respirar ou guardar um momento nos Stories.</p>
               <div class="hero-actions">
                 <button class="btn primary" data-action="open-free-story" type="button">+ Story</button>
-                <button class="btn" data-action="open-quick-mission" type="button">+ Missão rápida</button>
+                <button class="btn" data-action="open-quick-mission" type="button">+ Missão</button>
               </div>
             </div>
           `}
@@ -3010,7 +3161,7 @@
               <h2>Missões de hoje</h2>
               <p>Modo: ${escapeHTML(smartModeLabel())}. Toque em Feita. Story é opcional.</p>
             </div>
-            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Rápida</button>
+            <button class="btn small primary" data-action="open-quick-mission" type="button">+ Missão</button>
           </div>
 
           <div class="list">
@@ -3366,6 +3517,8 @@
       const saved = walletSaved();
       const target = walletTarget();
       const walletPercent = Math.min(100, Math.round((saved / Math.max(1, target || 1)) * 100));
+      const active = activeGoals();
+      const completed = completedGoals();
 
       return `
         <section class="panel">
@@ -3489,50 +3642,99 @@
         <section class="panel">
           <div class="section-title">
             <div>
-              <h2>🐷 Cofrinho</h2>
+              <h2>🐷 Cofrinho 2.0</h2>
               <p>${money(saved)} guardado ${target ? `de ${money(target)}` : ""}</p>
             </div>
             <button class="btn small primary" data-action="open-goal-form" type="button">+ Meta</button>
           </div>
 
           <div class="progress"><span style="--w:${walletPercent}%"></span></div>
-          <div style="height:12px"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Metas ativas</h2>
+              <p>${active.length} meta(s) em andamento.</p>
+            </div>
+          </div>
 
           <div class="list">
-            ${(state.data.wallet.goals || []).map(renderGoalCard).join("") || `<div class="empty">Nenhuma meta no cofrinho.</div>`}
+            ${active.map(renderGoalCard).join("") || `<div class="empty">Nenhuma meta ativa no cofrinho.</div>`}
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <h2>Metas concluídas</h2>
+              <p>${completed.length} conquista(s) financeiras.</p>
+            </div>
+          </div>
+
+          <div class="list">
+            ${completed.map(renderGoalCard).join("") || `<div class="empty">Nenhuma meta concluída ainda.</div>`}
           </div>
         </section>
       `;
     }
 
     function renderGoalCard(goal) {
-      const percent = Math.min(100, Math.round((Number(goal.saved || 0) / Math.max(1, Number(goal.target || 1))) * 100));
+      const percent = goalPercent(goal);
+      const deposits = goalDeposits(goal.id);
+      const completed = isGoalCompleted(goal);
+      const milestones = [25, 50, 75, 100];
 
       return `
-        <article class="mission-card">
-          <div class="mission-main">
+        <article class="goal-card">
+          <div class="goal-head">
+            <div class="goal-cover">
+              ${goal.coverData ? `<img src="${escapeHTML(goal.coverData)}" alt="">` : "🐷"}
+            </div>
+
             <div class="mission-title">
-              <strong>🐷 ${escapeHTML(goal.title)}</strong>
+              <strong>${completed ? "🏁" : "🐷"} ${escapeHTML(goal.title)}</strong>
               <div class="badges">
                 <span class="pill">${money(goal.saved)} guardado</span>
                 <span class="pill">${money(goal.target)} meta</span>
-                <span class="pill">${percent}%</span>
+                <span class="pill strong">${percent}%</span>
+                ${completed ? `<span class="pill strong">concluída</span>` : `<span class="pill">ativa</span>`}
               </div>
-            </div>
-
-            <div class="mission-actions">
-              <button class="btn small" data-action="edit-goal" data-id="${escapeHTML(goal.id)}" type="button">Editar</button>
             </div>
           </div>
 
           <div class="progress"><span style="--w:${percent}%"></span></div>
+
+          <div class="milestone-row">
+            ${milestones.map((mark) => `
+              <div class="milestone ${percent >= mark ? "done" : ""}">${percent >= mark ? "✅" : "○"} ${mark}%</div>
+            `).join("")}
+          </div>
 
           <div class="quick-money">
             <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="5" type="button">+ R$5</button>
             <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="10" type="button">+ R$10</button>
             <button class="btn small good" data-action="quick-deposit" data-id="${escapeHTML(goal.id)}" data-amount="25" type="button">+ R$25</button>
             <button class="btn small primary" data-action="open-deposit-form" data-id="${escapeHTML(goal.id)}" type="button">Outro</button>
+            <button class="btn small" data-action="edit-goal" data-id="${escapeHTML(goal.id)}" type="button">Editar</button>
           </div>
+
+          <details class="advanced">
+            <summary>Histórico da meta (${deposits.length})</summary>
+            <div style="height:10px"></div>
+
+            <div class="deposit-list">
+              ${deposits.slice(0, 12).map((deposit) => `
+                <div class="deposit-item">
+                  <div>
+                    ${escapeHTML(deposit.description || "Depósito")}
+                    <span>${escapeHTML(deposit.byName || "Pessoa")} • ${formatDate(deposit.date || todayKey())}</span>
+                  </div>
+                  <strong>${money(deposit.amount)}</strong>
+                </div>
+              `).join("") || `<div class="empty">Sem depósitos ainda.</div>`}
+            </div>
+          </details>
         </article>
       `;
     }
@@ -3703,7 +3905,7 @@
 
       const history = [...missionEvents, ...walletEvents, ...storyEvents]
         .sort((a, b) => b.at - a.at)
-        .slice(0, 90);
+        .slice(0, 100);
 
       return `
         <section class="panel">
@@ -4299,14 +4501,25 @@
               <span>${memoryStories().length} memória(s) salva(s).</span>
             </div>
           </div>
+
+          <div class="history-item">
+            <div>
+              🐷 Cofrinho
+              <br>
+              <span>${money(walletSaved())} guardado em ${state.data.wallet.goals.length} meta(s).</span>
+            </div>
+          </div>
         </div>
       `);
     }
 
     function openGoalForm(goalId = "") {
       const goal = state.data.wallet.goals.find((item) => item.id === goalId) || null;
+      const preview = goal?.coverData
+        ? `<img src="${escapeHTML(goal.coverData)}" alt="">`
+        : `<span>🐷 Capa da meta aparece aqui</span>`;
 
-      openModal(goal ? "Editar meta" : "Nova meta", "Cofrinho para planos, reservas, viagens e mimos.", `
+      openModal(goal ? "Editar meta" : "Nova meta", "Cofrinho com capa, marcos e memórias.", `
         <form id="goalForm" class="form-grid" data-id="${goal ? escapeHTML(goal.id) : ""}">
           <div class="field">
             <label>Nome da meta</label>
@@ -4322,6 +4535,27 @@
             <div class="field">
               <label>Já guardado</label>
               <input name="saved" type="number" min="0" step="0.01" value="${escapeHTML(goal?.saved || 0)}">
+            </div>
+          </div>
+
+          <div class="file-upload-card">
+            <div class="field">
+              <label>Capa/foto da meta</label>
+              <input
+                name="photo"
+                type="file"
+                accept="image/*"
+                data-image-preview
+                data-preview="goalCoverPreview"
+              >
+            </div>
+
+            <div id="goalCoverPreview" class="image-preview">
+              ${preview}
+            </div>
+
+            <div class="upload-hint">
+              A capa será comprimida e salva no Firestore, sem Storage e sem pagar.
             </div>
           </div>
 
@@ -4347,8 +4581,33 @@
             <input name="description" maxlength="70" placeholder="Ex: economizei no lanche">
           </div>
 
+          <label class="check-card">
+            <input name="postStory" type="checkbox" checked>
+            Postar esse depósito nos Stories
+          </label>
+
+          <label class="check-card">
+            <input name="saveMemory" type="checkbox">
+            Salvar como memória também
+          </label>
+
           <button class="btn primary" type="submit">Adicionar ao cofrinho</button>
         </form>
+      `);
+    }
+
+    function openGoalCompletedPrompt(goal) {
+      openModal("Meta concluída 🐷✨", `${escapeHTML(goal.title)} chegou em 100%.`, `
+        <div class="hero-mission">
+          <h2>Conquista da Casinha!</h2>
+          <p>${money(goal.saved)} guardado. Quer transformar isso em uma memória?</p>
+
+          <div class="hero-actions">
+            <button class="btn primary" data-action="post-goal-complete-story" data-id="${escapeHTML(goal.id)}" data-memory="true" type="button">Salvar memória</button>
+            <button class="btn" data-action="post-goal-complete-story" data-id="${escapeHTML(goal.id)}" data-memory="false" type="button">Só postar story</button>
+            <button class="btn" data-action="close-modal" type="button">Agora não</button>
+          </div>
+        </div>
       `);
     }
 
@@ -4669,6 +4928,42 @@
       toast("Story sem foto postado.");
     }
 
+    async function postGoalStory(goal, amount = 0, saveAsMemory = false, complete = false) {
+      const storyId = makeId("story");
+      const caption = complete
+        ? `Meta concluída: ${goal.title} 🐷✨`
+        : `Depósito de ${money(amount)} na meta ${goal.title} 🐷`;
+
+      const story = createStory({
+        id: storyId,
+        type: "free",
+        category: "financeiro",
+        caption,
+        photoData: goal.coverData || "",
+        photoWidth: goal.coverWidth || 0,
+        photoHeight: goal.coverHeight || 0,
+        photoSize: goal.coverSize || 0,
+        savedToMemories: Boolean(saveAsMemory),
+        authorUid: state.uid,
+        authorName: me().name,
+        authorPhotoURL: me().googlePhotoURL || me().photoURL || "",
+        authorEmoji: me().emoji || "👤",
+        authorColor: me().color || "#b77aff"
+      });
+
+      await setDoc(storyDocRef(storyId), story);
+    }
+
+    async function postGoalCompleteStory(goalId, saveAsMemory) {
+      const goal = state.data.wallet.goals.find((item) => item.id === goalId);
+      if (!goal) return;
+
+      await postGoalStory(goal, 0, saveAsMemory, true);
+
+      closeModal();
+      toast(saveAsMemory ? "Meta salva como memória." : "Story da meta postado.");
+    }
+
     async function reactStory(storyId, emoji) {
       const story = state.stories.find((item) => item.id === storyId);
       if (!story) return;
@@ -4849,6 +5144,9 @@
     async function saveGoal(form) {
       const formData = new FormData(form);
       const id = form.dataset.id;
+      const file = getSelectedFile(form, "photo");
+      const current = state.data.wallet.goals.find((item) => item.id === id) || null;
+
       const title = String(formData.get("title") || "").trim().slice(0, 70);
       const target = clamp(formData.get("target"), 1, 9999999);
       const saved = clamp(formData.get("saved"), 0, 9999999);
@@ -4856,6 +5154,24 @@
       if (!title) {
         toast("Dê um nome para a meta.");
         return;
+      }
+
+      let coverPayload = {
+        coverData: current?.coverData || "",
+        coverWidth: current?.coverWidth || 0,
+        coverHeight: current?.coverHeight || 0,
+        coverSize: current?.coverSize || 0
+      };
+
+      if (file) {
+        toast("Comprimindo capa da meta...");
+        const compressed = await compressGoalCoverPhoto(file);
+        coverPayload = {
+          coverData: compressed.dataUrl,
+          coverWidth: compressed.width,
+          coverHeight: compressed.height,
+          coverSize: compressed.bytes
+        };
       }
 
       await updateData((data) => {
@@ -4868,15 +5184,21 @@
           goal.title = title;
           goal.target = target;
           goal.saved = saved;
+          goal.coverData = coverPayload.coverData;
+          goal.coverWidth = coverPayload.coverWidth;
+          goal.coverHeight = coverPayload.coverHeight;
+          goal.coverSize = coverPayload.coverSize;
+          goal.completedAt = saved >= target ? goal.completedAt || Date.now() : null;
         } else {
-          data.wallet.goals.push({
-            id: makeId("goal"),
+          data.wallet.goals.push(createGoal({
             title,
             target,
             saved,
+            ...coverPayload,
             createdAt: Date.now(),
-            createdBy: state.uid
-          });
+            createdBy: state.uid,
+            completedAt: saved >= target ? Date.now() : null
+          }));
         }
       });
 
@@ -4897,27 +5219,67 @@
       toast("Meta excluída.");
     }
 
-    async function quickDeposit(goalId, amount) {
+    async function addDeposit(goalId, amount, description, postStory = false, saveMemoryStory = false) {
+      const beforeGoal = state.data.wallet.goals.find((item) => item.id === goalId);
+      if (!beforeGoal) return;
+
+      const oldSaved = Number(beforeGoal.saved || 0);
+      const target = Number(beforeGoal.target || 1);
+      const crossedGoal = oldSaved < target && oldSaved + Number(amount) >= target;
+
+      let goalAfter = null;
+
       await updateData((data) => {
         const goal = data.wallet.goals.find((item) => item.id === goalId);
         if (!goal) return;
 
         goal.saved = Number(goal.saved || 0) + Number(amount);
 
+        if (goal.saved >= Number(goal.target || 1)) {
+          goal.completedAt = goal.completedAt || Date.now();
+        }
+
+        goalAfter = {
+          ...goal
+        };
+
         data.wallet.deposits ||= [];
         data.wallet.deposits.push({
           id: makeId("deposit"),
           goalId,
           amount: Number(amount),
-          description: `Depósito rápido de ${money(amount)}`,
+          description: description || `Depósito de ${money(amount)}`,
           uid: state.uid,
           byName: me().name,
           date: todayKey(),
           createdAt: Date.now()
         });
+
+        data.history ||= [];
+        data.history.push({
+          type: "deposit",
+          goalId,
+          title: goal.title,
+          amount: Number(amount),
+          uid: state.uid,
+          byName: me().name,
+          createdAt: Date.now()
+        });
       });
 
-      toast(`${money(amount)} guardado.`);
+      if (postStory && goalAfter) {
+        await postGoalStory(goalAfter, Number(amount), saveMemoryStory, false);
+      }
+
+      if (crossedGoal && goalAfter) {
+        openGoalCompletedPrompt(goalAfter);
+      } else {
+        toast(`${money(amount)} guardado.`);
+      }
+    }
+
+    async function quickDeposit(goalId, amount) {
+      await addDeposit(goalId, Number(amount), `Depósito rápido de ${money(amount)}`, false, false);
     }
 
     async function saveDeposit(form) {
@@ -4925,28 +5287,11 @@
       const formData = new FormData(form);
       const amount = clamp(formData.get("amount"), 0.01, 9999999);
       const description = String(formData.get("description") || `Depósito de ${money(amount)}`).trim().slice(0, 70);
-
-      await updateData((data) => {
-        const goal = data.wallet.goals.find((item) => item.id === goalId);
-        if (!goal) return;
-
-        goal.saved = Number(goal.saved || 0) + amount;
-
-        data.wallet.deposits ||= [];
-        data.wallet.deposits.push({
-          id: makeId("deposit"),
-          goalId,
-          amount,
-          description,
-          uid: state.uid,
-          byName: me().name,
-          date: todayKey(),
-          createdAt: Date.now()
-        });
-      });
+      const postStory = formData.get("postStory") === "on";
+      const saveMemoryStory = formData.get("saveMemory") === "on";
 
       closeModal();
-      toast("Cofrinho atualizado.");
+      await addDeposit(goalId, amount, description, postStory, saveMemoryStory);
     }
 
     async function careSystem(system) {
@@ -5086,6 +5431,7 @@
         if (action === "comment-story") openCommentStoryModal(actionBtn.dataset.id);
         if (action === "save-memory") await saveMemory(actionBtn.dataset.id);
         if (action === "delete-story") await deleteStory(actionBtn.dataset.id);
+        if (action === "post-goal-complete-story") await postGoalCompleteStory(actionBtn.dataset.id, actionBtn.dataset.memory === "true");
 
         if (action === "edit-mission") openMissionForm(actionBtn.dataset.id);
         if (action === "mission-menu") openMissionMenu(actionBtn.dataset.id, actionBtn.dataset.date);
