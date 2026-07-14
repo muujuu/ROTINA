@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Casinha</title>
-
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#b77aff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Casinha">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
     :root {
       --bg: #171425;
@@ -1573,7 +1578,20 @@
       alarmsReady: localStorage.getItem(STORAGE.alarmsReady) === "1",
       data: null
     };
+let deferredInstallPrompt = null;
 
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  toast("Casinha pronta para instalar.");
+  render();
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  toast("Casinha instalada.");
+  render();
+});
     const alarmRuntime = {
       timer: null,
       ringTimer: null,
@@ -2036,7 +2054,73 @@
       root.style.setProperty("--accent", theme.accent);
       root.style.setProperty("--text", theme.text);
     }
+function isStandaloneApp() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
 
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+
+  try {
+    const registration = await navigator.serviceWorker.register("./service-worker.js", {
+      scope: "./"
+    });
+
+    if (registration.waiting) {
+      registration.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function installApp() {
+  if (isStandaloneApp()) {
+    toast("A Casinha já está instalada.");
+    return;
+  }
+
+  if (!deferredInstallPrompt) {
+    openInstallHelpModal();
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+  const choice = await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+
+  if (choice.outcome === "accepted") {
+    toast("Instalação iniciada.");
+  } else {
+    toast("Instalação cancelada.");
+  }
+
+  render();
+}
+
+function openInstallHelpModal() {
+  openModal("Instalar app", "", `
+    <div class="list">
+      <div class="notice suggestion">
+        <div class="icon">📲</div>
+        <div>
+          <strong>Android / Chrome</strong>
+          <p>Toque no menu ⋮ e escolha “Adicionar à tela inicial” ou “Instalar app”.</p>
+        </div>
+      </div>
+
+      <div class="notice suggestion">
+        <div class="icon">🍎</div>
+        <div>
+          <strong>iPhone / Safari</strong>
+          <p>Toque em compartilhar e depois “Adicionar à Tela de Início”.</p>
+        </div>
+      </div>
+
+      <button class="btn primary" data-action="close-modal" type="button">Entendi</button>
+    </div>
+  `);
+}
     async function initFirebase() {
       renderLoading();
       state.app = initializeApp(firebaseConfig);
@@ -2782,10 +2866,11 @@
           </div>
 
           <div class="top-actions">
-            <button class="btn icon" data-action="open-profile" type="button" title="Perfil">👤</button>
-            <button class="btn icon" data-action="open-alarms" type="button" title="Alarmes">⏰</button>
-            <button class="btn icon" data-action="open-notices" type="button" title="Avisos">🔔</button>
-            <button class="btn icon" data-action="open-theme" type="button" title="Tema">☀️</button>
+           <button class="btn icon" data-action="open-profile" type="button" title="Perfil">👤</button>
+<button class="btn icon" data-action="open-alarms" type="button" title="Alarmes">⏰</button>
+<button class="btn icon" data-action="install-app" type="button" title="Instalar">📲</button>
+<button class="btn icon" data-action="open-notices" type="button" title="Avisos">🔔</button>
+<button class="btn icon" data-action="open-theme" type="button" title="Tema">☀️</button>
           </div>
         </header>
 
@@ -3345,6 +3430,10 @@
             <button class="more-card" data-more-view="historico" type="button"><strong>🧾 Histórico</strong><span>movimentos</span></button>
             <button class="more-card" data-action="open-theme" type="button"><strong>☀️ Tema</strong><span>cores</span></button>
             <button class="more-card" data-action="open-profile" type="button"><strong>👤 Perfil</strong><span>sala</span></button>
+            <button class="more-card" data-action="install-app" type="button">
+  <strong>📲 Instalar app</strong>
+  <span>PWA</span>
+</button>
           </div>
         </section>
       `;
@@ -4917,6 +5006,8 @@
         if (action === "open-profile") openProfileModal();
         if (action === "open-theme") openThemeModal();
         if (action === "open-notices") openNoticesModal();
+        if (action === "install-app") await installApp();
+        if (action === "open-install-help") openInstallHelpModal();
 
         if (action === "open-alarms") {
           state.page = "mais";
@@ -5015,7 +5106,7 @@
       renderLocalImagePreview(input);
     });
 
-    initFirebase().catch((error) => {
+    registerServiceWorker();  initFirebase().catch((error) => {
       console.error(error);
       renderLogin();
       toast("Falha ao iniciar Firebase.");
